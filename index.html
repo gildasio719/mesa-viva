@@ -1312,9 +1312,28 @@ $("fileIn").addEventListener("change",async ev=>{
 let live=null;
 async function startLive(){
   showErr("");
+  const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+  if(!window.isSecureContext||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    showErr(inFrame?"Dentro do Claude o microfone fica bloqueado. Abra o Mesa Viva pelo endereço próprio no Safari para usar o modo ao vivo, ou use “Analisar gravação”.":"Este navegador não liberou o acesso ao microfone. Abra o Mesa Viva no Safari, pelo endereço https, ou use “Analisar gravação”.");return}
+  let ac;
+  try{ac=new (window.AudioContext||window.webkitAudioContext)();try{ac.resume()}catch(e){}}catch(e){showErr("Este navegador não conseguiu iniciar o áudio ("+e.name+"). Tente pelo Safari.");return}
+  let stream=null,err=null;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}catch(e){err=e}
+  if(!stream&&err&&err.name!=="NotAllowedError"&&err.name!=="SecurityError"){try{stream=await navigator.mediaDevices.getUserMedia({audio:true});err=null}catch(e){err=e}}
+  if(!stream){
+    try{ac.close()}catch(e){}
+    const n=err&&err.name;
+    let msg;
+    if(inFrame)msg="Dentro do Claude o microfone fica bloqueado. Abra o Mesa Viva pelo endereço próprio no Safari para usar o modo ao vivo.";
+    else if(n==="NotAllowedError"||n==="SecurityError")msg="O acesso ao microfone foi negado. No iPhone, abra Ajustes, escolha o navegador que você está usando (Safari ou Chrome) e coloque Microfone em “Perguntar” ou “Permitir”. No Safari, confira também em aA > Ajustes do Site > Microfone. Depois recarregue a página e toque de novo em Ouvir ao vivo.";
+    else if(n==="NotFoundError")msg="Nenhum microfone foi encontrado neste aparelho.";
+    else if(n==="NotReadableError")msg="O microfone está sendo usado por outro app (ligação, gravador, outro navegador). Feche o outro app e tente de novo.";
+    else msg="Não consegui abrir o microfone"+(n?" ("+n+")":"")+". Tente pelo Safari ou use “Analisar gravação”.";
+    showErr(msg);return;
+  }
   try{
-    const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
-    const ac=new (window.AudioContext||window.webkitAudioContext)(),src=ac.createMediaStreamSource(stream),an=ac.createAnalyser();
+    if(ac.state==="suspended"){try{await ac.resume()}catch(e){}}
+    const src=ac.createMediaStreamSource(stream),an=ac.createAnalyser();
     an.fftSize=8192;an.smoothingTimeConstant=0;src.connect(an);
     const buf=new Float32Array(an.frequencyBinCount),df=ac.sampleRate/an.fftSize,tracks=new Map();
     let wake=null;try{wake=await navigator.wakeLock.request("screen")}catch(e){}
@@ -1327,7 +1346,8 @@ async function startLive(){
     },120);
     live={stream,ac,timer,wake};$("liveBtn").classList.add("on");$("liveTxt").textContent="Parar de ouvir";
   }catch(e){
-    showErr("O microfone não foi liberado aqui. Nesta visualização o acesso ao microfone fica bloqueado; use “Analisar gravação” com um áudio gravado no celular. Na versão instalada do app, o modo ao vivo funciona.");
+    stream.getTracks().forEach(t=>t.stop());try{ac.close()}catch(x){}
+    showErr("O microfone abriu, mas a análise não iniciou ("+e.name+"). Recarregue a página e tente de novo.");
   }
 }
 function stopLive(){if(!live)return;clearInterval(live.timer);live.stream.getTracks().forEach(t=>t.stop());try{live.ac.close()}catch(e){}try{live.wake&&live.wake.release()}catch(e){}live=null;$("liveBtn").classList.remove("on");$("liveTxt").textContent="Ouvir ao vivo"}

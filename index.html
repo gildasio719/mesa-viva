@@ -2,17 +2,20 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NFKYXczPNvutUIV6wnnQyfD9SWZj7FU3vL9uxPOGpcQ=' 'sha256-b1LvduuRepZCSoCnecBArCqMHxxfPNbzUHU+UgX0MYk=' 'sha256-XhlbYhpgnOGAI7ddjytdY6XGMhNE4jXuDVzktZxvSgI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'none'; connect-src 'none'; worker-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Mesa Viva">
 <meta name="theme-color" content="#17202b">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<script>if(window.top!==window.self){document.documentElement.style.display='none';try{window.top.location=window.self.location.href}catch(e){}}</script>
+<style>@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Barlow Condensed';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/barlow-condensed-latin-ext-700-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-sans-latin-ext-400-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-sans-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-sans-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/ibm-plex-sans-latin-ext-600-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-latin-ext-500-normal.woff2) format('woff2');unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
 <title>Mesa Viva</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 /* Layout: app de uma coluna para o celular do técnico, navegação fixa embaixo como os botões de uma mesa */
 :root{
@@ -197,6 +200,52 @@ details.acc ul,details.acc ol{margin:0;padding-left:1.25em;display:flex;flex-dir
 .gl div:first-child{border-top:0}
 .gl b{display:block}
 .gl span{color:var(--muted);font-size:.92rem}
+/* ferramentas */
+input[type=number]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
+input[type=range]{width:100%;accent-color:var(--accent);min-height:32px}
+.tools{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.tchip{flex:none;font:600 .88rem var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px;white-space:nowrap}
+.tchip[aria-selected="true"]{background:var(--accent);color:#17202b;border-color:var(--accent)}
+.tchip:focus-visible,.chipf:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.tool{gap:14px}
+.th{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:.04em;color:var(--ink);margin:0 0 4px}
+.tool .lead{margin:0}
+.micbar{display:flex;align-items:center;gap:10px;background:var(--hot-soft);border:1px solid var(--hot);color:var(--hot);border-radius:10px;padding:8px 12px;font-weight:600;font-size:.9rem}
+.micbar span:nth-child(2){flex:1;min-width:0}
+.micbar .led{animation:blink 1s infinite;flex:none}
+@media (prefers-reduced-motion:reduce){.micbar .led{animation:none}}
+.verdict{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.vt{font-family:var(--display);font-weight:700;font-size:2.1rem;line-height:1;text-transform:uppercase;letter-spacing:.02em}
+.vt.ok{color:var(--ok)}.vt.warn{color:var(--accent)}.vt.hot{color:var(--hot)}
+.chip.warn{background:var(--accent-soft);color:var(--accent)}
+.balchart{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px;align-items:end;margin:6px 0}
+.bcol{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0}
+.bdv{font-family:var(--mono);font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.btrack{position:relative;width:100%;max-width:34px;height:130px;background:var(--grid);border-radius:6px}
+.bzone{position:absolute;left:0;right:0;background:var(--ok-soft);border-top:1px dashed var(--ok);border-bottom:1px dashed var(--ok)}
+.bmid{position:absolute;left:0;right:0;top:50%;height:1px;background:var(--ok);opacity:.6}
+.bmark{position:absolute;left:-3px;right:-3px;height:7px;margin-top:-3.5px;border-radius:4px;background:var(--ok)}
+.bmark.warn{background:var(--accent)}.bmark.hot{background:var(--hot)}
+.blbl{font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+.baxis{display:flex;justify-content:space-between;gap:8px;font-size:.72rem;color:var(--muted)}
+b.cut{color:var(--hot)}b.boost{color:var(--ok)}
+.lvnum{display:flex;align-items:baseline;gap:8px}
+#lvNow{font-family:var(--display);font-weight:700;font-size:4.6rem;line-height:.9;font-variant-numeric:tabular-nums}
+.lvnum .unit{font-family:var(--mono);color:var(--muted)}
+.lvnum.ok #lvNow{color:var(--ok)}.lvnum.warn #lvNow{color:var(--accent)}.lvnum.hot #lvNow{color:var(--hot)}
+.lvbar{height:14px;background:var(--grid);border-radius:7px;overflow:hidden}
+.lvbar i{display:block;height:100%;width:0;background:var(--trace);transition:width .15s}
+.lvbar.ok i{background:var(--ok)}.lvbar.warn i{background:var(--accent)}.lvbar.hot i{background:var(--hot)}
+@media (prefers-reduced-motion:reduce){.lvbar i{transition:none}}
+.btn.on{background:var(--panel);color:var(--hot)}
+.btn.sel{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.danger{background:var(--hot);border-color:var(--hot);color:#fff}
+.calc{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.res{font-family:var(--display);font-size:1.7rem;font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums;margin:10px 0 4px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin-top:8px}
+.opts .btn.right{border-color:var(--ok);background:var(--ok-soft)}
+.opts .btn.wrong{border-color:var(--hot);background:var(--hot-soft)}
+ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
 </style>
 
 <div class="wrap">
@@ -228,36 +277,246 @@ details.acc ul,details.acc ol{margin:0;padding-left:1.25em;display:flex;flex-dir
       <h2>Diário do culto</h2>
       <form id="logForm">
         <div class="row">
-          <label class="f">O que aconteceu<input type="text" id="logTxt" placeholder="Ex.: microfonia no retorno 2"></label>
+          <label class="f">O que aconteceu<input type="text" id="logTxt" maxlength="200" placeholder="Ex.: microfonia no retorno 2"></label>
           <label class="f" style="flex:0 0 130px;min-width:110px">Tipo<select id="logType"><option>Problema</option><option>Resolvido</option><option>Lembrete</option></select></label>
         </div>
         <button class="btn" type="submit">Registrar</button>
       </form>
       <div class="log" id="log" style="margin-top:10px"></div>
     </div>
+
+    <div class="card">
+      <h2>Seus dados e privacidade</h2>
+      <ul class="plain small">
+        <li>Tudo o que você anota fica só neste aparelho, guardado no navegador. Nada é enviado para servidor nenhum.</li>
+        <li>O microfone só liga quando você toca em Ouvir ao vivo ou Começar a medir, e desliga sozinho quando você sai da tela, troca de ferramenta ou bloqueia o celular.</li>
+        <li>O som é analisado no próprio celular. Ele não é gravado nem enviado.</li>
+        <li>Se você limpar os dados do navegador, as anotações somem. Por enquanto não há backup.</li>
+      </ul>
+      <button class="btn ghost sm" id="wipe" type="button" style="margin-top:12px">Apagar todos os dados deste aparelho</button>
+    </div>
   </section>
 
-  <!-- SOS -->
+  <!-- FERRAMENTAS -->
   <section class="view" id="v-sos" hidden>
-    <h1>SOS Microfonia</h1>
-    <p class="lead">Descubra qual frequência está apitando e o que mexer.</p>
-    <div class="sosbtns">
-      <button class="btn hot" id="liveBtn" type="button"><span class="led"></span><span id="liveTxt">Ouvir ao vivo</span></button>
-      <label class="btn" for="fileIn">Analisar gravação</label>
-      <input type="file" id="fileIn" accept="audio/*,video/*">
-      <button class="btn" id="demoBtn" type="button">Ouvir o exemplo</button>
-    </div>
+    <h1>Ferramentas</h1>
+    <p class="lead">O kit do técnico: escutar, medir, testar e calcular.</p>
+    <div class="tools" role="tablist" aria-label="Ferramentas" id="toolTabs"></div>
+    <div class="micbar" id="micbar" role="status" hidden><span class="led"></span><span>Microfone ligado. Ele desliga sozinho quando você sai desta tela.</span><button class="btn sm" id="micOff" type="button">Desligar</button></div>
     <p class="err" id="err" hidden></p>
-    <div class="card readout" aria-live="polite">
-      <div class="src"><span id="srcLbl"><b>Exemplo simulado</b></span><span id="srcInfo">voz + apito crescendo</span></div>
-      <div class="big"><div class="freq" id="freq">--</div><div class="meta"><span class="chip" id="chip">--</span><span class="mono small muted" id="noteName"></span></div></div>
-      <p style="margin:0" id="desc"></p>
-      <div><h2>O que fazer agora</h2><ol class="steps" id="steps"></ol></div>
-      <p class="small muted" id="others" hidden style="margin:0"></p>
-      <button class="btn ghost sm" id="toLog" type="button" style="align-self:flex-start">Registrar no diário</button>
+
+    <!-- SOS MICROFONIA -->
+    <div class="tool view" id="t-microfonia">
+      <div><h2 class="th">SOS Microfonia</h2><p class="lead">Descubra qual frequência está apitando e o que mexer.</p></div>
+      <div class="sosbtns">
+        <button class="btn hot" id="liveBtn" type="button"><span class="led"></span><span id="liveTxt">Ouvir ao vivo</span></button>
+        <label class="btn" for="fileIn">Analisar gravação</label>
+        <input type="file" id="fileIn" accept="audio/*,video/*">
+        <button class="btn" id="demoBtn" type="button">Ouvir o exemplo</button>
+      </div>
+      <div class="card readout" aria-live="polite">
+        <div class="src"><span id="srcLbl"><b>Exemplo simulado</b></span><span id="srcInfo">voz + apito crescendo</span></div>
+        <div class="big"><div class="freq" id="freq">--</div><div class="meta"><span class="chip" id="chip">--</span><span class="mono small muted" id="noteName"></span></div></div>
+        <p style="margin:0" id="desc"></p>
+        <div><h2>O que fazer agora</h2><ol class="steps" id="steps"></ol></div>
+        <p class="small muted" id="others" hidden style="margin:0"></p>
+        <button class="btn ghost sm" id="toLog" type="button" style="align-self:flex-start">Registrar no diário</button>
+      </div>
+      <div class="card"><h2>Espectro</h2><canvas id="spec" aria-label="Espectro de frequências com o pico do apito marcado"></canvas></div>
+      <div class="card"><h2>Equalizador gráfico de 31 bandas</h2><div class="eqscroll"><div class="eq" id="eq"></div></div><p class="small muted" id="eqHint" style="margin:8px 0 0"></p></div>
     </div>
-    <div class="card"><h2>Espectro</h2><canvas id="spec" aria-label="Espectro de frequências com o pico do apito marcado"></canvas></div>
-    <div class="card"><h2>Equalizador gráfico de 31 bandas</h2><div class="eqscroll"><div class="eq" id="eq"></div></div><p class="small muted" id="eqHint" style="margin:8px 0 0"></p></div>
+
+    <!-- EQUILÍBRIO -->
+    <div class="tool view" id="t-equilibrio" hidden>
+      <div><h2 class="th">Equilíbrio do som</h2><p class="lead">Escuta a voz ou a banda e diz o que subir ou cortar no grave, no médio e no agudo.</p></div>
+      <div class="card">
+        <h2>O que vai analisar</h2>
+        <div class="chips" id="balMode"></div>
+        <p class="small muted" id="balModeHint" style="margin:8px 0 0"></p>
+      </div>
+      <div class="sosbtns">
+        <button class="btn hot" id="balLive" type="button"><span class="led"></span><span id="balLiveTxt">Ouvir ao vivo</span></button>
+        <label class="btn" for="balFile">Analisar gravação</label>
+        <input type="file" id="balFile" accept="audio/*,video/*">
+        <button class="btn" id="balDemo" type="button">Ver exemplo</button>
+      </div>
+      <div class="card readout" aria-live="polite">
+        <div class="src"><span id="balSrc"></span><span id="balInfo"></span></div>
+        <div class="verdict"><span class="vt" id="balVerdict"></span><span class="chip" id="balChip"></span></div>
+        <p id="balSummary" style="margin:0"></p>
+        <div>
+          <div class="baxis"><span>mais que o ideal</span><span>Grave → Agudo</span></div>
+          <div class="balchart" id="balChart" role="img"></div>
+          <div class="baxis"><span>menos que o ideal</span><span>faixa verde = zona ideal</span></div>
+        </div>
+        <div><h2>O que ajustar</h2><ol class="steps" id="balSteps"></ol></div>
+        <div>
+          <h2>Sugestão de equalização</h2>
+          <div class="tblwrap"><table><thead><tr><th>Faixa</th><th>Frequência</th><th>Ajuste</th></tr></thead><tbody id="balMoves"></tbody></table></div>
+          <p class="small" id="bal3" style="margin:8px 0 0"></p>
+        </div>
+        <dl class="ficha" id="balFacts"></dl>
+        <button class="btn ghost sm" id="balLog" type="button" style="align-self:flex-start">Registrar no diário</button>
+      </div>
+      <details class="acc"><summary>Como medir bem</summary><div class="in"><ul>
+        <li>Para a banda, fique no meio da igreja, na altura do ouvido de quem está sentado. Não meça ao lado da caixa nem atrás da mesa.</li>
+        <li>Para a voz, grave pela saída da mesa (gravação ou live) ou fique perto da caixa principal enquanto só a pessoa fala ou canta.</li>
+        <li>Meça pelo menos 15 a 30 segundos. Ao vivo, a análise vai se ajustando enquanto você escuta.</li>
+        <li>Tire capinhas e não cubra o microfone do celular. No iPhone, o microfone fica embaixo, ao lado do conector.</li>
+        <li>O microfone do celular capta pouco abaixo de 80 Hz e acima de 12 kHz. Nessas pontas, confirme sempre no ouvido.</li>
+        <li>As referências são médias de fala e de música ao vivo. Use as dicas como ponto de partida, não como regra.</li>
+      </ul></div></details>
+    </div>
+
+    <!-- VOLUME -->
+    <div class="tool view" id="t-nivel" hidden>
+      <div><h2 class="th">Medidor de volume</h2><p class="lead">Mede o volume do salão e mostra a média do culto, o pico e o limite de exposição.</p></div>
+      <div class="card readout" aria-live="polite">
+        <div class="src"><span id="lvCalTag"></span><span id="lvWTag"></span></div>
+        <div class="lvnum" id="lvNumBox"><span id="lvNow">--</span><span class="unit" id="lvUnit"></span></div>
+        <div class="lvbar" id="lvBarBox"><i id="lvBar"></i></div>
+        <dl class="ficha">
+          <dt>Média (Leq)</dt><dd id="lvLeq">--</dd>
+          <dt>Máximo</dt><dd id="lvMax">--</dd>
+          <dt>Tempo medido</dt><dd id="lvTime">--</dd>
+          <dt>Limite NR-15</dt><dd id="lvNr">--</dd>
+        </dl>
+        <div class="row">
+          <button class="btn hot" id="lvStart" type="button"><span class="led"></span><span id="lvStartTxt">Começar a medir</span></button>
+          <button class="btn" id="lvReset" type="button">Zerar</button>
+          <button class="btn ghost" id="lvLog" type="button">Registrar no diário</button>
+        </div>
+        <div class="chips" id="lvW"></div>
+      </div>
+      <div class="card">
+        <h2>Calibrar com um medidor de verdade</h2>
+        <p class="small" style="margin:0 0 10px">Sem calibração, o número é relativo (dBFS, a escala do microfone do celular) e serve só para comparar. Para ver dB de verdade: coloque o celular ao lado de um decibelímetro, comece a medir, digite o valor que ele mostra e toque em Calibrar. Use a mesma ponderação (A ou C) nos dois.</p>
+        <div class="row">
+          <label class="f">Valor no medidor de referência (dB)<input type="number" id="lvRef" inputmode="decimal" min="30" max="130" step="0.1"></label>
+          <button class="btn" id="lvCalBtn" type="button">Calibrar</button>
+          <button class="btn ghost" id="lvCalClear" type="button">Remover calibração</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Referências</h2>
+        <div class="tblwrap"><table><thead><tr><th>Nível dB(A)</th><th>Exposição admitida (NR-15)</th></tr></thead><tbody>
+          <tr><td>85</td><td>8 horas</td></tr><tr><td>90</td><td>4 horas</td></tr><tr><td>95</td><td>2 horas</td></tr><tr><td>100</td><td>1 hora</td></tr><tr><td>105</td><td>30 minutos</td></tr><tr><td>110</td><td>15 minutos</td></tr>
+        </tbody></table></div>
+        <p class="small muted" style="margin:8px 0 0">Músicos e técnicos acumulam horas de ensaio e culto toda semana. Em ensaios longos, use protetor auricular. Combine com a liderança uma faixa de volume para o louvor e outra para a pregação, medidas sempre do mesmo lugar.</p>
+      </div>
+    </div>
+
+    <!-- GERADOR -->
+    <div class="tool view" id="t-gerador" hidden>
+      <div><h2 class="th">Gerador de sinais</h2><p class="lead">Tom, ruído rosa e varredura para testar cabos, caixas e a sala.</p></div>
+      <p class="tip"><b>Cuidado: </b>comece com o volume baixo no celular e na mesa. Tons agudos fortes podem queimar o tweeter e machucar o ouvido. O som para sozinho depois de 2 minutos. No iPhone, desligue o modo silencioso para ouvir.</p>
+      <div class="card readout">
+        <h2>Tipo de sinal</h2>
+        <div class="chips" id="genType"></div>
+        <div id="genFreqBox">
+          <label class="f" for="genFreq">Frequência: <b id="genFreqVal" class="mono"></b></label>
+          <input type="range" id="genFreq" min="0" max="1000" step="1">
+          <div class="chips" id="genQuick" style="margin-top:8px"></div>
+        </div>
+        <label class="f" for="genLevel">Volume do sinal: <b id="genLevelVal" class="mono"></b></label>
+        <input type="range" id="genLevel" min="-48" max="-6" step="1">
+        <button class="btn hot" id="genPlay" type="button"><span class="led"></span><span id="genPlayTxt">Tocar</span></button>
+        <p class="small muted" id="genHint" style="margin:0"></p>
+      </div>
+      <div class="card"><h2>Para que serve</h2><ul class="plain">
+        <li><b>Tom de 1 kHz:</b> ligue o celular na mesa (cabo P2) e confira se o canal, o cabo e a caixa estão passando sinal, sem chiado nem distorção.</li>
+        <li><b>Ruído rosa:</b> tem a mesma energia em cada oitava. Toque nas caixas e ande pela igreja: onde o som muda muito, há problema de cobertura ou de acústica.</li>
+        <li><b>Varredura:</b> sobe de 20 Hz a 20 kHz em 10 segundos. Escute se alguma frequência vibra objetos, estala ou some.</li>
+        <li><b>Ruído branco:</b> energia igual por frequência; soa mais agudo. Útil para testar tweeters, sempre em volume baixo.</li>
+      </ul></div>
+    </div>
+
+    <!-- TREINO DE OUVIDO -->
+    <div class="tool view" id="t-ouvido" hidden>
+      <div><h2 class="th">Treino de ouvido</h2><p class="lead">O app realça uma faixa de frequência e você descobre qual é. É o jeito mais rápido de aprender a ouvir grave, médio e agudo.</p></div>
+      <div class="card readout">
+        <h2>Nível</h2>
+        <div class="chips" id="earLvl"></div>
+        <h2 style="margin-top:4px">Som de treino</h2>
+        <div class="row">
+          <div class="chips" id="earSrc"></div>
+          <label class="btn sm" for="earFile">Usar uma música minha</label>
+          <input type="file" id="earFile" accept="audio/*">
+        </div>
+        <p class="small muted" id="earSrcInfo" style="margin:0"></p>
+        <button class="btn hot" id="earNew" type="button">Nova rodada</button>
+        <div class="row" id="earAB" hidden>
+          <button class="btn" id="earOrig" type="button">Ouvir original</button>
+          <button class="btn" id="earBoost" type="button">Ouvir com realce</button>
+          <button class="btn ghost" id="earStop" type="button">Parar</button>
+        </div>
+        <div id="earQ" hidden>
+          <p style="margin:0;font-weight:600">Qual faixa foi realçada?</p>
+          <div class="opts" id="earOpts"></div>
+        </div>
+        <p class="exp" id="earRes" style="margin:0"></p>
+        <p class="mono small" id="earScore" style="margin:0"></p>
+      </div>
+      <details class="acc"><summary>Como treinar</summary><div class="in"><ul>
+        <li>Use fone de ouvido, em volume confortável.</li>
+        <li>Alterne entre original e com realce até perceber o que mudou: mais peso, mais “caixa”, mais nasal, mais estridente ou mais brilho.</li>
+        <li>Comece no Fácil. Quando acertar 8 em 10, passe para o próximo nível.</li>
+        <li>Com uma música sua, o treino fica mais parecido com o culto.</li>
+      </ul></div></details>
+    </div>
+
+    <!-- CALCULADORAS -->
+    <div class="tool view" id="t-calc" hidden>
+      <div><h2 class="th">Calculadoras</h2><p class="lead">As contas que o técnico faz no dia a dia.</p></div>
+      <div class="card">
+        <h2>Atraso de caixa de delay</h2>
+        <div class="calc">
+          <label class="f">Distância até as caixas principais (m)<input type="number" id="cDist" inputmode="decimal" value="20" min="0" step="0.1"></label>
+          <label class="f">Temperatura (°C)<input type="number" id="cTemp" inputmode="decimal" value="28" step="1"></label>
+        </div>
+        <p class="res" id="cDelayRes"></p>
+        <p class="small muted" id="cDelayTxt" style="margin:0"></p>
+      </div>
+      <div class="card">
+        <h2>Tempo de delay pela música</h2>
+        <div class="calc"><label class="f">Andamento (BPM)<input type="number" id="cBpm" inputmode="decimal" value="72" min="30" max="300"></label></div>
+        <div class="tblwrap"><table><tbody id="cBpmRes"></tbody></table></div>
+        <p class="small muted" style="margin:8px 0 0">Se a mesa tiver tap tempo, bata no ritmo da música. Para reverb de voz, um pré-delay de 20 a 60 ms mantém as palavras claras.</p>
+      </div>
+      <div class="card">
+        <h2>Frequência e nota</h2>
+        <div class="calc"><label class="f">Frequência (Hz)<input type="number" id="cFreq" inputmode="decimal" value="440" min="10" max="20000"></label></div>
+        <p class="res" id="cNoteRes"></p>
+        <p class="small muted" id="cNoteTxt" style="margin:0"></p>
+      </div>
+      <div class="card">
+        <h2>Volume e distância</h2>
+        <div class="calc">
+          <label class="f">Nível medido (dB)<input type="number" id="cL1" inputmode="decimal" value="95"></label>
+          <label class="f">A uma distância de (m)<input type="number" id="cD1" inputmode="decimal" value="5" min="0.1" step="0.1"></label>
+          <label class="f">Nível estimado a (m)<input type="number" id="cD2" inputmode="decimal" value="20" min="0.1" step="0.1"></label>
+        </div>
+        <p class="res" id="cDistRes"></p>
+        <p class="small muted" style="margin:0">Ao ar livre o som cai cerca de 6 dB a cada vez que a distância dobra. Dentro do templo a queda é menor por causa das reflexões.</p>
+      </div>
+      <div class="card">
+        <h2>Somar duas fontes</h2>
+        <div class="calc">
+          <label class="f">Fonte 1 (dB)<input type="number" id="cS1" inputmode="decimal" value="90"></label>
+          <label class="f">Fonte 2 (dB)<input type="number" id="cS2" inputmode="decimal" value="90"></label>
+        </div>
+        <p class="res" id="cSumRes"></p>
+        <p class="small muted" style="margin:0">Duas fontes iguais somam só 3 dB a mais. Por isso dobrar o número de caixas não dobra o volume.</p>
+      </div>
+    </div>
+
+    <!-- MAPA -->
+    <div class="tool view" id="t-mapa" hidden>
+      <div><h2 class="th">Mapa de frequências</h2><p class="lead">Onde mora cada problema e por onde começar em cada instrumento.</p></div>
+      <div class="card"><h2>As faixas</h2><div class="tblwrap"><table><thead><tr><th>Faixa</th><th>Hz</th><th>Demais</th><th>De menos</th></tr></thead><tbody id="mapBands"></tbody></table></div></div>
+      <div class="card"><h2>Por fonte (pontos de partida)</h2><div class="tblwrap"><table><thead><tr><th>Fonte</th><th>Corta-graves</th><th>Corpo</th><th>Problema comum</th><th>Clareza</th><th>Brilho</th></tr></thead><tbody id="mapSrc"></tbody></table></div>
+      <p class="small muted" style="margin:8px 0 0">Valores aproximados. Cada voz, instrumento e sala é diferente: use como ponto de partida e decida no ouvido.</p></div>
+    </div>
   </section>
 
   <!-- MESA -->
@@ -294,15 +553,15 @@ details.acc ul,details.acc ol{margin:0;padding-left:1.25em;display:flex;flex-dir
       <h2>Nova ficha</h2>
       <form id="pForm">
         <div class="row">
-          <label class="f">Nome<input type="text" id="pName" required></label>
+          <label class="f">Nome<input type="text" id="pName" required maxlength="60"></label>
           <label class="f">Função<select id="pRole"><option>Voz</option><option>Pregador</option><option>Instrumento</option></select></label>
         </div>
         <div class="row">
-          <label class="f">Microfone<input type="text" id="pMic" placeholder="Ex.: sem fio 1"></label>
+          <label class="f">Microfone<input type="text" id="pMic" maxlength="80" placeholder="Ex.: sem fio 1"></label>
           <label class="f">Distância<select id="pDist"><option>Fala colado</option><option>Normal</option><option>Fala longe</option></select></label>
         </div>
-        <label class="f">EQ que funcionou<input type="text" id="pEq" placeholder="Ex.: corta 200 Hz, realça 3 kHz"></label>
-        <label class="f">Observações<input type="text" id="pObs" placeholder="Ex.: sobe muito no refrão"></label>
+        <label class="f">EQ que funcionou<input type="text" id="pEq" maxlength="160" placeholder="Ex.: corta 200 Hz, realça 3 kHz"></label>
+        <label class="f">Observações<input type="text" id="pObs" maxlength="200" placeholder="Ex.: sobe muito no refrão"></label>
         <button class="btn" type="submit">Salvar ficha</button>
       </form>
     </div>
@@ -327,7 +586,7 @@ details.acc ul,details.acc ol{margin:0;padding-left:1.25em;display:flex;flex-dir
 <nav class="bar" aria-label="Seções">
   <div class="in">
     <button class="navb" data-v="culto" type="button"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Culto</button>
-    <button class="navb sos" data-v="sos" type="button"><svg viewBox="0 0 24 24"><path d="M2 12h3l3-8 4 16 3-10 2 2h5"/></svg>SOS</button>
+    <button class="navb sos" data-v="sos" type="button"><svg viewBox="0 0 24 24"><path d="M2 12h3l3-8 4 16 3-10 2 2h5"/></svg>Ferramentas</button>
     <button class="navb" data-v="mesa" type="button"><svg viewBox="0 0 24 24"><path d="M6 3v18M12 3v18M18 3v18"/><rect x="4" y="7" width="4" height="3" rx="1"/><rect x="10" y="13" width="4" height="3" rx="1"/><rect x="16" y="9" width="4" height="3" rx="1"/></svg>Mesa</button>
     <button class="navb" data-v="pessoas" type="button"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.4 3.5 5.2"/></svg>Equipe</button>
     <button class="navb" data-v="cursos" type="button"><svg viewBox="0 0 24 24"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10v5c2 2 10 2 12 0v-5"/></svg>Aprender</button>
@@ -1030,13 +1289,27 @@ const seed={
   ],
   done:[]
 };
-let S;try{S=JSON.parse(localStorage.getItem(KEY))||null}catch(e){S=null}
-if(!S||!S.chans)S=JSON.parse(JSON.stringify(seed));
+function sanitize(x){const s=JSON.parse(JSON.stringify(seed));if(!x||typeof x!=="object"||!Array.isArray(x.chans))return s;
+  const str=(v,n)=>typeof v==="string"?v.slice(0,n):"",arr=(v,n)=>Array.isArray(v)?v.slice(0,n):[],obj=v=>v&&typeof v==="object";
+  s.check=arr(x.check,60).filter(Array.isArray).map(i=>[str(i[0],200),!!i[1]]);
+  s.log=arr(x.log,500).filter(obj).map(i=>({t:str(i.t,8),type:["Problema","Resolvido","Lembrete"].includes(i.type)?i.type:"Lembrete",txt:str(i.txt,300)}));
+  s.alerts=arr(x.alerts,50).filter(obj).map(i=>({t:str(i.t,8),txt:str(i.txt,100),from:str(i.from,40)}));
+  s.chans=arr(x.chans,64).filter(Array.isArray).map(i=>[str(i[0],60),str(i[1],80)]);
+  s.auxs=arr(x.auxs,32).filter(Array.isArray).map(i=>[str(i[0],60),str(i[1],80)]);
+  s.reqs=arr(x.reqs,100).filter(obj).map(i=>({who:str(i.who,60),what:str(i.what,100),t:str(i.t,8),done:!!i.done}));
+  s.people=arr(x.people,200).filter(obj).map(i=>({n:str(i.n,60),r:str(i.r,20),mic:str(i.mic,80),d:str(i.d,20),eq:str(i.eq,160),o:str(i.o,200)}));
+  s.done=arr(x.done,200).filter(v=>typeof v==="string").map(v=>v.slice(0,10));
+  s.mesa=typeof x.mesa==="string"?x.mesa.slice(0,30):null;
+  ["tool","balMode","lvW"].forEach(k=>{if(typeof x[k]==="string")s[k]=x[k].slice(0,20)});
+  s.calib=typeof x.calib==="number"&&isFinite(x.calib)&&Math.abs(x.calib)<200?x.calib:null;
+  if(obj(x.ear)&&isFinite(x.ear.ok)&&isFinite(x.ear.total))s.ear={ok:Math.max(0,x.ear.ok|0),total:Math.max(0,x.ear.total|0)};
+  return s}
+let S;try{S=sanitize(JSON.parse(localStorage.getItem(KEY)))}catch(e){S=sanitize(null)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 /* ---------- navegação ---------- */
 const views=["culto","sos","mesa","pessoas","cursos"];
-function show(){let v=location.hash.slice(1);if(!views.includes(v))v="culto";views.forEach(x=>{$("v-"+x).hidden=x!==v});document.querySelectorAll(".navb").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v?"page":"false"));if(v==="sos")requestAnimationFrame(redraw);window.scrollTo(0,0)}
+function show(){let v=location.hash.slice(1);if(!views.includes(v))v="culto";views.forEach(x=>{$("v-"+x).hidden=x!==v});document.querySelectorAll(".navb").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v?"page":"false"));if(v==="sos")requestAnimationFrame(redraw);else if(typeof stopAll==="function")stopAll();window.scrollTo(0,0)}
 document.querySelectorAll(".navb").forEach(b=>b.addEventListener("click",()=>{location.hash=b.dataset.v}));
 window.addEventListener("hashchange",show);
 
@@ -1051,9 +1324,13 @@ $("ckReset").onclick=()=>{S.check.forEach(i=>i[1]=false);save();renderCheck()};
 function renderLog(){const l=$("log");l.innerHTML="";S.log.forEach((x,i)=>{const d=document.createElement("div");d.className="it";const cls=x.type==="Problema"?"hot":x.type==="Resolvido"?"ok":"";d.innerHTML='<span class="mono small muted">'+esc(x.t)+'</span><div><span class="tag '+cls+'">'+esc(x.type)+'</span> '+esc(x.txt)+'</div>';const b=document.createElement("button");b.className="x";b.type="button";b.setAttribute("aria-label","Apagar registro");b.textContent="×";b.onclick=()=>{S.log.splice(i,1);save();renderLog()};d.appendChild(b);l.appendChild(d)})}
 $("logForm").onsubmit=e=>{e.preventDefault();const t=$("logTxt").value.trim();if(!t)return;S.log.unshift({t:hhmm(),type:$("logType").value,txt:t});$("logTxt").value="";save();renderLog()};
 
+let wipeArm=0;$("wipe").onclick=()=>{const b=$("wipe");
+  if(Date.now()-wipeArm>4000){wipeArm=Date.now();b.textContent="Toque de novo para apagar tudo";b.classList.add("danger");setTimeout(()=>{if(Date.now()-wipeArm>=4000){b.textContent="Apagar todos os dados deste aparelho";b.classList.remove("danger")}},4100);return}
+  if(typeof stopAll==="function")stopAll();try{localStorage.removeItem(KEY)}catch(e){}location.hash="";location.reload()};
+
 /* ---------- mesa ---------- */
 function renderMesa(){
-  const tb=$("chans");tb.innerHTML="";S.chans.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="cn'+i+'" aria-label="Fonte do canal '+(i+1)+'"></td><td><input type="text" id="cm'+i+'" aria-label="Microfone do canal '+(i+1)+'"></td>';const [a,b]=tr.querySelectorAll("input");a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save();renderWho()};b.onchange=()=>{c[1]=b.value;save()};tb.appendChild(tr)});
+  const tb=$("chans");tb.innerHTML="";S.chans.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="cn'+i+'" aria-label="Fonte do canal '+(i+1)+'"></td><td><input type="text" id="cm'+i+'" aria-label="Microfone do canal '+(i+1)+'"></td>';const [a,b]=tr.querySelectorAll("input");a.maxLength=60;b.maxLength=80;a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save();renderWho()};b.onchange=()=>{c[1]=b.value;save()};tb.appendChild(tr)});
   const ta=$("auxs");ta.innerHTML="";S.auxs.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="an'+i+'" aria-label="Retorno '+(i+1)+'"></td><td><input type="text" id="am'+i+'" aria-label="O que o retorno '+(i+1)+' leva"></td>';const [a,b]=tr.querySelectorAll("input");a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save()};b.onchange=()=>{c[1]=b.value;save()};ta.appendChild(tr)});
 }
 function renderWho(){const s=$("reqWho");s.innerHTML="";S.people.filter(p=>p.r!=="Pregador").map(p=>p.n).concat(["Baterista","Tecladista","Violonista"]).forEach(n=>{const o=document.createElement("option");o.textContent=n;s.appendChild(o)})}
@@ -1163,13 +1440,77 @@ function renderGlossario(){
 function renderAprender(){renderTrilhas();renderMesas();renderGlossario()}
 const _save=save;save=function(){_save();renderTrilhas();renderMesas()};
 
-/* ================= SOS MICROFONIA ================= */
+/* ================= FERRAMENTAS ================= */
 const ISO=[20,25,31.5,40,50,63,80,100,125,160,200,250,315,400,500,630,800,1000,1250,1600,2000,2500,3150,4000,5000,6300,8000,10000,12500,16000,20000];
 const NOTES=["Dó","Dó#","Ré","Ré#","Mi","Fá","Fá#","Sol","Sol#","Lá","Lá#","Si"];
 function fmtFreq(f){return f>=1000?nf(f/1000,f>=10000?1:2)+" kHz":Math.round(f)+" Hz"}
 function isoLabel(f){if(f<1000)return String(f).replace(".",",");const k=f/1000;return(Number.isInteger(k)?String(k):nf(k,2).replace(/0+$/,""))+"k"}
 function nearestIso(f){let b=0,d=1e9;ISO.forEach((x,i)=>{const e=Math.abs(Math.log2(f/x));if(e<d){d=e;b=i}});return b}
 function noteOf(f){const m=Math.round(12*Math.log2(f/440))+69;return NOTES[((m%12)+12)%12]+" "+(Math.floor(m/12)-1)}
+const sgn=v=>{const r=Math.round(v);return(r>0?"+":r<0?"−":"")+Math.abs(r)};
+function showErr(t){const e=$("err");e.textContent=t||"";e.hidden=!t}
+
+/* ---------- áudio compartilhado: um microfone por vez, desliga ao sair ---------- */
+let session=null,player=null,PAC=null;
+function playCtx(){if(!PAC||PAC.state==="closed")PAC=new (window.AudioContext||window.webkitAudioContext)();if(PAC.state==="suspended"){try{PAC.resume()}catch(e){}}return PAC}
+function updateMicBar(){$("micbar").hidden=!(session&&session.mic)}
+function stopPlayback(){if(player){const p=player;player=null;try{p.stop()}catch(e){}}}
+function stopAll(){if(session){const s=session;session=null;try{s.stop()}catch(e){}}stopPlayback();updateMicBar()}
+$("micOff").onclick=()=>stopAll();
+document.addEventListener("visibilitychange",()=>{if(document.hidden)stopAll()});
+window.addEventListener("pagehide",()=>stopAll());
+
+async function openMic(fftSize){
+  showErr("");
+  const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
+  if(!window.isSecureContext||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    showErr(inFrame?"Dentro do Claude o microfone fica bloqueado. Abra o Mesa Viva pelo endereço próprio no Safari para usar o modo ao vivo, ou use “Analisar gravação”.":"Este navegador não liberou o acesso ao microfone. Abra o Mesa Viva no Safari, pelo endereço https, ou use “Analisar gravação”.");return null}
+  let ac;
+  try{ac=new (window.AudioContext||window.webkitAudioContext)();try{ac.resume()}catch(e){}}catch(e){showErr("Este navegador não conseguiu iniciar o áudio ("+e.name+"). Tente pelo Safari.");return null}
+  let stream=null,err=null;
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}catch(e){err=e}
+  if(!stream&&err&&err.name!=="NotAllowedError"&&err.name!=="SecurityError"){try{stream=await navigator.mediaDevices.getUserMedia({audio:true});err=null}catch(e){err=e}}
+  if(!stream){
+    try{ac.close()}catch(e){}
+    const n=err&&err.name;let msg;
+    if(inFrame)msg="Dentro do Claude o microfone fica bloqueado. Abra o Mesa Viva pelo endereço próprio no Safari para usar o modo ao vivo.";
+    else if(n==="NotAllowedError"||n==="SecurityError")msg="O acesso ao microfone foi negado. No iPhone, abra Ajustes, escolha o navegador que você está usando (Safari ou Chrome) e coloque Microfone em “Perguntar” ou “Permitir”. No Safari, confira também em aA > Ajustes do Site > Microfone. Depois recarregue a página e tente de novo.";
+    else if(n==="NotFoundError")msg="Nenhum microfone foi encontrado neste aparelho.";
+    else if(n==="NotReadableError")msg="O microfone está sendo usado por outro app (ligação, gravador, outro navegador). Feche o outro app e tente de novo.";
+    else msg="Não consegui abrir o microfone"+(n?" ("+n+")":"")+". Tente pelo Safari ou use “Analisar gravação”.";
+    showErr(msg);return null;
+  }
+  try{
+    if(ac.state==="suspended"){try{await ac.resume()}catch(e){}}
+    const src=ac.createMediaStreamSource(stream),an=ac.createAnalyser();
+    an.fftSize=fftSize;an.smoothingTimeConstant=0;src.connect(an);
+    return{ac,stream,an};
+  }catch(e){stream.getTracks().forEach(t=>t.stop());try{ac.close()}catch(x){}showErr("O microfone abriu, mas a análise não iniciou ("+e.name+"). Recarregue a página e tente de novo.");return null}
+}
+function micSession(kind,mic,tick,ms,onStop){
+  let wake=null;try{navigator.wakeLock&&navigator.wakeLock.request("screen").then(w=>{wake=w}).catch(()=>{})}catch(e){}
+  const timer=setInterval(tick,ms);
+  const auto=setTimeout(()=>{stopAll();showErr("O microfone foi desligado depois de 30 minutos para poupar bateria. Toque de novo para continuar.")},30*60*1000);
+  session={kind,mic:true,stop(){clearInterval(timer);clearTimeout(auto);mic.stream.getTracks().forEach(t=>t.stop());try{mic.ac.close()}catch(e){}try{wake&&wake.release()}catch(e){}onStop&&onStop()}};
+  updateMicBar();
+}
+async function decodeFile(f){
+  if(f.size>200*1024*1024)throw new Error("grande");
+  const ac=new (window.AudioContext||window.webkitAudioContext)();
+  try{const buf=await ac.decodeAudioData(await f.arrayBuffer());const n=buf.length,x=new Float32Array(n);
+    for(let c=0;c<buf.numberOfChannels;c++){const d=buf.getChannelData(c);for(let i=0;i<n;i++)x[i]+=d[i]/buf.numberOfChannels}
+    return{x,sr:buf.sampleRate,buf}}
+  finally{try{ac.close()}catch(e){}}
+}
+
+/* ---------- FFT ---------- */
+function fft(re,im){const n=re.length;for(let i=1,j=0;i<n;i++){let b=n>>1;for(;j&b;b>>=1)j^=b;j^=b;if(i<j){[re[i],re[j]]=[re[j],re[i]];[im[i],im[j]]=[im[j],im[i]]}}
+  for(let len=2;len<=n;len<<=1){const a=-2*Math.PI/len,wr=Math.cos(a),wi=Math.sin(a);for(let i=0;i<n;i+=len){let cr=1,ci=0;for(let k=0;k<len/2;k++){const u=i+k,v=u+len/2,tr=re[v]*cr-im[v]*ci,ti=re[v]*ci+im[v]*cr;re[v]=re[u]-tr;im[v]=im[u]-ti;re[u]+=tr;im[u]+=ti;const t=cr*wr-ci*wi;ci=cr*wi+ci*wr;cr=t}}}}
+const hann=N=>{const w=new Float32Array(N);for(let i=0;i<N;i++)w[i]=0.5-0.5*Math.cos(2*Math.PI*i/(N-1));return w};
+function framePow(x,start,N,win){const re=new Float32Array(N),im=new Float32Array(N);for(let i=0;i<N;i++)re[i]=(x[start+i]||0)*win[i];fft(re,im);const o=new Float64Array(N/2);for(let k=0;k<N/2;k++)o[k]=(re[k]*re[k]+im[k]*im[k])/(N*N);return o}
+function frameDb(x,start,N,win){const p=framePow(x,start,N,win),o=new Float32Array(p.length);for(let k=0;k<p.length;k++)o[k]=10*Math.log10(p[k]+1e-14);return o}
+
+/* ================= SOS MICROFONIA ================= */
 function range(f){
   if(f<200)return{chip:"Grave",desc:"Som grave, tipo ronco ou “huuum”. Comum com microfone de púlpito perto das caixas ou palco oco."};
   if(f<800)return{chip:"Médio-grave",desc:"Som de buzina ou voz embolada. Muitas vezes vem do retorno do palco."};
@@ -1177,10 +1518,6 @@ function range(f){
   return{chip:"Agudo",desc:"Apito fino e estridente. Comum com microfone de lapela ou retorno muito alto."};
 }
 function mixKnob(f){if(f<250)return"no botão GRAVE (LOW) do canal";if(f<=5000)return"no botão MÉDIO (MID) do canal; se a mesa tiver o botão de frequência do médio, gire até "+fmtFreq(f);return"no botão AGUDO (HIGH) do canal"}
-
-function fft(re,im){const n=re.length;for(let i=1,j=0;i<n;i++){let b=n>>1;for(;j&b;b>>=1)j^=b;j^=b;if(i<j){[re[i],re[j]]=[re[j],re[i]];[im[i],im[j]]=[im[j],im[i]]}}
-  for(let len=2;len<=n;len<<=1){const a=-2*Math.PI/len,wr=Math.cos(a),wi=Math.sin(a);for(let i=0;i<n;i+=len){let cr=1,ci=0;for(let k=0;k<len/2;k++){const u=i+k,v=u+len/2,tr=re[v]*cr-im[v]*ci,ti=re[v]*ci+im[v]*cr;re[v]=re[u]-tr;im[v]=im[u]-ti;re[u]+=tr;im[u]+=ti;const t=cr*wr-ci*wi;ci=cr*wi+ci*wr;cr=t}}}}
-function frameDb(x,start,N,win){const re=new Float32Array(N),im=new Float32Array(N);for(let i=0;i<N;i++)re[i]=(x[start+i]||0)*win[i];fft(re,im);const o=new Float32Array(N/2);for(let k=0;k<N/2;k++)o[k]=10*Math.log10((re[k]*re[k]+im[k]*im[k])/(N*N)+1e-14);return o}
 function findPeaks(db,df,minProm){
   const kmin=Math.max(3,Math.floor(80/df)),kmax=Math.min(db.length-3,Math.floor(12000/df));
   let mx=-200;for(let k=kmin;k<=kmax;k++)if(db[k]>mx)mx=db[k];
@@ -1198,7 +1535,7 @@ function findPeaks(db,df,minProm){
 }
 const bucket=f=>Math.round(24*Math.log2(f/1000));
 function analyzeSamples(x,sr){
-  const N=8192,hop=N/2,win=new Float32Array(N);for(let i=0;i<N;i++)win[i]=0.5-0.5*Math.cos(2*Math.PI*i/(N-1));
+  const N=8192,hop=N/2,win=hann(N);
   const len=Math.min(x.length,sr*90),df=sr/N,hopSec=hop/sr;
   const tracks=new Map(),hold=new Float32Array(N/2).fill(-200);
   let i=0;
@@ -1216,7 +1553,6 @@ function analyzeSamples(x,sr){
   cands.sort((a,b)=>b.score-a.score);
   return{cands:cands.slice(0,3),spec:hold,df,dur:len/sr};
 }
-
 const canvas=$("spec"),ctx=canvas.getContext("2d");let lastSpec=null,lastMarks=[],lastCands=[];
 function tok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
 function drawSpec(db,df,marks){
@@ -1239,11 +1575,9 @@ function redraw(){if(lastSpec)drawSpec(lastSpec.db,lastSpec.df,lastMarks)}
 window.addEventListener("resize",redraw);
 try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",redraw)}catch(e){}
 new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
-
 const eq=$("eq");
-ISO.forEach((f,i)=>{const d=document.createElement("div");d.className="band";d.innerHTML='<div class="slot"><div class="cap"></div></div><div class="lbl"></div>';eq.appendChild(d)});
+ISO.forEach(()=>{const d=document.createElement("div");d.className="band";d.innerHTML='<div class="slot"><div class="cap"></div></div><div class="lbl"></div>';eq.appendChild(d)});
 function markEq(idx){[...eq.children].forEach((d,i)=>{const on=idx.includes(i);d.classList.toggle("cut",on);d.querySelector(".lbl").textContent=(on||i%3===0||i===30)?isoLabel(ISO[i]):""})}
-
 function render(cands,srcLabel,srcInfo){
   lastCands=cands;
   $("srcLbl").innerHTML="<b></b>";$("srcLbl").firstChild.textContent=srcLabel;$("srcInfo").textContent=srcInfo;
@@ -1252,7 +1586,7 @@ function render(cands,srcLabel,srcInfo){
     $("freq").textContent="Sem apito";$("freq").classList.add("calm");
     $("chip").textContent="Tudo limpo";$("chip").className="chip ok";$("noteName").textContent="";
     $("desc").textContent="Não encontrei nenhuma frequência presa por tempo suficiente para ser microfonia.";
-    ["Se o apito acontece só às vezes, grave de novo bem no momento em que ele aparece.","Se o som está embolado ou alto demais, isso não é microfonia: veja a aula de equalização."].forEach(t=>{const li=document.createElement("li");li.textContent=t;steps.appendChild(li)});
+    ["Se o apito acontece só às vezes, grave de novo bem no momento em que ele aparece.","Se o som está embolado ou alto demais, isso não é microfonia: use a ferramenta Equilíbrio."].forEach(t=>{const li=document.createElement("li");li.textContent=t;steps.appendChild(li)});
     markEq([]);$("eqHint").textContent="Nenhuma chave precisa ser mexida agora.";$("others").hidden=true;return;
   }
   const c=cands[0],r=range(c.f),bi=nearestIso(c.f);
@@ -1267,9 +1601,8 @@ function render(cands,srcLabel,srcInfo){
   if(cands.length>1){$("others").hidden=false;$("others").textContent="Também suspeito: "+cands.slice(1).map(o=>fmtFreq(o.f)).join(" e ")+". Se o apito voltar depois do primeiro corte, olhe para "+(cands.length>2?"elas":"ela")+"."}
   else $("others").hidden=true;
 }
-function showErr(t){const e=$("err");e.textContent=t;e.hidden=!t}
-$("toLog").onclick=()=>{const c=lastCands[0];S.log.unshift({t:hhmm(),type:c?"Problema":"Lembrete",txt:c?"Microfonia em "+fmtFreq(c.f)+" (cortar "+isoLabel(ISO[nearestIso(c.f)])+"Hz no EQ)":"SOS: nenhum apito detectado"});save();renderLog();$("toLog").textContent="Registrado no diário";setTimeout(()=>{$("toLog").textContent="Registrar no diário"},1800)};
-
+$("toLog").onclick=()=>{const c=lastCands[0];S.log.unshift({t:hhmm(),type:c?"Problema":"Lembrete",txt:c?"Microfonia em "+fmtFreq(c.f)+" (cortar "+isoLabel(ISO[nearestIso(c.f)])+"Hz no EQ)":"SOS: nenhum apito detectado"});save();renderLog();flash($("toLog"),"Registrado no diário")};
+function flash(b,t){const o=b.dataset.o||b.textContent;b.dataset.o=o;b.textContent=t;setTimeout(()=>{b.textContent=o},1800)}
 function makeDemo(sr){
   const dur=5,n=sr*dur,x=new Float32Array(n);let lp=0,vlp=0,ph=0,seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
   let f0=130;
@@ -1283,78 +1616,366 @@ function makeDemo(sr){
 }
 const DEMO_SR=44100,demo=makeDemo(DEMO_SR);
 function runDemo(){const r=analyzeSamples(demo,DEMO_SR);render(r.cands,"Exemplo simulado","voz + apito crescendo");drawSpec(r.spec,r.df,r.cands)}
-
-let demoCtx=null,demoSrc=null;
 $("demoBtn").addEventListener("click",()=>{
-  stopLive();
+  if(player&&player.kind==="demo"){stopPlayback();return}
+  stopAll();
   try{
-    if(demoSrc){demoSrc.stop();demoSrc=null;$("demoBtn").textContent="Ouvir o exemplo";return}
-    demoCtx=demoCtx||new (window.AudioContext||window.webkitAudioContext)();
-    const b=demoCtx.createBuffer(1,demo.length,DEMO_SR);b.copyToChannel(demo,0);
-    const g=demoCtx.createGain();g.gain.value=0.5;demoSrc=demoCtx.createBufferSource();demoSrc.buffer=b;demoSrc.connect(g).connect(demoCtx.destination);
-    demoSrc.onended=()=>{demoSrc=null;$("demoBtn").textContent="Ouvir o exemplo"};demoSrc.start();$("demoBtn").textContent="Parar exemplo";runDemo();
+    const ac=playCtx(),b=ac.createBuffer(1,demo.length,DEMO_SR);b.copyToChannel(demo,0);
+    const g=ac.createGain();g.gain.value=0.5;const src=ac.createBufferSource();src.buffer=b;src.connect(g).connect(ac.destination);
+    const btn=$("demoBtn");src.onended=()=>{if(player&&player.src===src){player=null;btn.textContent="Ouvir o exemplo"}};
+    player={kind:"demo",src,stop(){try{src.stop()}catch(e){}g.disconnect();btn.textContent="Ouvir o exemplo"}};
+    src.start();btn.textContent="Parar exemplo";runDemo();
   }catch(e){showErr("Não consegui tocar o exemplo neste navegador.")}
 });
 $("fileIn").addEventListener("change",async ev=>{
-  const f=ev.target.files[0];if(!f)return;stopLive();showErr("");
+  const f=ev.target.files[0];if(!f)return;stopAll();showErr("");
   $("srcLbl").textContent="Analisando…";$("srcInfo").textContent=f.name;
-  try{
-    const ac=new (window.AudioContext||window.webkitAudioContext)();
-    const buf=await ac.decodeAudioData(await f.arrayBuffer());
-    const n=buf.length,x=new Float32Array(n);
-    for(let c=0;c<buf.numberOfChannels;c++){const d=buf.getChannelData(c);for(let i=0;i<n;i++)x[i]+=d[i]/buf.numberOfChannels}
-    const r=analyzeSamples(x,buf.sampleRate);
+  try{const {x,sr}=await decodeFile(f);const r=analyzeSamples(x,sr);
     render(r.cands,"Sua gravação",f.name+" · "+nf(r.dur,1)+" s");drawSpec(r.spec,r.df,r.cands);
-    try{ac.close()}catch(e){}
-  }catch(e){showErr("Não consegui ler esse arquivo. Tente uma gravação em .m4a, .mp3 ou .wav.");runDemo()}
+  }catch(e){showErr("Não consegui ler esse arquivo. Tente uma gravação em .m4a, .mp3 ou .wav, de até 200 MB.");runDemo()}
   ev.target.value="";
 });
-let live=null;
+function resetLiveBtn(){$("liveBtn").classList.remove("on");$("liveTxt").textContent="Ouvir ao vivo"}
 async function startLive(){
-  showErr("");
-  const inFrame=(()=>{try{return window.self!==window.top}catch(e){return true}})();
-  if(!window.isSecureContext||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
-    showErr(inFrame?"Dentro do Claude o microfone fica bloqueado. Abra o Mesa Viva pelo endereço próprio no Safari para usar o modo ao vivo, ou use “Analisar gravação”.":"Este navegador não liberou o acesso ao microfone. Abra o Mesa Viva no Safari, pelo endereço https, ou use “Analisar gravação”.");return}
-  let ac;
-  try{ac=new (window.AudioContext||window.webkitAudioContext)();try{ac.resume()}catch(e){}}catch(e){showErr("Este navegador não conseguiu iniciar o áudio ("+e.name+"). Tente pelo Safari.");return}
-  let stream=null,err=null;
-  try{stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}})}catch(e){err=e}
-  if(!stream&&err&&err.name!=="NotAllowedError"&&err.name!=="SecurityError"){try{stream=await navigator.mediaDevices.getUserMedia({audio:true});err=null}catch(e){err=e}}
-  if(!stream){
-    try{ac.close()}catch(e){}
-    const n=err&&err.name;
-    let msg;
-    if(inFrame)msg="Dentro do Claude o microfone fica bloqueado. Abra o Mesa Viva pelo endereço próprio no Safari para usar o modo ao vivo.";
-    else if(n==="NotAllowedError"||n==="SecurityError")msg="O acesso ao microfone foi negado. No iPhone, abra Ajustes, escolha o navegador que você está usando (Safari ou Chrome) e coloque Microfone em “Perguntar” ou “Permitir”. No Safari, confira também em aA > Ajustes do Site > Microfone. Depois recarregue a página e toque de novo em Ouvir ao vivo.";
-    else if(n==="NotFoundError")msg="Nenhum microfone foi encontrado neste aparelho.";
-    else if(n==="NotReadableError")msg="O microfone está sendo usado por outro app (ligação, gravador, outro navegador). Feche o outro app e tente de novo.";
-    else msg="Não consegui abrir o microfone"+(n?" ("+n+")":"")+". Tente pelo Safari ou use “Analisar gravação”.";
-    showErr(msg);return;
-  }
-  try{
-    if(ac.state==="suspended"){try{await ac.resume()}catch(e){}}
-    const src=ac.createMediaStreamSource(stream),an=ac.createAnalyser();
-    an.fftSize=8192;an.smoothingTimeConstant=0;src.connect(an);
-    const buf=new Float32Array(an.frequencyBinCount),df=ac.sampleRate/an.fftSize,tracks=new Map();
-    let wake=null;try{wake=await navigator.wakeLock.request("screen")}catch(e){}
-    const timer=setInterval(()=>{
-      an.getFloatFrequencyData(buf);
-      tracks.forEach((t,k)=>{t.s*=0.85;if(t.s<20)tracks.delete(k)});
-      for(const pk of findPeaks(buf,df,15)){const b=bucket(pk.f);let t=tracks.get(b)||tracks.get(b-1)||tracks.get(b+1);if(!t){t={s:0,f:pk.f};tracks.set(b,t)}t.s+=pk.prom;t.f=t.f*0.7+pk.f*0.3}
-      const c=[...tracks.values()].filter(t=>t.s>100).sort((a,b)=>b.s-a.s).slice(0,3).map(t=>({f:t.f}));
-      render(c,"Ao vivo","escutando pelo microfone");drawSpec(Float32Array.from(buf),df,c);
-    },120);
-    live={stream,ac,timer,wake};$("liveBtn").classList.add("on");$("liveTxt").textContent="Parar de ouvir";
-  }catch(e){
-    stream.getTracks().forEach(t=>t.stop());try{ac.close()}catch(x){}
-    showErr("O microfone abriu, mas a análise não iniciou ("+e.name+"). Recarregue a página e tente de novo.");
-  }
+  stopAll();
+  const mic=await openMic(8192);if(!mic)return;
+  const an=mic.an,buf=new Float32Array(an.frequencyBinCount),df=mic.ac.sampleRate/an.fftSize,tracks=new Map();
+  micSession("microfonia",mic,()=>{
+    an.getFloatFrequencyData(buf);
+    tracks.forEach((t,k)=>{t.s*=0.85;if(t.s<20)tracks.delete(k)});
+    for(const pk of findPeaks(buf,df,15)){const b=bucket(pk.f);let t=tracks.get(b)||tracks.get(b-1)||tracks.get(b+1);if(!t){t={s:0,f:pk.f};tracks.set(b,t)}t.s+=pk.prom;t.f=t.f*0.7+pk.f*0.3}
+    const c=[...tracks.values()].filter(t=>t.s>100).sort((a,b)=>b.s-a.s).slice(0,3).map(t=>({f:t.f}));
+    render(c,"Ao vivo","escutando pelo microfone");drawSpec(Float32Array.from(buf),df,c);
+  },120,resetLiveBtn);
+  $("liveBtn").classList.add("on");$("liveTxt").textContent="Parar de ouvir";
 }
-function stopLive(){if(!live)return;clearInterval(live.timer);live.stream.getTracks().forEach(t=>t.stop());try{live.ac.close()}catch(e){}try{live.wake&&live.wake.release()}catch(e){}live=null;$("liveBtn").classList.remove("on");$("liveTxt").textContent="Ouvir ao vivo"}
-$("liveBtn").addEventListener("click",()=>live?stopLive():startLive());
+$("liveBtn").addEventListener("click",()=>session&&session.kind==="microfonia"?stopAll():startLive());
+
+/* ================= EQUILÍBRIO ================= */
+const OCT=[63,125,250,500,1000,2000,4000,8000,16000];
+const OCT_LBL=["63","125","250","500","1k","2k","4k","8k","16k"];
+const OCT_NAME=["Sub","Grave","Grave-médio","Médio","Médio","Médio-agudo","Presença","Brilho","Ar"];
+const OCT_RANGE=["40 a 80 Hz","90 a 180 Hz","180 a 350 Hz","350 a 700 Hz","700 Hz a 1,4 kHz","1,4 a 2,8 kHz","2,8 a 5,6 kHz","5,6 a 11 kHz","11 a 20 kHz"];
+/* Curvas de referência aproximadas, em potência por oitava, relativas a 1 kHz.
+   Fala e canto: baseadas no espectro médio de longo prazo da fala (pico entre 250 e 500 Hz, queda acima de 1 kHz).
+   Banda: mixagem ao vivo típica, um pouco mais escura que o ruído rosa. */
+const TARGET={fala:[-16,-1,4,5,0,-5,-9,-15,-24],canto:[-14,-2,3,4,0,-3,-7,-12,-20],banda:[3,3,2,1,0,-2,-4,-7,-12]};
+const TOL=[7,5,4,4,4,4,4,5,8];
+const MODES=[["fala","Fala ou pregação"],["canto","Voz cantada"],["banda","Banda completa"]];
+const MODE_HINT={fala:"Para o microfone do pastor, avisos e leituras. Compara com o espectro médio da fala.",canto:"Para um cantor ou cantora, de preferência só com a voz ou com pouco instrumento.",banda:"Para o louvor inteiro, medido do meio da igreja. Compara com uma mixagem ao vivo equilibrada."};
+if(!MODES.some(m=>m[0]===S.balMode))S.balMode="fala";
+function bandPowers(pow,df,out){for(let b=0;b<9;b++){const lo=OCT[b]/Math.SQRT2,hi=Math.min(OCT[b]*Math.SQRT2,df*(pow.length-1));let s=0;const k0=Math.max(1,Math.ceil(lo/df)),k1=Math.floor(hi/df);for(let k=k0;k<=k1;k++)s+=pow[k];out[b]=s}return out}
+function pitchOf(x,start,len,sr){
+  const D=Math.max(1,Math.round(sr/12000)),n=Math.floor(len/D),y=new Float32Array(n);
+  for(let i=0;i<n;i++){let s=0;for(let j=0;j<D;j++)s+=x[start+i*D+j]||0;y[i]=s/D}
+  const sr2=sr/D,tmin=Math.max(2,Math.floor(sr2/500)),tmax=Math.min(Math.floor(sr2/70),Math.floor(n/2)),W=n-tmax-2;if(W<64)return 0;
+  const d=new Float32Array(tmax+2);let run=0;d[0]=1;
+  for(let t=1;t<=tmax+1;t++){let s=0;for(let i=0;i<W;i++){const v=y[i]-y[i+t];s+=v*v}run+=s;d[t]=run?s*t/run:1}
+  for(let t=tmin;t<tmax;t++){if(d[t]<0.15){while(t+1<tmax&&d[t+1]<d[t])t++;const a=d[t-1],b=d[t],c=d[t+1],den=a-2*b+c,p=den?0.5*(a-c)/den:0;const f=sr2/(t+p);return f>=70&&f<=500?f:0}}
+  return 0;
+}
+const pct=(a,p)=>{if(!a.length)return 0;const s=[...a].sort((x,y)=>x-y);return s[Math.min(s.length-1,Math.max(0,Math.round(p*(s.length-1))))]};
+const median=a=>pct(a,0.5);
+function analyzeBalanceSamples(x,sr,mode){
+  const N=4096,hop=2048,win=hann(N),len=Math.min(x.length,sr*120);
+  const frames=[];for(let s=0;s+N<=len;s+=hop){let q=0;for(let i=0;i<N;i++){const v=x[s+i];q+=v*v}frames.push({s,db:10*Math.log10(q/N+1e-12)})}
+  let peak=0,clip=0;for(let i=0;i<len;i++){const a=Math.abs(x[i]);if(a>peak)peak=a;if(a>0.985)clip++}
+  const gate=Math.max(-65,pct(frames.map(f=>f.db),0.95)-30);
+  const pow=new Float64Array(9),tmp=new Float64Array(9),rms=[],pitch=[];let w=0,e=0,k=0;
+  for(const fr of frames){if(fr.db<=gate)continue;
+    bandPowers(framePow(x,fr.s,N,win),sr/N,tmp);for(let b=0;b<9;b++)pow[b]+=tmp[b];w++;rms.push(fr.db);e+=Math.pow(10,fr.db/10);
+    if(mode!=="banda"&&(k++%2===0)){const f=pitchOf(x,fr.s,N,sr);if(f)pitch.push(f)}}
+  for(let b=0;b<9;b++)pow[b]/=Math.max(1,w);
+  return{pow,w,rms,pitch,validSec:w*hop/sr,dur:len/sr,peakDb:20*Math.log10(peak+1e-9),meanDb:w?10*Math.log10(e/w):-99,clipFrac:clip/Math.max(1,len)};
+}
+function diagnose(A,mode){
+  const v=mode!=="banda",T=TARGET[mode];
+  const bdb=Array.from(A.pow,p=>10*Math.log10(p+1e-20));
+  const d=bdb.map((x,i)=>x-T[i]);
+  /* referência robusta: o deslocamento que deixa o maior número de faixas (125 Hz a 8 kHz) dentro da zona ideal; as faixas fora dela são os problemas */
+  let ref=median(d.slice(2,7)),best=1e9;
+  for(let o=ref-20;o<=ref+20;o+=0.25){let c=0;for(let i=1;i<=7;i++){const e=Math.abs(d[i]-o)-TOL[i]*0.5;if(e>0)c+=e}c+=Math.abs(o-median(d.slice(2,7)))*0.01;if(c<best){best=c;ref=o}}
+  const dev=d.map(x=>x-ref);
+  const f0=A.pitch.length>=15?median(A.pitch):0;
+  const hpf=f0?(f0<165?"80 a 100 Hz":f0<260?"120 a 150 Hz":"150 Hz"):(mode==="fala"?"100 a 150 Hz":"100 Hz");
+  const out=[],ex=i=>Math.abs(dev[i])-TOL[i],sv=i=>ex(i)>3?2:1;
+  const add=(i,sev,score,t,w)=>out.push({i,sev,score,t,w});
+  if(dev[0]>TOL[0])add(0,sv(0),ex(0),v?"Ronco e grave demais na voz. Ligue ou suba o corta-graves (HPF) para "+hpf+".":"Sub pesado demais. Abaixe um pouco o subwoofer, o bumbo ou o baixo. Grave em excesso é a maior causa de reclamação de volume.",v?"canal da voz":"sub, bumbo e baixo");
+  else if(!v&&dev[0]<-TOL[0]-3)add(0,1,ex(0)-3,"Pouco peso no sub. Confira o subwoofer e o bumbo. O microfone do celular capta pouco abaixo de 80 Hz, então confirme no ouvido.","sub e bumbo");
+  if(dev[1]>TOL[1])add(1,sv(1),ex(1),v?"Voz grossa demais. Pode ser efeito de proximidade (boca colada no microfone) ou corta-graves baixo. Corte um pouco entre 120 e 160 Hz ou suba o HPF para "+hpf+".":"Grave embolado, aquele som que “bate” no peito. Corte um pouco entre 125 e 160 Hz no baixo ou no EQ geral, e veja se baixo e bumbo não estão brigando.",v?"canal da voz":"baixo, bumbo e teclado");
+  else if(dev[1]<-TOL[1])add(1,sv(1),ex(1),v?"Voz fina, sem corpo. O corta-graves pode estar alto demais ou o microfone longe da boca. Baixe o HPF ou aproxime o microfone.":"Falta grave. Suba um pouco o baixo e o bumbo antes de mexer no EQ geral.",v?"canal da voz e posição do microfone":"baixo e bumbo");
+  if(dev[2]>TOL[2])add(2,sv(2),ex(2),v?"Voz embolada, abafada. Corte de 2 a 4 dB entre 200 e 300 Hz.":"Som embolado (“lama”). Corte de 2 a 4 dB entre 200 e 300 Hz no violão, no teclado e nas vozes: é ali que todos os instrumentos se acumulam.",v?"canal da voz":"violão, teclado, vozes e guitarra");
+  else if(dev[2]<-TOL[2])add(2,1,ex(2),"Pouco corpo entre 200 e 300 Hz. Se algum canal tem um corte forte nessa região, devolva um pouco.",v?"canal da voz":"EQ dos canais");
+  if(dev[3]>TOL[3])add(3,sv(3),ex(3),v?"Voz “de caixa”, oca. Corte um pouco entre 400 e 600 Hz.":"Som oco, de caixa. Corte um pouco entre 400 e 600 Hz, comum em bumbo, tons e piano.",v?"canal da voz":"bumbo, tons e piano");
+  if(dev[4]>TOL[4])add(4,sv(4),ex(4),v?"Voz nasal, de telefone. Corte um pouco entre 800 Hz e 1,2 kHz.":"Som anasalado, de buzina. Corte um pouco entre 800 Hz e 1,2 kHz.",v?"canal da voz":"guitarra, vozes ou EQ geral");
+  else if(dev[4]<-TOL[4])add(4,1,ex(4),"Médios escavados: o som fica distante e sem presença. Evite cortar tanto o MÉDIO.","EQ dos canais");
+  const ph=Math.max(dev[5],dev[6]),pi=dev[5]>=dev[6]?5:6,pres=(dev[5]+dev[6])/2;
+  if(ph>TOL[pi])add(pi,ph-TOL[pi]>3?2:1,ph-TOL[pi],v?"Voz estridente, cansativa. Corte de 2 a 3 dB entre 2,5 e 4 kHz ou afaste um pouco o microfone.":"Som áspero e cansativo. Procure o instrumento que está “furando” (guitarra, pratos, metais) e corte entre 2,5 e 4 kHz.",v?"canal da voz":"guitarra, pratos e metais");
+  else if(pres<-4)add(5,pres<-7?2:1,-pres-4,v?"Falta clareza: as palavras perdem definição. Realce de 2 a 3 dB entre 2 e 4 kHz na voz e confira o corta-graves.":"Falta clareza e presença: a voz pode estar encoberta pela banda. Abaixe o que briga com a voz (violão, teclado, guitarra) ou realce de 2 a 3 dB entre 2 e 4 kHz no canal da voz.",v?"canal da voz":"voz principal, violão, teclado e guitarra");
+  if(dev[7]>TOL[7])add(7,sv(7),ex(7),v?"Sibilância: o “s” está ferindo. Use de-esser ou um corte estreito entre 6 e 8 kHz.":"Agudo ardido, pratos altos. Abaixe os overheads ou corte um pouco entre 6 e 8 kHz.",v?"canal da voz":"pratos e overheads");
+  else if(dev[7]<-TOL[7])add(7,sv(7),ex(7),v?"Voz abafada, sem brilho. Suba um pouco o AGUDO (8 a 10 kHz) e confira se nada está cobrindo o microfone.":"Som abafado, sem brilho. Suba um pouco o AGUDO (8 a 10 kHz) nos canais ou no EQ geral.",v?"canal da voz":"EQ geral");
+  if(dev[8]>TOL[8]+4)add(8,1,ex(8)-4,"Chiado ou ar em excesso acima de 10 kHz. Confira se há ruído de cabo ou se o agudo está alto demais.","EQ geral e cabos");
+  let spread=0;
+  if(A.rms.length>=15){spread=pct(A.rms,0.9)-pct(A.rms,0.1);
+    if(v&&spread>20)add(-1,spread>26?2:1,(spread-20)/2,"O volume da voz varia muito ("+Math.round(spread)+" dB entre trechos fracos e fortes). Use compressor 3:1 a 4:1 com 3 a 6 dB de redução e acompanhe no fader.","compressor do canal da voz")}
+  const crest=A.peakDb-A.meanDb;
+  if(!v&&A.validSec>5&&crest<9&&A.clipFrac<0.001)add(-1,1,1,"Som achatado: pouca diferença entre os picos e a média ("+Math.round(crest)+" dB). Pode ser compressão ou limitação demais, e o som cansa.","compressores e limitador do sistema");
+  out.sort((a,b)=>b.sev-a.sev||b.score-a.score);
+  const moves=dev.map((x,i)=>{if(Math.abs(x)<=TOL[i])return 0;let m=-(x-Math.sign(x)*TOL[i]/2);m=Math.max(-6,Math.min(3,m));if(i===0||i===8)m=Math.max(-6,Math.min(0,m));if(i===8&&x<=TOL[8]+4)m=0;return Math.round(m)});
+  return{dev,issues:out,moves,f0,spread,crest};
+}
+function voiceType(f0){if(!f0)return null;const t=f0<165?"Masculina":f0<260?"Feminina":"Aguda ou infantil";const h=f0<165?"80 a 100 Hz":f0<260?"120 a 150 Hz":"150 Hz";return{t,h}}
+function renderBal(A,R,mode,src,info){
+  $("balSrc").innerHTML="<b></b>";$("balSrc").firstChild.textContent=src;$("balInfo").textContent=info;
+  const iss=R.issues,hot=iss.some(x=>x.sev===2);
+  const vt=$("balVerdict"),ch=$("balChip");
+  if(!iss.length){vt.textContent="Equilibrado";vt.className="vt ok";ch.textContent="dentro da referência";ch.className="chip ok"}
+  else if(hot){vt.textContent="Precisa de ajuste";vt.className="vt hot";ch.textContent=iss.length+(iss.length>1?" pontos":" ponto");ch.className="chip"}
+  else{vt.textContent="Pequenos ajustes";vt.className="vt warn";ch.textContent=iss.length+(iss.length>1?" pontos":" ponto");ch.className="chip warn"}
+  const modeName=MODES.find(m=>m[0]===mode)[1].toLowerCase();
+  $("balSummary").textContent=iss.length?"Comparado com a referência de "+modeName+", o principal é: "+iss[0].t.split(".")[0].toLowerCase()+".":"O equilíbrio entre grave, médio e agudo está dentro da referência de "+modeName+". Agora decida no ouvido.";
+  const chart=$("balChart");chart.innerHTML="";const lab=[];
+  R.dev.forEach((x,i)=>{const c=Math.max(-15,Math.min(15,x)),tol=TOL[i],k=(Math.abs(x)<=tol||(i===0&&mode!=="banda"&&x<0))?"":Math.abs(x)<=tol+3?"warn":"hot";
+    const col=document.createElement("div");col.className="bcol";
+    col.innerHTML='<span class="bdv">'+sgn(x)+'</span><div class="btrack"><i class="bzone" style="top:'+((15-tol)/30*100)+'%;height:'+(tol/15*100)+'%"></i><i class="bmid"></i><i class="bmark '+k+'" style="top:'+((15-c)/30*100)+'%"></i></div><span class="blbl">'+OCT_LBL[i]+'</span>';
+    chart.appendChild(col);lab.push(OCT_LBL[i]+" Hz "+sgn(x)+" dB")});
+  chart.setAttribute("aria-label","Diferença em relação à referência: "+lab.join(", "));
+  const st=$("balSteps");st.innerHTML="";
+  if(!iss.length){const li=document.createElement("li");li.textContent="Nada importante a corrigir. Se ainda incomoda, use o treino de ouvido para identificar o que você está ouvindo.";st.appendChild(li)}
+  iss.slice(0,5).forEach(x=>{const li=document.createElement("li");li.innerHTML=esc(x.t)+' <span class="small muted">Onde: '+esc(x.w)+'.</span>';st.appendChild(li)});
+  const mv=$("balMoves");mv.innerHTML="";let any=false;
+  R.moves.forEach((m,i)=>{if(!m)return;any=true;const tr=document.createElement("tr");tr.innerHTML='<td>'+esc(OCT_NAME[i])+'</td><td class="mono">'+esc(OCT_RANGE[i])+'</td><td class="mono"><b class="'+(m<0?"cut":"boost")+'">'+sgn(m)+' dB</b></td>';mv.appendChild(tr)});
+  if(!any)mv.innerHTML='<tr><td colspan="3">Nenhuma faixa precisa de ajuste.</td></tr>';
+  const low=R.moves[1]||R.moves[0],high=R.moves[7];let mid=0,mi=-1;[2,3,4,5,6].forEach(i=>{if(Math.abs(R.moves[i])>Math.abs(mid)){mid=R.moves[i];mi=i}});
+  $("bal3").innerHTML='<b>Mesa simples (Grave, Médio, Agudo):</b> GRAVE '+sgn(low)+' · MÉDIO '+sgn(mid)+(mi>=0?' em '+OCT_LBL[mi]+'Hz, se a mesa tiver o botão de frequência':'')+' · AGUDO '+sgn(high)+'. '+(mode==="banda"?"Prefira corrigir nos canais dos instrumentos citados; use o EQ geral só se o problema aparecer em todas as músicas.":"Ajuste no canal da voz, não no EQ geral.")+' Mexa aos poucos e confira no ouvido.';
+  const fx=$("balFacts");let h="";
+  const vtp=voiceType(R.f0);
+  if(mode!=="banda")h+='<dt>Tipo de voz</dt><dd>'+(vtp?esc(vtp.t)+", nota média por volta de "+Math.round(R.f0)+" Hz ("+esc(noteOf(R.f0))+"). Corta-graves sugerido: "+esc(vtp.h)+".":"Não deu para identificar. Precisa de mais voz sem música por baixo.")+'</dd>';
+  if(R.spread)h+='<dt>Variação de volume</dt><dd>'+Math.round(R.spread)+' dB entre trechos fracos e fortes</dd>';
+  h+='<dt>Nível médio</dt><dd>'+Math.round(A.meanDb)+' dBFS (relativo ao microfone)</dd>';
+  h+='<dt>Áudio com som</dt><dd>'+nf(A.validSec,1)+' s'+(A.dur?' de '+nf(A.dur,1)+' s':'')+'</dd>';
+  if(A.clipFrac>0.001)h+='<dt>Atenção</dt><dd>A gravação saturou (som estourado). Grave mais longe da caixa ou mais baixo; o resultado pode estar distorcido.</dd>';
+  fx.innerHTML=h;
+  lastBal={mode,R};
+}
+let lastBal=null;
+function balWaiting(src,info,txt){$("balSrc").innerHTML="<b></b>";$("balSrc").firstChild.textContent=src;$("balInfo").textContent=info;$("balVerdict").textContent=txt;$("balVerdict").className="vt";$("balChip").textContent="";$("balChip").className="chip ok";}
+function renderBalModes(){const c=$("balMode");c.innerHTML="";MODES.forEach(([k,t])=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=t;b.setAttribute("aria-pressed",String(S.balMode===k));b.onclick=()=>{if(S.balMode===k)return;S.balMode=k;save();renderBalModes();if(session&&session.kind==="equilibrio"){stopAll();startBalLive()}else runBalDemo()};c.appendChild(b)});$("balModeHint").textContent=MODE_HINT[S.balMode]}
+/* exemplos simulados */
+function biquad(type,f,Q,g,sr){const A=Math.pow(10,g/40),w=2*Math.PI*f/sr,c=Math.cos(w),s=Math.sin(w),al=s/(2*Q);let b0,b1,b2,a0,a1,a2;
+  if(type==="peak"){b0=1+al*A;b1=-2*c;b2=1-al*A;a0=1+al/A;a1=-2*c;a2=1-al/A}
+  else if(type==="bp"){b0=al;b1=0;b2=-al;a0=1+al;a1=-2*c;a2=1-al}
+  else if(type==="hs"){const q=2*Math.sqrt(A)*al;b0=A*((A+1)+(A-1)*c+q);b1=-2*A*((A-1)+(A+1)*c);b2=A*((A+1)+(A-1)*c-q);a0=(A+1)-(A-1)*c+q;a1=2*((A-1)-(A+1)*c);a2=(A+1)-(A-1)*c-q}
+  else{b0=(1+c)/2;b1=-(1+c);b2=(1+c)/2;a0=1+al;a1=-2*c;a2=1-al}
+  return{b0:b0/a0,b1:b1/a0,b2:b2/a0,a1:a1/a0,a2:a2/a0,x1:0,x2:0,y1:0,y2:0}}
+function bq(f,x){const y=f.b0*x+f.b1*f.x1+f.b2*f.x2-f.a1*f.y1-f.a2*f.y2;f.x2=f.x1;f.x1=x;f.y2=f.y1;f.y1=y;return y}
+function makeVoice(sr,sec,mud,dull){
+  const n=Math.round(sr*sec),x=new Float32Array(n);let seed=11;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  const V=[[730,1090,2440],[530,1840,2480],[570,840,2410],[300,2200,2950],[440,1020,2240]];
+  let F=V[0].map((f,i)=>biquad("bp",f,[6,9,12][i],0,sr)),fi=0,ph=0,f0=118;
+  const m1=biquad("peak",250,1.2,mud,sr),d1=biquad("hs",2500,0.7,-dull,sr),hpS=biquad("hp",4000,0.7,0,sr);
+  for(let i=0;i<n;i++){const t=i/sr,syl=t%0.32;
+    if(syl<1/sr){fi=(fi+1)%V.length;F=V[fi].map((f,j)=>{const q=biquad("bp",f,[6,9,12][j],0,sr);return q});f0=105+rnd()*35}
+    const env=syl<0.24?Math.sin(Math.PI*syl/0.24):0;ph+=f0/sr;if(ph>=1)ph-=1;const src=(ph*2-1)*env;
+    let s=bq(F[0],src)*1+bq(F[1],src)*0.6+bq(F[2],src)*0.35;
+    if(syl>0.255&&syl<0.30&&fi%4===0)s+=bq(hpS,(rnd()*2-1))*0.04;
+    x[i]=bq(d1,bq(m1,s))*0.9}
+  return x;
+}
+function makeBand(sr,mud,harsh){
+  /* ruído com o espectro da referência de banda + problemas, montado direto na frequência */
+  const N=1<<18,re=new Float32Array(N),im=new Float32Array(N),T=TARGET.banda;let seed=5;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  const tAt=f=>{const l=Math.log2(f/63);if(l<=0)return T[0];if(l>=8)return T[8];const i=Math.floor(l),u=l-i;return T[i]*(1-u)+T[i+1]*u};
+  const bump=(f,c,g,w)=>g*Math.exp(-Math.pow(Math.log2(f/c)/w,2));
+  for(let k=1;k<N/2;k++){const f=k*sr/N;if(f<30)continue;const db=tAt(f)+bump(f,250,mud,0.6)+bump(f,3150,harsh,0.6);const a=Math.sqrt(Math.pow(10,db/10)/f),ph=rnd()*2*Math.PI;re[k]=a*Math.cos(ph);im[k]=a*Math.sin(ph);re[N-k]=re[k];im[N-k]=-im[k]}
+  for(let k=0;k<N;k++)im[k]=-im[k];fft(re,im);let mx=0;for(let k=0;k<N;k++)if(Math.abs(re[k])>mx)mx=Math.abs(re[k]);
+  const x=new Float32Array(N);for(let k=0;k<N;k++){const env=0.6+0.4*Math.abs(Math.sin(Math.PI*k/(sr*0.83)));x[k]=re[k]/mx*0.5*env}return x;
+}
+function runBalDemo(){
+  const m=S.balMode,sr=32000;
+  const x=m==="banda"?makeBand(sr,12,12):makeVoice(sr,6,8,7);
+  const A=analyzeBalanceSamples(x,sr,m);const R=diagnose(A,m);
+  renderBal(A,R,m,"Exemplo simulado",m==="banda"?"banda embolada e áspera":"voz embolada e abafada");
+}
+function resetBalBtn(){$("balLive").classList.remove("on");$("balLiveTxt").textContent="Ouvir ao vivo"}
+async function startBalLive(){
+  stopAll();
+  const mode=S.balMode,mic=await openMic(8192);if(!mic)return;
+  const an=mic.an,sr=mic.ac.sampleRate,fd=new Float32Array(an.frequencyBinCount),td=new Float32Array(an.fftSize),df=sr/an.fftSize;
+  const pw=new Float64Array(fd.length),tmp=new Float64Array(9);
+  const A={pow:new Float64Array(9),w:0,rms:[],pitch:[],validSec:0,dur:0,peakDb:-99,meanDb:-99,clipFrac:0};
+  let runMax=-99,eAcc=0,eN=0,clip=0,tot=0,peaks=[],t0=performance.now(),lastDraw=0;const dt=0.2,alpha=Math.exp(-dt/6);
+  balWaiting("Ao vivo","escutando pelo microfone","Escutando…");$("balSummary").textContent="Deixe tocar ou falar por alguns segundos.";
+  micSession("equilibrio",mic,()=>{
+    an.getFloatTimeDomainData(td);let q=0,pk=0;for(let i=0;i<td.length;i++){const a=Math.abs(td[i]);q+=td[i]*td[i];if(a>pk)pk=a;if(a>0.985)clip++}tot+=td.length;
+    const db=10*Math.log10(q/td.length+1e-12);runMax=Math.max(runMax-0.05,db);A.dur=(performance.now()-t0)/1000;
+    if(db>-65&&db>runMax-30){
+      an.getFloatFrequencyData(fd);for(let k=0;k<fd.length;k++)pw[k]=Math.pow(10,fd[k]/10);bandPowers(pw,df,tmp);
+      if(!A.w){for(let b=0;b<9;b++)A.pow[b]=tmp[b]}else{for(let b=0;b<9;b++)A.pow[b]=A.pow[b]*alpha+tmp[b]*(1-alpha)}
+      A.w++;A.validSec+=dt;A.rms.push(db);if(A.rms.length>150)A.rms.shift();
+      eAcc+=Math.pow(10,db/10);eN++;A.meanDb=10*Math.log10(eAcc/eN);peaks.push(20*Math.log10(pk+1e-9));if(peaks.length>150)peaks.shift();A.peakDb=Math.max(...peaks);
+      if(mode!=="banda"){const f=pitchOf(td,0,4096,sr);if(f){A.pitch.push(f);if(A.pitch.length>120)A.pitch.shift()}}
+    }
+    A.clipFrac=clip/Math.max(1,tot);
+    const now=performance.now();if(now-lastDraw<1000)return;lastDraw=now;
+    if(A.validSec<3){$("balVerdict").textContent="Escutando… "+Math.round(A.validSec)+" s";return}
+    renderBal(A,diagnose(A,mode),mode,"Ao vivo","média dos últimos segundos");
+  },200,resetBalBtn);
+  $("balLive").classList.add("on");$("balLiveTxt").textContent="Parar de ouvir";
+}
+$("balLive").onclick=()=>session&&session.kind==="equilibrio"?stopAll():startBalLive();
+$("balDemo").onclick=()=>{stopAll();runBalDemo()};
+$("balFile").addEventListener("change",async ev=>{
+  const f=ev.target.files[0];if(!f)return;stopAll();showErr("");const mode=S.balMode;
+  balWaiting("Analisando…",f.name,"Analisando…");
+  await new Promise(r=>setTimeout(r,30));
+  try{const {x,sr}=await decodeFile(f);const A=analyzeBalanceSamples(x,sr,mode);
+    if(A.validSec<2){showErr("Essa gravação tem pouco som para analisar. Grave pelo menos 15 segundos de voz ou de música.");runBalDemo()}
+    else renderBal(A,diagnose(A,mode),mode,"Sua gravação",f.name+" · "+nf(A.dur,1)+" s");
+  }catch(e){showErr("Não consegui ler esse arquivo. Tente uma gravação em .m4a, .mp3 ou .wav, de até 200 MB.");runBalDemo()}
+  ev.target.value="";
+});
+$("balLog").onclick=()=>{if(!lastBal)return;const m=MODES.find(x=>x[0]===lastBal.mode)[1],iss=lastBal.R.issues;
+  S.log.unshift({t:hhmm(),type:iss.length?"Problema":"Lembrete",txt:"Equilíbrio ("+m+"): "+(iss.length?iss.slice(0,2).map(x=>x.t.split(".")[0]).join("; "):"dentro da referência")});save();renderLog();flash($("balLog"),"Registrado no diário")};
+
+/* ================= VOLUME ================= */
+function aW(f){const f2=f*f,r=(148693636*f2*f2)/((f2+424.36)*Math.sqrt((f2+11599.29)*(f2+544496.41))*(f2+148693636));return 20*Math.log10(r)+2}
+function cW(f){const f2=f*f,r=(148693636*f2)/((f2+424.36)*(f2+148693636));return 20*Math.log10(r)+0.06}
+if(S.lvW!=="C")S.lvW="A";
+if(typeof S.calib!=="number"||!isFinite(S.calib))S.calib=null;
+let LV={leqE:0,n:0,max:-999,t:0,last:-999,recent:[]};
+function nrTime(L){const h=8/Math.pow(2,(L-85)/5);if(h>=8)return"8 horas ou mais";const H=Math.floor(h),M=Math.round((h-H)*60);return(H?H+" h ":"")+(M?M+" min":"")}
+function lvRender(){
+  const cal=S.calib!==null,u=cal?"dB("+S.lvW+")":"dBFS",off=cal?S.calib:0;
+  $("lvUnit").textContent=u;$("lvCalTag").innerHTML=cal?"<b>Calibrado</b>":"<b>Sem calibração</b> · número relativo";$("lvWTag").textContent="Ponderação "+S.lvW;
+  const now=LV.last>-900?LV.last+off:null,leq=LV.n?10*Math.log10(LV.leqE/LV.n)+off:null,mx=LV.max>-900?LV.max+off:null;
+  $("lvNow").textContent=now===null?"--":Math.round(now);
+  $("lvLeq").textContent=leq===null?"--":Math.round(leq)+" "+u;$("lvMax").textContent=mx===null?"--":Math.round(mx)+" "+u;
+  const s=Math.round(LV.t);$("lvTime").textContent=s?Math.floor(s/60)+" min "+(s%60)+" s":"--";
+  let cls="";const box=$("lvNumBox"),bar=$("lvBarBox");
+  if(cal&&now!==null){cls=now>=95?"hot":now>=85?"warn":"ok";$("lvBar").style.width=Math.max(0,Math.min(100,(now-40)/70*100))+"%"}
+  else{$("lvBar").style.width=now===null?"0%":Math.max(0,Math.min(100,(now+70)/70*100))+"%"}
+  box.className="lvnum "+cls;bar.className="lvbar "+cls;
+  $("lvNr").textContent=!cal?"Calibre para ver":S.lvW!=="A"?"Use a ponderação A":leq===null?"--":leq<85?"Abaixo de 85 dB(A): sem limite de tempo pela NR-15":"Com essa média, até "+nrTime(leq)+" por dia (aproximado)";
+}
+function renderLvW(){const c=$("lvW");c.innerHTML="";[["A","Ponderação A (ouvido)"],["C","Ponderação C (inclui graves)"]].forEach(([k,t])=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=t;b.setAttribute("aria-pressed",String(S.lvW===k));b.onclick=()=>{if(S.lvW===k)return;S.lvW=k;save();renderLvW();LV={leqE:0,n:0,max:-999,t:0,last:-999,recent:[]};if(session&&session.kind==="nivel"){stopAll();startLv()}lvRender()};c.appendChild(b)})}
+function resetLvBtn(){$("lvStart").classList.remove("on");$("lvStartTxt").textContent="Começar a medir"}
+async function startLv(){
+  stopAll();const mic=await openMic(8192);if(!mic)return;
+  const an=mic.an,sr=mic.ac.sampleRate,fd=new Float32Array(an.frequencyBinCount),df=sr/an.fftSize,W=new Float64Array(fd.length),wf=S.lvW==="C"?cW:aW;
+  for(let k=1;k<fd.length;k++)W[k]=Math.pow(10,wf(k*df)/10);
+  let last=performance.now(),lastDraw=0;
+  micSession("nivel",mic,()=>{an.getFloatFrequencyData(fd);let s=0;for(let k=1;k<fd.length;k++)s+=Math.pow(10,fd[k]/10)*W[k];
+    const L=10*Math.log10(s+1e-20),now=performance.now();LV.t+=(now-last)/1000;last=now;LV.last=L;LV.leqE+=Math.pow(10,L/10);LV.n++;if(L>LV.max)LV.max=L;LV.recent.push(L);if(LV.recent.length>24)LV.recent.shift();
+    if(now-lastDraw>250){lastDraw=now;lvRender()}},125,resetLvBtn);
+  $("lvStart").classList.add("on");$("lvStartTxt").textContent="Parar";
+}
+$("lvStart").onclick=()=>session&&session.kind==="nivel"?stopAll():startLv();
+$("lvReset").onclick=()=>{LV={leqE:0,n:0,max:-999,t:0,last:LV.last,recent:LV.recent};lvRender()};
+$("lvCalBtn").onclick=()=>{const ref=parseFloat(String($("lvRef").value).replace(",","."));
+  if(!(session&&session.kind==="nivel")||LV.recent.length<8){showErr("Para calibrar, toque em Começar a medir e espere alguns segundos com o som estável.");return}
+  if(!(ref>=30&&ref<=130)){showErr("Digite o valor do medidor de referência, entre 30 e 130 dB.");return}
+  const e=LV.recent.reduce((a,L)=>a+Math.pow(10,L/10),0)/LV.recent.length;S.calib=ref-10*Math.log10(e);save();showErr("");LV={leqE:0,n:0,max:-999,t:0,last:LV.last,recent:LV.recent};lvRender();flash($("lvCalBtn"),"Calibrado")};
+$("lvCalClear").onclick=()=>{S.calib=null;save();lvRender()};
+$("lvLog").onclick=()=>{if(!LV.n)return;const cal=S.calib!==null,u=cal?"dB("+S.lvW+")":"dBFS (sem calibração)",off=cal?S.calib:0;
+  S.log.unshift({t:hhmm(),type:"Lembrete",txt:"Volume: média "+Math.round(10*Math.log10(LV.leqE/LV.n)+off)+", máximo "+Math.round(LV.max+off)+" "+u+", "+Math.round(LV.t/60)+" min medidos"});save();renderLog();flash($("lvLog"),"Registrado")};
+
+/* ================= GERADOR ================= */
+const GEN={type:"seno",freq:1000,level:-24};
+const GTYPES=[["seno","Tom"],["rosa","Ruído rosa"],["branco","Ruído branco"],["varredura","Varredura"]];
+const sl2f=v=>20*Math.pow(1000,v/1000),f2sl=f=>Math.round(1000*Math.log(f/20)/Math.log(1000));
+const dbg=d=>Math.pow(10,d/20);
+function noiseBuf(ac,type){const n=ac.sampleRate*4,b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+  for(let i=0;i<n;i++){const w=Math.random()*2-1;if(type==="branco"){d[i]=w*0.35}else{b0=0.99886*b0+w*0.0555179;b1=0.99332*b1+w*0.0750759;b2=0.969*b2+w*0.153852;b3=0.8665*b3+w*0.3104856;b4=0.55*b4+w*0.5329522;b5=-0.7616*b5-w*0.016898;d[i]=(b0+b1+b2+b3+b4+b5+b6+w*0.5362)*0.11;b6=w*0.115926}}
+  const fade=Math.round(ac.sampleRate*0.01);for(let i=0;i<fade;i++){d[i]*=i/fade;d[n-1-i]*=i/fade}return b}
+function renderGen(){
+  const c=$("genType");c.innerHTML="";GTYPES.forEach(([k,t])=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=t;b.setAttribute("aria-pressed",String(GEN.type===k));b.onclick=()=>{GEN.type=k;stopPlayback();renderGen()};c.appendChild(b)});
+  $("genFreqBox").hidden=GEN.type!=="seno";$("genFreq").value=f2sl(GEN.freq);$("genFreqVal").textContent=fmtFreq(GEN.freq);$("genLevel").value=GEN.level;$("genLevelVal").textContent=GEN.level+" dBFS";
+  const q=$("genQuick");q.innerHTML="";[100,250,1000,4000,10000].forEach(f=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=fmtFreq(f);b.onclick=()=>{GEN.freq=f;if(player&&player.setFreq)player.setFreq(f);renderGen()};q.appendChild(b)});
+  $("genHint").textContent={seno:"Tom puro na frequência escolhida.",rosa:"Ruído com a mesma energia em cada oitava, o padrão para testar caixas e salas.",branco:"Ruído com energia igual por frequência; soa bem agudo.",varredura:"Sobe de 20 Hz a 20 kHz em 10 segundos e para."}[GEN.type];
+}
+function resetGenBtn(){$("genPlay").classList.remove("on");$("genPlayTxt").textContent="Tocar"}
+function startGen(){
+  stopAll();const ac=playCtx(),g=ac.createGain(),t=ac.currentTime;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(dbg(GEN.level)*(GEN.type==="seno"||GEN.type==="varredura"?0.7:1),t+0.05);g.connect(ac.destination);
+  let node;
+  if(GEN.type==="seno"||GEN.type==="varredura"){node=ac.createOscillator();node.type="sine";node.frequency.setValueAtTime(GEN.type==="seno"?GEN.freq:20,t);if(GEN.type==="varredura")node.frequency.exponentialRampToValueAtTime(20000,t+10);node.connect(g);node.start();if(GEN.type==="varredura")node.stop(t+10.1)}
+  else{node=ac.createBufferSource();node.buffer=noiseBuf(ac,GEN.type);node.loop=true;node.connect(g);node.start()}
+  const auto=setTimeout(()=>stopPlayback(),120000);
+  const p={kind:"gen",stop(){clearTimeout(auto);const tt=ac.currentTime;try{g.gain.cancelScheduledValues(tt);g.gain.setValueAtTime(g.gain.value,tt);g.gain.linearRampToValueAtTime(0,tt+0.05)}catch(e){}setTimeout(()=>{try{node.stop()}catch(e){}g.disconnect()},90);resetGenBtn()},
+    setFreq(f){try{node.frequency.setTargetAtTime(f,ac.currentTime,0.02)}catch(e){}},setLevel(d){g.gain.setTargetAtTime(dbg(d)*(GEN.type==="seno"?0.7:1),ac.currentTime,0.03)}};
+  node.onended=()=>{if(player===p){player=null;resetGenBtn()}};
+  player=p;$("genPlay").classList.add("on");$("genPlayTxt").textContent="Parar";
+}
+$("genPlay").onclick=()=>player&&player.kind==="gen"?stopPlayback():startGen();
+$("genFreq").oninput=e=>{GEN.freq=Math.round(sl2f(+e.target.value));$("genFreqVal").textContent=fmtFreq(GEN.freq);if(player&&player.setFreq)player.setFreq(GEN.freq)};
+$("genLevel").oninput=e=>{GEN.level=+e.target.value;$("genLevelVal").textContent=GEN.level+" dBFS";if(player&&player.setLevel)player.setLevel(GEN.level)};
+
+/* ================= TREINO DE OUVIDO ================= */
+const EAR_LVLS={facil:{t:"Fácil",g:12,opts:[125,500,2000,8000]},medio:{t:"Médio",g:9,opts:[125,250,500,1000,2000,4000,8000]},dificil:{t:"Difícil",g:6,opts:[63,125,250,500,1000,2000,4000,8000,16000]}};
+const EAR={lvl:"facil",src:"rosa",fileBuf:null,fileName:"",band:0,answered:false,ok:0,total:0};
+if(S.ear&&typeof S.ear.ok==="number"){EAR.ok=S.ear.ok;EAR.total=S.ear.total}
+function renderEar(){
+  const l=$("earLvl");l.innerHTML="";Object.entries(EAR_LVLS).forEach(([k,v])=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=v.t+" (+"+v.g+" dB)";b.setAttribute("aria-pressed",String(EAR.lvl===k));b.onclick=()=>{EAR.lvl=k;stopPlayback();$("earQ").hidden=true;$("earAB").hidden=true;$("earRes").textContent="";renderEar()};l.appendChild(b)});
+  const s=$("earSrc");s.innerHTML="";[["rosa","Ruído rosa"]].concat(EAR.fileBuf?[["arquivo","Minha música"]]:[]).forEach(([k,t])=>{const b=document.createElement("button");b.type="button";b.className="chipf";b.textContent=t;b.setAttribute("aria-pressed",String(EAR.src===k));b.onclick=()=>{EAR.src=k;stopPlayback();renderEar()};s.appendChild(b)});
+  $("earSrcInfo").textContent=EAR.src==="arquivo"?"Usando: "+EAR.fileName:"";
+  $("earScore").textContent=EAR.total?"Acertos: "+EAR.ok+" de "+EAR.total+" ("+Math.round(100*EAR.ok/EAR.total)+"%)":"";
+}
+function earPlay(boost){
+  stopAll();const ac=playCtx(),lv=EAR_LVLS[EAR.lvl];
+  const src=ac.createBufferSource();src.buffer=EAR.src==="arquivo"&&EAR.fileBuf?EAR.fileBuf:noiseBuf(ac,"rosa");src.loop=true;
+  const pk=ac.createBiquadFilter();pk.type="peaking";pk.frequency.value=EAR.band;pk.Q.value=1.4;pk.gain.value=boost?lv.g:0;
+  const g=ac.createGain(),t=ac.currentTime;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(EAR.src==="arquivo"?0.45:0.25,t+0.08);
+  src.connect(pk).connect(g).connect(ac.destination);src.start();
+  const auto=setTimeout(()=>stopPlayback(),180000);
+  player={kind:"ear",boost,set(b){pk.gain.setTargetAtTime(b?lv.g:0,ac.currentTime,0.03);this.boost=b;earBtns()},stop(){clearTimeout(auto);const tt=ac.currentTime;try{g.gain.setValueAtTime(g.gain.value,tt);g.gain.linearRampToValueAtTime(0,tt+0.05)}catch(e){}setTimeout(()=>{try{src.stop()}catch(e){}g.disconnect()},90);setTimeout(earBtns,0)}};
+  earBtns();
+}
+function earBtns(){const on=player&&player.kind==="ear";$("earOrig").className="btn"+(on&&!player.boost?" sel":"");$("earBoost").className="btn"+(on&&player.boost?" sel":"")}
+function earToggle(b){if(player&&player.kind==="ear")player.set(b);else earPlay(b)}
+$("earOrig").onclick=()=>earToggle(false);$("earBoost").onclick=()=>earToggle(true);$("earStop").onclick=()=>stopPlayback();
+$("earNew").onclick=()=>{const opts=EAR_LVLS[EAR.lvl].opts;let b;do{b=opts[Math.floor(Math.random()*opts.length)]}while(b===EAR.band&&opts.length>1);EAR.band=b;EAR.answered=false;
+  $("earAB").hidden=false;$("earQ").hidden=false;$("earRes").textContent="Alterne entre original e com realce e escolha a faixa.";
+  const o=$("earOpts");o.innerHTML="";opts.forEach(f=>{const x=document.createElement("button");x.type="button";x.className="btn";x.textContent=fmtFreq(f);x.onclick=()=>{
+    if(EAR.answered)return;EAR.answered=true;EAR.total++;const ok=f===EAR.band;if(ok)EAR.ok++;S.ear={ok:EAR.ok,total:EAR.total};save();
+    x.classList.add(ok?"right":"wrong");if(!ok)[...o.children].forEach(c=>{if(c.textContent===fmtFreq(EAR.band))c.classList.add("right")});
+    const idx=OCT.indexOf(EAR.band);$("earRes").textContent=(ok?"Acertou! ":"Era "+fmtFreq(EAR.band)+". ")+"Essa faixa é "+(idx>=0?OCT_NAME[idx].toLowerCase():"")+": "+EAR_DESC[EAR.band];renderEar()};o.appendChild(x)});
+  earPlay(true);
+};
+const EAR_DESC={63:"peso que se sente no peito, região do bumbo e do sub.",125:"corpo e calor; em excesso, som grosso e retumbante.",250:"região do embolado; demais deixa tudo abafado.",500:"som oco, de caixa.",1000:"nasal, de telefone ou buzina.",2000:"presença e ataque; demais fica duro.",4000:"clareza e definição; demais fica estridente e cansa.",8000:"brilho e sibilância (o “s”).",16000:"ar e cintilância, difícil de perceber em caixas pequenas."};
+$("earFile").addEventListener("change",async ev=>{const f=ev.target.files[0];if(!f)return;stopAll();
+  try{const {buf}=await decodeFile(f);EAR.fileBuf=buf;EAR.fileName=f.name;EAR.src="arquivo";renderEar()}catch(e){showErr("Não consegui ler essa música. Tente um arquivo .mp3, .m4a ou .wav.")}ev.target.value=""});
+
+/* ================= CALCULADORAS ================= */
+const num=id=>{const v=parseFloat(String($(id).value).replace(",","."));return isFinite(v)?v:NaN};
+function calcAll(){
+  const d=num("cDist"),T=num("cTemp"),c=331.3*Math.sqrt(1+(isFinite(T)?T:20)/273.15);
+  if(d>=0){const ms=d/c*1000;$("cDelayRes").textContent=nf(ms,1)+" ms";$("cDelayTxt").textContent="Velocidade do som a "+(isFinite(T)?T:20)+" °C: "+nf(c,1)+" m/s. Para o som parecer vir do altar, some de 5 a 10 ms: ajuste entre "+nf(ms+5,0)+" e "+nf(ms+10,0)+" ms."}else{$("cDelayRes").textContent="--";$("cDelayTxt").textContent=""}
+  const bpm=num("cBpm"),br=$("cBpmRes");br.innerHTML="";
+  if(bpm>=20&&bpm<=400){const q=60000/bpm;[["Semínima (1/4)",q],["Colcheia (1/8)",q/2],["Colcheia pontuada",q*0.75],["Semicolcheia (1/16)",q/4],["Tercina de semínima",q*2/3],["Mínima (1/2)",q*2]].forEach(([t,v])=>{const tr=document.createElement("tr");tr.innerHTML="<td>"+t+'</td><td class="mono"><b>'+nf(v,0)+" ms</b></td>";br.appendChild(tr)})}
+  const f=num("cFreq");if(f>=10&&f<=40000){const m=12*Math.log2(f/440)+69,r=Math.round(m),cents=Math.round((m-r)*100);$("cNoteRes").textContent=NOTES[((r%12)+12)%12]+" "+(Math.floor(r/12)-1)+(cents?" ("+(cents>0?"+":"−")+Math.abs(cents)+" cents)":"");$("cNoteTxt").textContent="Comprimento de onda: "+(343/f>=1?nf(343/f,2)+" m":nf(34300/f,1)+" cm")+". Graves têm ondas longas, por isso atravessam paredes e acumulam nos cantos."}else{$("cNoteRes").textContent="--";$("cNoteTxt").textContent=""}
+  const L1=num("cL1"),d1=num("cD1"),d2=num("cD2");$("cDistRes").textContent=(isFinite(L1)&&d1>0&&d2>0)?nf(L1-20*Math.log10(d2/d1),1)+" dB a "+nf(d2,1)+" m":"--";
+  const s1=num("cS1"),s2=num("cS2");$("cSumRes").textContent=(isFinite(s1)&&isFinite(s2))?nf(10*Math.log10(Math.pow(10,s1/10)+Math.pow(10,s2/10)),1)+" dB":"--";
+}
+["cDist","cTemp","cBpm","cFreq","cL1","cD1","cD2","cS1","cS2"].forEach(id=>$(id).addEventListener("input",calcAll));
+
+/* ================= MAPA ================= */
+const MAP_BANDS=[["Sub","20 a 60","Ronco, palco tremendo, reclamação de volume","Sem peso no bumbo e no sub"],["Grave","60 a 250","Som grosso, retumbante","Som fino, sem corpo"],["Grave-médio","250 a 500","Embolado, abafado (“lama”)","Magro, frio"],["Médio","500 a 2 k","Oco, nasal, de telefone ou buzina","Distante, sem presença"],["Médio-agudo","2 a 5 k","Estridente, cansativo, duro","Sem clareza, palavras pouco definidas"],["Presença e sibilância","5 a 8 k","“S” ferindo, pratos ardidos","Abafado, sem ataque"],["Brilho e ar","8 a 20 k","Chiado, ruído de cabo","Sem brilho, sem ar"]];
+const MAP_SRC=[["Voz masculina","80 a 100 Hz","120 a 200 Hz","Embolado em 250 a 400 Hz","2 a 4 kHz","Sibilância em 5 a 8 kHz"],["Voz feminina","120 a 150 Hz","200 a 250 Hz","Embolado em 300 a 500 Hz","2,5 a 5 kHz","Ar acima de 10 kHz"],["Fala e pregação","100 a 150 Hz","150 a 250 Hz","Abafado em 200 a 400 Hz","2 a 4 kHz","Sibilância em 5 a 8 kHz"],["Bumbo","30 a 40 Hz","60 a 80 Hz","Papelão em 300 a 500 Hz","Ataque em 2 a 5 kHz","-"],["Caixa (bateria)","80 a 100 Hz","150 a 250 Hz","Toc em 500 a 600 Hz","Estalo em 4 a 5 kHz","8 a 10 kHz"],["Baixo","30 a 40 Hz","60 a 200 Hz","Embolado em 160 a 250 Hz","700 Hz a 1 kHz","Ruído de dedo em 2 a 3 kHz"],["Violão","80 a 120 Hz","100 a 200 Hz","Embolado em 200 a 300 Hz","3 a 5 kHz","Ar em 10 kHz"],["Guitarra","80 a 100 Hz","150 a 250 Hz","Embolado em 300 a 500 Hz","Mordida em 1,5 a 3 kHz","Chiado acima de 6 kHz"],["Teclado e piano","80 Hz (com baixo)","100 a 200 Hz","Retumbante em 200 a 315 Hz","2 a 4 kHz","Brilho em 6 a 10 kHz"],["Pratos e overheads","200 a 400 Hz","-","Gongo em 1 a 2 kHz","Ardido em 3 a 6 kHz","Ar acima de 10 kHz"]];
+function renderMap(){$("mapBands").innerHTML=MAP_BANDS.map(r=>"<tr><td><b>"+esc(r[0])+'</b></td><td class="mono">'+esc(r[1])+"</td><td>"+esc(r[2])+"</td><td>"+esc(r[3])+"</td></tr>").join("");
+  $("mapSrc").innerHTML=MAP_SRC.map(r=>"<tr>"+r.map((c,i)=>i?"<td>"+esc(c)+"</td>":"<td><b>"+esc(c)+"</b></td>").join("")+"</tr>").join("")}
+
+/* ================= ABAS DAS FERRAMENTAS ================= */
+const TOOLS=[["microfonia","SOS Microfonia"],["equilibrio","Equilíbrio"],["nivel","Volume"],["gerador","Gerador"],["ouvido","Treino de ouvido"],["calc","Calculadoras"],["mapa","Mapa de frequências"]];
+if(!TOOLS.some(t=>t[0]===S.tool))S.tool="microfonia";
+function renderTools(){const c=$("toolTabs");c.innerHTML="";TOOLS.forEach(([k,t])=>{const b=document.createElement("button");b.type="button";b.role="tab";b.className="tchip";b.textContent=t;b.setAttribute("aria-selected",String(S.tool===k));b.onclick=()=>selectTool(k);c.appendChild(b)});
+  TOOLS.forEach(([k])=>{$("t-"+k).hidden=k!==S.tool})}
+function selectTool(k){if(S.tool===k)return;stopAll();showErr("");S.tool=k;save();renderTools();if(k==="microfonia")requestAnimationFrame(redraw);
+  const sel=document.querySelector('#toolTabs [aria-selected="true"]');if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:"nearest",inline:"nearest"})}
+function initTools(){renderTools();renderBalModes();runBalDemo();renderLvW();lvRender();renderGen();renderEar();calcAll();renderMap();runDemo()}
 
 /* ---------- início ---------- */
-renderAlerts();renderCheck();renderLog();renderMesa();renderWho();renderReqs();renderPeople();renderAprender();runDemo();show();
+document.querySelectorAll('input[type=text]').forEach(i=>{if(!(i.maxLength>0))i.maxLength=200});
+renderAlerts();renderCheck();renderLog();renderMesa();renderWho();renderReqs();renderPeople();renderAprender();initTools();show();
 })();
 </script>
 

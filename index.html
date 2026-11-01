@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NFKYXczPNvutUIV6wnnQyfD9SWZj7FU3vL9uxPOGpcQ=' 'sha256-b1LvduuRepZCSoCnecBArCqMHxxfPNbzUHU+UgX0MYk=' 'sha256-XhlbYhpgnOGAI7ddjytdY6XGMhNE4jXuDVzktZxvSgI='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'none'; connect-src 'none'; worker-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NFKYXczPNvutUIV6wnnQyfD9SWZj7FU3vL9uxPOGpcQ=' 'sha256-b1LvduuRepZCSoCnecBArCqMHxxfPNbzUHU+UgX0MYk=' 'sha256-kLP2eMLYqW8Wat6pZ82XEyjBZBw7VemeQashP7NVsCQ='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'none'; connect-src 'none'; worker-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -132,6 +132,29 @@ td input:hover{border-color:var(--line)}
 .req{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
 .req:first-of-type{border-top:0}
 .req .who{font-weight:600}
+
+/* mapa da mesa */
+.mlist{display:flex;flex-direction:column}
+.mrow{display:grid;grid-template-columns:2.2em minmax(0,1fr);gap:6px 10px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+.mrow:first-child{border-top:0}
+.mnum{font-family:var(--display);font-weight:700;font-size:1.3rem;color:var(--accent);text-align:center;font-variant-numeric:tabular-nums}
+.mfields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+.mfields input{padding:8px}
+input,select,textarea,button{box-sizing:border-box}
+.mact{grid-column:2;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ib{font:600 .85rem var(--body);min-width:36px;min-height:34px;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;padding:4px 8px}
+.ib:disabled{opacity:.35;cursor:default}
+.ib:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ib.p48[aria-pressed="true"]{background:var(--hot);border-color:var(--hot);color:#fff}
+.ib.del{margin-left:auto}
+.ib.del.arm{background:var(--hot);border-color:var(--hot);color:#fff}
+.mtools{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-top:10px}
+.mtsize{flex:1;min-width:180px}
+.mrow.new{animation:mvnew 1.2s ease-out}
+@keyframes mvnew{from{background:var(--accent-soft)}to{background:transparent}}
+@media (prefers-reduced-motion:reduce){.mrow.new{animation:none}}
+@media (min-width:560px){.mrow{grid-template-columns:2.2em minmax(0,1fr) auto}.mact{grid-column:auto}}
+textarea{font:inherit;font-family:var(--mono);font-size:.85rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;width:100%;min-width:0;resize:vertical}
 
 /* pessoas */
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
@@ -535,12 +558,26 @@ ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
       </form>
     </div>
     <div class="card">
-      <h2>Canais</h2>
-      <div class="tblwrap"><table><thead><tr><th>Ch</th><th>Fonte</th><th>Microfone / ligação</th></tr></thead><tbody id="chans"></tbody></table></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:4px"><h2 style="margin:0">Canais</h2><span class="mono small muted" id="chCount"></span></div>
+      <div class="mlist" id="chans"></div>
+      <div class="mtools">
+        <button class="btn sm" id="chAdd" type="button">+ Adicionar canal</button>
+        <label class="f mtsize">Ajustar ao tamanho da mesa
+          <select id="chSize"><option value="">Escolher número de canais</option><option>8</option><option>12</option><option>16</option><option>18</option><option>24</option><option>32</option><option>40</option><option>48</option><option>64</option></select>
+        </label>
+      </div>
+      <p class="small muted" id="chMsg" style="margin:8px 0 0">Toque em 48V nos canais com microfone condensador. Use as setas para mudar a ordem.</p>
     </div>
     <div class="card">
-      <h2>Retornos (aux)</h2>
-      <div class="tblwrap"><table><thead><tr><th>Aux</th><th>Para quem</th><th>Leva</th></tr></thead><tbody id="auxs"></tbody></table></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:4px"><h2 style="margin:0">Retornos (aux)</h2><span class="mono small muted" id="auxCount"></span></div>
+      <div class="mlist" id="auxs"></div>
+      <div class="mtools"><button class="btn sm" id="auxAdd" type="button">+ Adicionar retorno</button></div>
+    </div>
+    <div class="card">
+      <h2>Compartilhar</h2>
+      <p class="small" style="margin:0 0 10px">Copia o mapa como texto para mandar no grupo da equipe ou imprimir e colar perto da mesa.</p>
+      <button class="btn" id="mapCopy" type="button">Copiar mapa da mesa</button>
+      <textarea id="mapTxt" rows="8" readonly hidden style="margin-top:10px"></textarea>
     </div>
   </section>
 
@@ -1279,7 +1316,7 @@ const seed={
   check:[["Pilhas novas nos microfones sem fio",true],["Cabos testados e microfones com sinal",true],["Retornos ligados e conferidos com os músicos",false],["Passagem de som da voz principal",false],["Microfone do púlpito testado com o pastor",false],["Gravação ou transmissão ligada",false]],
   log:[{t:"09:12",type:"Problema",txt:"Violão sem sinal no canal 6"},{t:"09:15",type:"Resolvido",txt:"Trocado o cabo do violão; cabo velho separado com fita vermelha"}],
   alerts:[],
-  chans:[["Pastor","Sem fio 1 (lapela)"],["Púlpito","Microfone de haste"],["Voz principal","Sem fio 2"],["Voz 2","Dinâmico com fio"],["Voz 3","Dinâmico com fio"],["Violão","Direct box"],["Teclado L","Direct box"],["Teclado R","Direct box"],["Baixo","Direct box"],["Bumbo","Microfone de bumbo"],["Caixa","Dinâmico"],["Overhead","Condensador"],["Guitarra","Dinâmico no amplificador"],["Playback","Notebook, cabo P2"]],
+  chans:[["Pastor","Sem fio 1 (lapela)",false],["Púlpito","Condensador de haste",true],["Voz principal","Sem fio 2",false],["Voz 2","Dinâmico com fio",false],["Voz 3","Dinâmico com fio",false],["Violão","Direct box ativa",true],["Teclado L","Direct box",false],["Teclado R","Direct box",false],["Baixo","Direct box",false],["Bumbo","Microfone de bumbo",false],["Caixa","Dinâmico",false],["Overhead","Condensador",true],["Guitarra","Dinâmico no amplificador",false],["Playback","Notebook, cabo P2",false]],
   auxs:[["Vozes (frente do palco)","Vozes + teclado + violão"],["Bateria","Baixo + bumbo + voz principal"],["Teclado","Teclado + vozes"],["Pregador","Só púlpito, bem baixo"]],
   reqs:[{who:"Ana (voz principal)",what:"Mais teclado no meu retorno",t:"09:31",done:false}],
   people:[
@@ -1294,7 +1331,7 @@ function sanitize(x){const s=JSON.parse(JSON.stringify(seed));if(!x||typeof x!==
   s.check=arr(x.check,60).filter(Array.isArray).map(i=>[str(i[0],200),!!i[1]]);
   s.log=arr(x.log,500).filter(obj).map(i=>({t:str(i.t,8),type:["Problema","Resolvido","Lembrete"].includes(i.type)?i.type:"Lembrete",txt:str(i.txt,300)}));
   s.alerts=arr(x.alerts,50).filter(obj).map(i=>({t:str(i.t,8),txt:str(i.txt,100),from:str(i.from,40)}));
-  s.chans=arr(x.chans,64).filter(Array.isArray).map(i=>[str(i[0],60),str(i[1],80)]);
+  s.chans=arr(x.chans,64).filter(Array.isArray).map(i=>[str(i[0],60),str(i[1],80),!!i[2]]);
   s.auxs=arr(x.auxs,32).filter(Array.isArray).map(i=>[str(i[0],60),str(i[1],80)]);
   s.reqs=arr(x.reqs,100).filter(obj).map(i=>({who:str(i.who,60),what:str(i.what,100),t:str(i.t,8),done:!!i.done}));
   s.people=arr(x.people,200).filter(obj).map(i=>({n:str(i.n,60),r:str(i.r,20),mic:str(i.mic,80),d:str(i.d,20),eq:str(i.eq,160),o:str(i.o,200)}));
@@ -1329,10 +1366,47 @@ let wipeArm=0;$("wipe").onclick=()=>{const b=$("wipe");
   if(typeof stopAll==="function")stopAll();try{localStorage.removeItem(KEY)}catch(e){}location.hash="";location.reload()};
 
 /* ---------- mesa ---------- */
-function renderMesa(){
-  const tb=$("chans");tb.innerHTML="";S.chans.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="cn'+i+'" aria-label="Fonte do canal '+(i+1)+'"></td><td><input type="text" id="cm'+i+'" aria-label="Microfone do canal '+(i+1)+'"></td>';const [a,b]=tr.querySelectorAll("input");a.maxLength=60;b.maxLength=80;a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save();renderWho()};b.onchange=()=>{c[1]=b.value;save()};tb.appendChild(tr)});
-  const ta=$("auxs");ta.innerHTML="";S.auxs.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="an'+i+'" aria-label="Retorno '+(i+1)+'"></td><td><input type="text" id="am'+i+'" aria-label="O que o retorno '+(i+1)+' leva"></td>';const [a,b]=tr.querySelectorAll("input");a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save()};b.onchange=()=>{c[1]=b.value;save()};ta.appendChild(tr)});
+const MAXCH=64,MAXAUX=32;let armed=null,newRow=null;
+function mRow(list,i,kind){
+  const c=list[i],isCh=kind==="ch",r=document.createElement("div");r.className="mrow"+(newRow===kind+i?" new":"");
+  r.innerHTML='<span class="mnum">'+(i+1)+'</span><div class="mfields"><input type="text"><input type="text"></div><div class="mact"></div>';
+  const [a,b]=r.querySelectorAll("input");a.id=kind+"n"+i;b.id=kind+"m"+i;a.maxLength=60;b.maxLength=80;a.value=c[0];b.value=c[1];
+  a.placeholder=isCh?"Fonte (ex.: Voz principal)":"Para quem (ex.: Vozes)";b.placeholder=isCh?"Microfone ou ligação":"O que ele leva";
+  a.setAttribute("aria-label",(isCh?"Fonte do canal ":"Retorno ")+(i+1));b.setAttribute("aria-label",(isCh?"Microfone do canal ":"O que o retorno leva, ")+(i+1));
+  a.onchange=()=>{c[0]=a.value;save();if(isCh)renderWho()};b.onchange=()=>{c[1]=b.value;save()};
+  const act=r.querySelector(".mact"),btn=(t,lab,fn,cls)=>{const x=document.createElement("button");x.type="button";x.className="ib"+(cls?" "+cls:"");x.textContent=t;x.setAttribute("aria-label",lab);x.onclick=fn;act.appendChild(x);return x};
+  if(isCh){const p=btn("48V","Phantom power do canal "+(i+1),()=>{c[2]=!c[2];save();renderMesa()},"p48");p.setAttribute("aria-pressed",String(!!c[2]))}
+  btn("↑","Subir "+(i+1),()=>{move(list,i,-1,kind)}).disabled=i===0;
+  btn("↓","Descer "+(i+1),()=>{move(list,i,1,kind)}).disabled=i===list.length-1;
+  const del=btn("Remover","Remover "+(isCh?"canal ":"retorno ")+(i+1),()=>{
+    const filled=(c[0]+c[1]).trim().length>0||!!c[2];
+    if(filled&&armed!==kind+i){armed=kind+i;del.textContent="Confirmar";del.classList.add("arm");setTimeout(()=>{if(armed===kind+i){armed=null;del.textContent="Remover";del.classList.remove("arm")}},3000);return}
+    armed=null;list.splice(i,1);save();renderMesa();if(isCh)renderWho()},"del");
+  return r;
 }
+function move(list,i,d,kind){const j=i+d;if(j<0||j>=list.length)return;[list[i],list[j]]=[list[j],list[i]];newRow=kind+j;save();renderMesa();newRow=null;const el=$(kind+"n"+j);if(el)el.closest(".mrow").querySelectorAll(".ib")[d<0?(kind==="ch"?1:0):(kind==="ch"?2:1)].focus()}
+function renderMesa(){
+  const ch=$("chans");ch.innerHTML="";S.chans.forEach((c,i)=>ch.appendChild(mRow(S.chans,i,"ch")));
+  const p48=S.chans.filter(c=>c[2]).length;$("chCount").textContent=S.chans.length+" canais"+(p48?" · "+p48+" com 48V":"");
+  const ax=$("auxs");ax.innerHTML="";S.auxs.forEach((c,i)=>ax.appendChild(mRow(S.auxs,i,"aux")));$("auxCount").textContent=S.auxs.length+(S.auxs.length===1?" retorno":" retornos");
+  $("chAdd").disabled=S.chans.length>=MAXCH;$("auxAdd").disabled=S.auxs.length>=MAXAUX;
+  if(!S.chans.length)ch.innerHTML='<p class="small muted" style="margin:6px 0">Nenhum canal ainda. Toque em Adicionar canal ou escolha o tamanho da mesa.</p>';
+  if(!S.auxs.length)ax.innerHTML='<p class="small muted" style="margin:6px 0">Nenhum retorno ainda.</p>';
+}
+function chMsg(t){$("chMsg").textContent=t}
+$("chAdd").onclick=()=>{if(S.chans.length>=MAXCH)return;S.chans.push(["","",false]);newRow="ch"+(S.chans.length-1);save();renderMesa();newRow=null;const el=$("chn"+(S.chans.length-1));if(el)el.focus()};
+$("auxAdd").onclick=()=>{if(S.auxs.length>=MAXAUX)return;S.auxs.push(["",""]);newRow="aux"+(S.auxs.length-1);save();renderMesa();newRow=null;const el=$("auxn"+(S.auxs.length-1));if(el)el.focus()};
+$("chSize").onchange=e=>{const n=+e.target.value;e.target.value="";if(!n)return;
+  if(n>S.chans.length){const add=n-S.chans.length;for(let k=0;k<add;k++)S.chans.push(["","",false]);chMsg(add+(add>1?" canais adicionados":" canal adicionado")+". A mesa agora tem "+n+" canais.")}
+  else if(n<S.chans.length){let removed=0;while(S.chans.length>n){const c=S.chans[S.chans.length-1];if((c[0]+c[1]).trim()||c[2])break;S.chans.pop();removed++}
+    chMsg(S.chans.length>n?"Removi "+removed+" canais vazios. Do canal "+(n+1)+" ao "+S.chans.length+" há nomes preenchidos: remova à mão se quiser.":"Removi "+removed+" canais vazios. A mesa agora tem "+n+" canais.")}
+  else chMsg("A mesa já tem "+n+" canais.");
+  save();renderMesa()};
+$("mapCopy").onclick=()=>{
+  const lines=["MAPA DA MESA",""].concat(["CANAIS"],S.chans.map((c,i)=>(i+1)+". "+(c[0]||"(livre)")+(c[1]?" · "+c[1]:"")+(c[2]?" · 48V":"")),["","RETORNOS"],S.auxs.map((c,i)=>(i+1)+". "+(c[0]||"(livre)")+(c[1]?" · leva: "+c[1]:"")));
+  const txt=lines.join("\n"),ta=$("mapTxt");ta.value=txt;
+  const done=()=>flash($("mapCopy"),"Copiado"),fail=()=>{ta.hidden=false;ta.focus();ta.select();$("mapCopy").textContent="Selecione o texto abaixo e copie"};
+  try{navigator.clipboard.writeText(txt).then(done,fail)}catch(e){fail()}};
 function renderWho(){const s=$("reqWho");s.innerHTML="";S.people.filter(p=>p.r!=="Pregador").map(p=>p.n).concat(["Baterista","Tecladista","Violonista"]).forEach(n=>{const o=document.createElement("option");o.textContent=n;s.appendChild(o)})}
 function renderReqs(){const r=$("reqs");r.innerHTML="";const open=S.reqs.filter(x=>!x.done);if(!open.length){r.innerHTML='<p class="small muted" style="margin:0">Nenhum pedido pendente.</p>';return}
   S.reqs.forEach((x,i)=>{if(x.done)return;const d=document.createElement("div");d.className="req";d.innerHTML='<div><div class="who">'+esc(x.who)+'</div><div class="small">'+esc(x.what)+' <span class="mono muted">· '+esc(x.t)+'</span></div></div>';const b=document.createElement("button");b.className="btn sm";b.type="button";b.textContent="Feito";b.onclick=()=>{x.done=true;save();renderReqs()};d.appendChild(b);r.appendChild(d)})}

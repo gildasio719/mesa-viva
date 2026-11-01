@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NFKYXczPNvutUIV6wnnQyfD9SWZj7FU3vL9uxPOGpcQ=' 'sha256-b1LvduuRepZCSoCnecBArCqMHxxfPNbzUHU+UgX0MYk=' 'sha256-kLP2eMLYqW8Wat6pZ82XEyjBZBw7VemeQashP7NVsCQ='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'none'; connect-src 'none'; worker-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-NFKYXczPNvutUIV6wnnQyfD9SWZj7FU3vL9uxPOGpcQ=' 'sha256-CqmYkZHBH6SSPrp2+oJ0qkGWQvwTAdZlaB+bjW+qZlQ=' 'sha256-sDeti8B1O9sa7vlXzHktqwujhjJGj71im+4P0XaHixo='; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; media-src 'none'; connect-src 'none'; worker-src 'none'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -156,6 +156,32 @@ input,select,textarea,button{box-sizing:border-box}
 @media (min-width:560px){.mrow{grid-template-columns:2.2em minmax(0,1fr) auto}.mact{grid-column:auto}}
 textarea{font:inherit;font-family:var(--mono);font-size:.85rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;width:100%;min-width:0;resize:vertical}
 
+/* socorro, roteiro, pilhas, ruídos */
+.sosbig{background:var(--hot-soft);border-color:var(--hot);color:var(--hot);font-size:1.05rem;min-height:54px;justify-content:flex-start;padding-left:16px}
+.sosbig .led{animation:none}
+.sospanel{display:flex;flex-direction:column;gap:12px;border-color:var(--hot)}
+.sosgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.sosopt{justify-content:flex-start;text-align:left;min-height:52px}
+.sosbigtxt{font-family:var(--display);font-weight:700;font-size:1.6rem;line-height:1.1;margin:0;text-wrap:balance}
+.sosbigtxt.ok{color:var(--ok)}.sosbigtxt.hot{color:var(--hot)}
+.btn.okb{background:var(--ok);border-color:var(--ok);color:#fff}
+.rotnow{border-left:4px solid var(--accent);padding:4px 0 4px 12px;display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.rotname{font-family:var(--display);font-weight:700;font-size:1.8rem;line-height:1;margin:0;text-transform:uppercase}
+.rotlist{margin:12px 0 0;padding-left:1.5em;display:flex;flex-direction:column;gap:2px}
+.rotlist li.past{opacity:.55}
+.rotlist li.cur::marker{color:var(--accent);font-weight:700}
+.rotbtn{display:block;background:none;border:0;color:var(--ink);font:inherit;text-align:left;padding:6px 4px;cursor:pointer;width:100%;border-radius:6px}
+.rotbtn:hover{background:var(--grid)}
+.rotbtn:focus-visible{outline:3px solid var(--accent)}
+.rotlist li.cur .rotbtn{background:var(--accent-soft)}
+.rotedit{display:flex;flex-direction:column;gap:6px;padding:8px 0;border-top:1px solid var(--line)}
+.rotedit:first-child{border-top:0}
+.radrow{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}
+.radrow:first-child{border-top:0}
+.radinfo{display:flex;flex-direction:column;gap:3px;align-items:flex-start;min-width:0}
+.radrow .mact{grid-column:auto}
+.nzlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+
 /* pessoas */
 .people{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 .person{display:flex;flex-direction:column;gap:8px}
@@ -281,12 +307,36 @@ ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
   <section class="view" id="v-culto">
     <h1>Culto de domingo</h1>
     <p class="lead">Tudo o que o técnico precisa antes e durante o culto.</p>
+    <button class="btn sosbig" id="sosOpen" type="button"><span class="led"></span>Algo deu errado? Socorro</button>
+    <div class="card sospanel" id="sosPanel" hidden aria-live="polite"></div>
 
     <div class="card">
       <h2>Chamados do palco</h2>
       <div id="alerts" class="view" style="gap:8px"></div>
       <p class="small muted" style="margin:10px 0 8px">Botões que o pastor ou o louvor tocam no celular deles:</p>
       <div class="calls" id="callBtns"></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Roteiro do culto</h2><button class="btn ghost sm" id="rotEdit" type="button">Editar</button></div>
+      <div id="rotNow"></div>
+      <div class="row" id="rotNav" style="margin-top:10px"><button class="btn sm" id="rotPrev" type="button">‹ Anterior</button><button class="btn hot sm" id="rotNext" type="button">Próximo momento ›</button><button class="btn ghost sm" id="rotReset" type="button">Recomeçar</button></div>
+      <ol class="rotlist" id="rotList"></ol>
+      <div id="rotAddBox" hidden><button class="btn sm" id="rotAdd" type="button">+ Adicionar momento</button></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Pilhas e sem fio</h2><span class="chip" id="radSum"></span></div>
+      <div class="mlist" id="radList"></div>
+      <div class="row" style="margin-top:8px"><button class="btn sm" id="radAll" type="button">Troquei todas agora</button></div>
+      <form id="radForm" style="margin-top:12px">
+        <div class="row">
+          <label class="f">Microfone sem fio<input type="text" id="radName" maxlength="60" placeholder="Ex.: Sem fio 3 (louvor)"></label>
+          <label class="f">Frequência ou canal<input type="text" id="radFreq" maxlength="40" placeholder="Ex.: 615,5 MHz ou canal B"></label>
+        </div>
+        <button class="btn" type="submit">Adicionar microfone</button>
+      </form>
+      <p class="small muted" style="margin:8px 0 0">Boa prática: pilha nova ou bateria recarregada em todo culto. Anotar a frequência de cada um evita dois aparelhos no mesmo canal.</p>
     </div>
 
     <div class="card">
@@ -349,6 +399,33 @@ ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
       <div class="card"><h2>Equalizador gráfico de 31 bandas</h2><div class="eqscroll"><div class="eq" id="eq"></div></div><p class="small muted" id="eqHint" style="margin:8px 0 0"></p></div>
     </div>
 
+    <!-- RUÍDOS -->
+    <div class="tool view" id="t-ruidos" hidden>
+      <div><h2 class="th">Ruídos</h2><p class="lead">Escuta o sistema parado e diz se o ruído é zumbido da rede elétrica, chiado ou estalo, e por onde começar.</p></div>
+      <p class="tip"><b>Como usar: </b>deixe o sistema ligado no volume do culto, sem ninguém falando ou tocando, e aproxime o celular da caixa onde o ruído aparece.</p>
+      <div class="sosbtns">
+        <button class="btn hot" id="nzLive" type="button"><span class="led"></span><span id="nzLiveTxt">Ouvir ao vivo</span></button>
+        <label class="btn" for="nzFile">Analisar gravação</label>
+        <input type="file" id="nzFile" accept="audio/*,video/*">
+        <button class="btn" id="nzDemo" type="button">Ver exemplo</button>
+      </div>
+      <div class="card readout" aria-live="polite">
+        <div class="src"><span id="nzSrc"></span><span id="nzInfo"></span></div>
+        <span class="vt" id="nzVerdict"></span>
+        <ul class="nzlist" id="nzFound"></ul>
+        <dl class="ficha" id="nzFacts"></dl>
+        <button class="btn ghost sm" id="nzLog" type="button" style="align-self:flex-start">Registrar no diário</button>
+      </div>
+      <div class="card"><h2>Roteiro de eliminação</h2><ol class="steps">
+        <li>Mute todos os canais. Se o ruído continua, ele está da mesa em diante; se parou, está em algum canal.</li>
+        <li>Em um canal: tire o mute de um por vez, troque cabo, microfone ou instrumento, e teste o ground lift da direct box.</li>
+        <li>Depois da mesa: desligue o cabo que chega no amplificador. Se o ruído some, ele vem de antes. Volte equipamento por equipamento.</li>
+        <li>Coloque equalizador e processador em bypass, um de cada vez. Um canal queimado de equalizador já foi o culpado de muito “problema de aterramento”.</li>
+        <li>Desligue por um instante dimmers, reatores e o notebook da tomada. Se o ruído muda, o problema é de rede elétrica.</li>
+        <li>Nunca corte o pino de terra. Chame um eletricista para conferir o aterramento e separar o circuito do som.</li>
+      </ol></div>
+    </div>
+
     <!-- EQUILÍBRIO -->
     <div class="tool view" id="t-equilibrio" hidden>
       <div><h2 class="th">Equilíbrio do som</h2><p class="lead">Escuta a voz ou a banda e diz o que subir ou cortar no grave, no médio e no agudo.</p></div>
@@ -407,9 +484,17 @@ ul.plain{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px}
         <div class="row">
           <button class="btn hot" id="lvStart" type="button"><span class="led"></span><span id="lvStartTxt">Começar a medir</span></button>
           <button class="btn" id="lvReset" type="button">Zerar</button>
-          <button class="btn ghost" id="lvLog" type="button">Registrar no diário</button>
+          <button class="btn ghost" id="lvSave" type="button">Salvar medição</button>
         </div>
+        <label class="f" style="max-width:260px">Momento medido<select id="lvMoment"><option>Culto inteiro</option><option>Louvor</option><option>Pregação</option><option>Ensaio</option></select></label>
         <div class="chips" id="lvW"></div>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Histórico de medições</h2><button class="btn sm" id="lvCopy" type="button">Copiar relatório</button></div>
+        <div class="tblwrap"><table><thead><tr><th>Data</th><th>Momento</th><th>Média</th><th>Máx.</th><th>Tempo</th></tr></thead><tbody id="lvHist"></tbody></table></div>
+        <textarea id="lvRep" rows="8" readonly hidden style="margin-top:10px"></textarea>
+        <p class="small muted" style="margin:8px 0 0">O relatório serve para conversar com a liderança com números, não com opinião. Meça sempre do mesmo lugar.</p>
+        <button class="btn ghost sm" id="lvHistClear" type="button" style="margin-top:8px">Apagar histórico</button>
       </div>
       <div class="card">
         <h2>Calibrar com um medidor de verdade</h2>
@@ -860,7 +945,31 @@ s:[
 ],
 dica:"Escolha um dia por mês para a revisão geral do equipamento e registre no diário do app.",
 q:[["Quando atualizar o firmware da mesa digital?",["Domingo antes do culto","Durante a semana, com backup salvo antes","Nunca"],1,"Atualização pode mudar ou falhar. Faça com tempo para testar e com backup."],
-["Para que serve um nobreak na mesa digital?",["Aumentar o volume","Evitar desligamento e perda de configuração numa queda de energia","Melhorar o grave"],1,"Uma queda de energia reinicia a mesa no meio do culto. O nobreak dá tempo para a energia voltar."]]}
+["Para que serve um nobreak na mesa digital?",["Aumentar o volume","Evitar desligamento e perda de configuração numa queda de energia","Melhorar o grave"],1,"Uma queda de energia reinicia a mesa no meio do culto. O nobreak dá tempo para a energia voltar."]]},
+
+{id:"b11",t:"Ruídos: zumbido, chiado e estalos",min:8,
+intro:"É o assunto que mais aparece nos fóruns de técnicos de igreja. A boa notícia: cada tipo de ruído aponta para causas diferentes, e um método simples de eliminação acha quase todos.",
+s:[
+["Primeiro, dê nome ao ruído",["Zumbido grave e constante (“hummm”): quase sempre ligado à rede elétrica, ao aterramento ou a loop de terra. No Brasil a rede é de 60 Hz, então ele aparece em 60, 120 e 180 Hz.","Zumbido áspero (“bzzz”): também da rede, mas com muitos harmônicos. Comum com dimmer de iluminação, reator de lâmpada, fonte de notebook ou cabo de instrumento passando perto de cabo de força.","Chiado (“shhh”): ruído agudo e constante. Costuma vir de ganho mal distribuído (ganho baixo e fader ou amplificador lá em cima), de um equipamento com defeito ou de um efeito.","Estalos: barulhos curtos. Mau contato em cabo ou conector, potenciômetro sujo (chia só quando você gira o botão), lâmpada acendendo ou equipamento com defeito.","A ferramenta Ruídos do Mesa Viva ajuda a separar os tipos."]],
+["O método de eliminação",["Mute todos os canais da mesa. O ruído continua? Então ele está da mesa para frente (mesa, processadores, amplificadores, caixas). Parou? Está em algum canal.","Se está em um canal: tire o mute de um por vez até achar. Troque o cabo, depois o microfone ou o instrumento. Em instrumento, use a direct box e teste o botão ground lift.","Se está depois da mesa: comece pelo amplificador. Desligue o cabo que chega nele: se o ruído some, ele vem de antes. Vá voltando, equipamento por equipamento (amplificador, equalizador, processador, mesa).","Coloque processadores e equalizadores em bypass, um por vez. Em um caso real do fórum, todos culpavam a rede elétrica, e era um canal queimado do equalizador."],true],
+["Rede elétrica e terra",["Som em circuito próprio, separado de iluminação, ar-condicionado e geladeira, e de preferência numa só fase.","Tomadas de três pinos com terra de verdade, feito por eletricista. Nunca corte o pino terra para “resolver” zumbido: isso é perigoso e pode causar choque.","Notebook do playback na tomada costuma criar loop de terra. Teste com ele na bateria ou use uma direct box com ground lift.","Cabos de áudio cruzando cabos de força em ângulo reto, nunca correndo juntos lado a lado."]],
+["Chiado e estrutura de ganho",["Ganho bem ajustado no canal e fader perto do 0. Ganho baixo com fader lá em cima traz chiado junto.","Amplificador ou caixa ativa no volume indicado pelo fabricante, e a mesa fazendo o controle. Caixa no máximo com mesa lá embaixo chia mais.","Feche os canais e efeitos que não estão em uso."]]
+],
+dica:"Grave um trecho do ruído com o celular e anote no diário quando ele aparece (sempre, só com a luz acesa, só com o notebook na tomada). Esse padrão encurta muito a busca.",
+q:[["O ruído continua mesmo com todos os canais da mesa no mute. Onde ele está?",["Em algum microfone","Da mesa em diante: processadores, amplificadores ou caixas","No cabo do violão"],1,"Com todos os canais mutados, nenhuma fonte do palco passa. O ruído está na mesa ou depois dela."],
+["O chiado só aparece enquanto você gira o botão de ganho. A causa mais provável é:",["Potenciômetro sujo ou gasto","Aterramento","Microfonia"],0,"Ruído que aparece só no movimento do botão é típico de potenciômetro sujo. Limpa contato ou troca resolve."]]},
+
+{id:"b12",t:"Quando criticam o som: conflitos e postura",min:7,
+intro:"Os técnicos contam a mesma história: o louvor pede mais volume, a igreja reclama, falam mal do som na frente do pastor e dá vontade de largar o ministério. Técnica ajuda, mas o jeito de conversar resolve metade.",
+s:[
+["Entenda de onde vem a crítica",["Quem está no palco ouve outra coisa: o som do salão não chega igual lá. Muitas críticas do palco são sinceras, mas baseadas no retorno.","Quem senta perto da caixa ou da bateria ouve muito mais alto que o resto da igreja.","Às vezes a queixa é sobre o estilo da música, não sobre o som. Escute com respeito, mesmo que não dê para resolver.","Quem ouve música com muito grave no carro pode achar “fraco” um som equilibrado."]],
+["Responda com fatos, não com opinião",["Volume: meça com o medidor do Mesa Viva, sempre do mesmo lugar, e mostre o número.","Equilíbrio: use a ferramenta Equilíbrio na gravação do culto e mostre o que ela encontrou.","Crítica do palco: convide a pessoa para ouvir um trecho do meio da igreja. Se for o líder, peça que alguém de confiança seja os ouvidos dele no salão.","Pedido de retorno que estraga o salão: busque um meio-termo na hora e explique depois, com calma."]],
+["Combine as regras antes do culto",["Defina com a liderança uma faixa de volume para o louvor e outra para a pregação.","Deixe claro quem decide o som do salão: o operador, ouvindo a liderança.","Combine sinais simples com a banda e com o pregador.","Horário de passagem de som vale para todos. Pontualidade é assunto da liderança, não do técnico."]],
+["Cuide de você e da equipe",["Não leve a crítica para o lado pessoal. Resolva primeiro, converse depois, em particular.","Registre no diário o que aconteceu e o que foi feito. Isso mostra o trabalho e protege o técnico.","Divida a escala: ninguém deve ser o único que sabe operar.","Se a função está pesando demais, converse com a liderança antes de desistir."]]
+],
+dica:"Uma frase que funciona: “Vamos ouvir juntos do meio da igreja e você me diz o que muda?”. Ela tira a discussão do gosto pessoal e põe os dois do mesmo lado.",
+q:[["O líder do louvor reclama do som pelo que ouve no palco. Qual a melhor resposta?",["Ignorar","Convidá-lo a ouvir um trecho do meio da igreja","Subir tudo"],1,"O palco ouve outra coisa. Ouvir junto do salão põe os dois diante do mesmo som."],
+["Qual é a melhor forma de responder a reclamações de volume?",["Dizer que está bom","Medir sempre do mesmo lugar e mostrar o número combinado com a liderança","Abaixar tudo pela metade"],1,"Um número medido sempre do mesmo ponto, dentro da faixa combinada, troca opinião por fato."]]}
 ]},
 
 {id:"n3",nome:"Nível 3 · Técnico",sub:"Mesas digitais, sistema de caixas, acústica e redes.",aulas:[
@@ -954,7 +1063,19 @@ s:[
 ],
 dica:"Reserve uma noite por mês para o \"culto de treino\" com a gravação do domingo. Cada voluntário faz a mixagem e os outros comentam.",
 q:[["O que é virtual soundcheck?",["Passagem de som pelo celular","Usar a gravação multipista para alimentar a mesa como se a banda estivesse tocando","Um app de afinação"],1,"A mesa toca as faixas gravadas e você mixa como se fosse ao vivo."],
-["Qual o risco mais comum depois de um virtual soundcheck?",["Esquecer os canais lendo o USB no culto","A mesa esquentar","Perder as cenas"],0,"Se os canais continuam lendo o USB, os microfones ficam mudos no culto. Use uma cena específica e volte à cena de culto."]]}
+["Qual o risco mais comum depois de um virtual soundcheck?",["Esquecer os canais lendo o USB no culto","A mesa esquentar","Perder as cenas"],0,"Se os canais continuam lendo o USB, os microfones ficam mudos no culto. Use uma cena específica e volte à cena de culto."]]},
+
+{id:"c09",t:"Antes de comprar equipamento",min:8,
+intro:"Um relato comum nos fóruns: a igreja junta dinheiro por meses, um vendedor instala tudo, e continua a microfonia, o playback embolado e o fundo da igreja sem som. Na maioria das vezes, o problema não era a falta de equipamento.",
+s:[
+["Primeiro descubra o problema real",["Faça a lista do que incomoda: microfonia, som embolado, fundo sem som, ruído, volume. Use as ferramentas do Mesa Viva para medir e anotar.","Teste o que já existe: ganho bem feito, caixas bem posicionadas e equalização com cortes resolvem muita coisa sem gastar nada.","Problema de acústica (eco, reverberação) não se resolve com caixa nova. Às vezes painéis e cortinas rendem mais que equipamento."]],
+["As perguntas certas para o vendedor",["Como foi definido o tamanho e a posição das caixas para a nossa igreja? Mediram o templo?","As caixas cobrem do primeiro ao último banco? Vai precisar de caixa de delay?","Quem vai alinhar e equalizar o sistema depois de instalado, e isso está incluído?","O que acontece se continuar com microfonia? Tem garantia de resultado ou só do produto?","Tem assistência técnica e peças de reposição na nossa cidade?"]],
+["Os erros mais caros",["Comprar pelo preço da potência (“mais watts”) em vez de pela cobertura do templo.","Mesa digital grande demais para uma equipe sem treino. Uma mesa mais simples, bem usada, soa melhor.","Esquecer o que vem junto: cabos de qualidade, direct boxes, pedestais, pilhas, nobreak, case.","Equalizador barato de poucas bandas tentando corrigir sala ruim.","Microfones sem fio baratos em faixas lotadas, que falham no meio do culto. Confira a homologação da Anatel."]],
+["Prioridade de investimento",["1. Posicionamento e alinhamento do que já existe.","2. Microfones e cabos bons para a voz da pregação.","3. Caixas adequadas ao tamanho do templo.","4. Treinamento da equipe.","5. Só então a mesa e os periféricos mais sofisticados."],true]
+],
+dica:"Antes de assinar, peça para ouvir o sistema proposto tocando uma música e uma voz falada, ou visite outra igreja que comprou com o mesmo fornecedor e ouça de lá.",
+q:[["A igreja tem eco forte e o som embola. O que tende a resolver mais?",["Caixas mais potentes","Tratamento acústico e caixas bem direcionadas","Mais subwoofers"],1,"Mais volume excita ainda mais a sala. Acústica e direção das caixas atacam a causa."],
+["Qual pergunta é essencial ao vendedor?",["Qual a cor da caixa","Quem alinha e equaliza o sistema depois de instalado","Quantos watts tem"],1,"Um sistema mal alinhado soa mal mesmo com bom equipamento. O alinhamento precisa estar combinado."]]}
 ]},
 
 {id:"n4",nome:"Nível 4 · Profissional",sub:"Assuntos difíceis: níveis, fase, automixer, áudio em rede, medição e liderança.",aulas:[
@@ -1324,7 +1445,11 @@ const seed={
     {n:"Ana",r:"Voz",mic:"Sem fio 2",d:"Normal",eq:"Corta-graves em 120 Hz, realce leve em 3 kHz",o:"Sobe muito no refrão; deixe o fader com folga"},
     {n:"João",r:"Voz",mic:"Dinâmico com fio, canal 4",d:"Fala longe",eq:"Ganho um pouco mais alto, corta 250 Hz",o:"Afasta o microfone nas notas altas"}
   ],
-  done:[]
+  done:[],
+  roteiro:[{n:"Antes do culto",a:"Pilhas novas, gravação e live prontas, playback carregado, celular do técnico no silencioso."},{n:"Abertura e boas-vindas",a:"Abrir o microfone do dirigente. Música ambiente baixa e saindo devagar."},{n:"Louvor",a:"Abrir banda e vozes. Mutar púlpito. Efeitos ligados."},{n:"Oração",a:"Mutar banda (mute group). Teclado de fundo bem baixo, se combinado."},{n:"Leitura bíblica",a:"Abrir microfone do púlpito. Conferir se a gravação está rodando."},{n:"Avisos",a:"Microfone de quem dá os avisos. Telão e vídeo, se houver."},{n:"Ofertório",a:"Música ou playback combinado."},{n:"Pregação",a:"Mutar banda e efeitos. Abrir microfone do pregador. Atenção à movimentação perto das caixas."},{n:"Apelo e ministração",a:"Teclado de fundo baixo. Abrir vozes só quando combinado."},{n:"Encerramento",a:"Bênção no microfone do pastor. Música ambiente."},{n:"Depois do culto",a:"Parar gravação. Desligar amplificadores e caixas primeiro, a mesa por último. Tirar pilhas. Desligar amplificador de guitarra."}],
+  rotIdx:0,
+  radios:[{n:"Sem fio 1 (Pastor)",f:"Canal A",ts:0},{n:"Sem fio 2 (Voz principal)",f:"Canal B",ts:0}],
+  lvHist:[]
 };
 function sanitize(x){const s=JSON.parse(JSON.stringify(seed));if(!x||typeof x!=="object"||!Array.isArray(x.chans))return s;
   const str=(v,n)=>typeof v==="string"?v.slice(0,n):"",arr=(v,n)=>Array.isArray(v)?v.slice(0,n):[],obj=v=>v&&typeof v==="object";
@@ -1340,6 +1465,10 @@ function sanitize(x){const s=JSON.parse(JSON.stringify(seed));if(!x||typeof x!==
   ["tool","balMode","lvW"].forEach(k=>{if(typeof x[k]==="string")s[k]=x[k].slice(0,20)});
   s.calib=typeof x.calib==="number"&&isFinite(x.calib)&&Math.abs(x.calib)<200?x.calib:null;
   if(obj(x.ear)&&isFinite(x.ear.ok)&&isFinite(x.ear.total))s.ear={ok:Math.max(0,x.ear.ok|0),total:Math.max(0,x.ear.total|0)};
+  s.roteiro=Array.isArray(x.roteiro)?x.roteiro.slice(0,40).filter(obj).map(i=>({n:str(i.n,60),a:str(i.a,240)})):s.roteiro;
+  s.rotIdx=Math.max(0,Math.min(s.roteiro.length-1,x.rotIdx|0));
+  s.radios=Array.isArray(x.radios)?x.radios.slice(0,30).filter(obj).map(i=>({n:str(i.n,60),f:str(i.f,40),ts:isFinite(i.ts)?+i.ts:0})):s.radios;
+  s.lvHist=Array.isArray(x.lvHist)?x.lvHist.slice(0,100).filter(obj).filter(i=>isFinite(i.d)&&isFinite(i.leq)&&isFinite(i.max)).map(i=>({d:+i.d,m:str(i.m,20),leq:+i.leq,max:+i.max,min:Math.max(0,i.min|0),cal:!!i.cal,w:i.w==="C"?"C":"A"})):[];
   return s}
 let S;try{S=sanitize(JSON.parse(localStorage.getItem(KEY)))}catch(e){S=sanitize(null)}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -1360,6 +1489,142 @@ function renderCheck(){const c=$("check");c.innerHTML="";let n=0;S.check.forEach
 $("ckReset").onclick=()=>{S.check.forEach(i=>i[1]=false);save();renderCheck()};
 function renderLog(){const l=$("log");l.innerHTML="";S.log.forEach((x,i)=>{const d=document.createElement("div");d.className="it";const cls=x.type==="Problema"?"hot":x.type==="Resolvido"?"ok":"";d.innerHTML='<span class="mono small muted">'+esc(x.t)+'</span><div><span class="tag '+cls+'">'+esc(x.type)+'</span> '+esc(x.txt)+'</div>';const b=document.createElement("button");b.className="x";b.type="button";b.setAttribute("aria-label","Apagar registro");b.textContent="×";b.onclick=()=>{S.log.splice(i,1);save();renderLog()};d.appendChild(b);l.appendChild(d)})}
 $("logForm").onsubmit=e=>{e.preventDefault();const t=$("logTxt").value.trim();if(!t)return;S.log.unshift({t:hhmm(),type:$("logType").value,txt:t});$("logTxt").value="";save();renderLog()};
+
+/* ---------- socorro: diagnóstico guiado ---------- */
+const SOS_FLOWS=[
+{id:"mic",t:"Um microfone está sem som",steps:[
+ {t:"Confira o básico",d:"O microfone sem fio está ligado (chave ON)? O canal na mesa está sem mute e com o fader aberto? O master está aberto?"},
+ {t:"Olhe o medidor do canal",d:"Peça para a pessoa falar e olhe o medidor do canal ou aperte PFL/SOLO. Se o medidor mexe, o sinal chega na mesa: confira se o canal está indo para o master (botão MAIN, LR ou ST) e se não está num grupo ou DCA abaixado."},
+ {t:"Se for sem fio: pilha e sinal",d:"Troque a pilha por uma nova. No receptor, veja se acendem as luzes de sinal (RF) e de áudio (AF). Confira se transmissor e receptor estão no mesmo canal ou frequência."},
+ {t:"Se for condensador: phantom 48V",d:"Microfone condensador, lapela com fio ou direct box ativa precisam de 48V. Ligue o phantom do canal (com o fader abaixado)."},
+ {t:"Troque o cabo",d:"Use um cabo XLR já testado. Se o problema era o cabo, marque o defeituoso com fita vermelha e tire de circulação."},
+ {t:"Troque o microfone",d:"Ligue no mesmo canal um microfone que você sabe que funciona. Se ele funciona, o problema é o microfone."},
+ {t:"Troque o canal",d:"Ligue o microfone em outro canal livre. Se funcionar lá, o canal está com defeito: anote no mapa da mesa e use outro até consertar."}],
+ fim:"Enquanto não acha a causa, passe a pessoa para outro microfone que está funcionando."},
+{id:"apito",t:"Microfonia, apito",steps:[
+ {t:"Abaixe o microfone que apita",d:"Abaixe o fader do microfone até o apito parar. Isso resolve na hora; o resto você faz com calma."},
+ {t:"Afaste da caixa",d:"O microfone está apontado para uma caixa ou retorno, ou a pessoa está andando na frente da caixa? Mude o ângulo ou a posição."},
+ {t:"Ache a frequência",d:"Abra o SOS Microfonia, deixe escutar e veja qual frequência está apitando.",tool:"microfonia"},
+ {t:"Corte no equalizador",d:"No equalizador gráfico da caixa ou do retorno de onde vem o apito, abaixe de 3 a 6 dB a chave daquela frequência."},
+ {t:"Abaixe o retorno",d:"Muitas microfonias nascem no retorno do palco. Abaixe um pouco o retorno daquele músico ou tire dele o que não é necessário."},
+ {t:"Feche microfones sem uso",d:"Cada microfone aberto sem ninguém usando aumenta o risco. Mute os que não estão sendo usados agora."}],
+ fim:"Se continuar, deixe o microfone um pouco mais baixo e peça para a pessoa falar mais perto dele."},
+{id:"ruido",t:"Zumbido, chiado ou estalos",steps:[
+ {t:"Identifique o tipo",d:"Abra a ferramenta Ruídos com o sistema ligado e ninguém tocando. Ela diz se é zumbido da rede, chiado ou estalo.",tool:"ruidos"},
+ {t:"Mute todos os canais",d:"O ruído continua com tudo no mute? Então ele está da mesa para frente (mesa, processadores, amplificadores, caixas). Se parou, está em algum canal: tire o mute de um por vez até achar."},
+ {t:"Se está em um canal",d:"Troque o cabo, depois o microfone ou instrumento. Em instrumento com direct box, teste o botão ground lift. Notebook na tomada? Teste na bateria."},
+ {t:"Se está depois da mesa",d:"Comece pelo amplificador: desligue o cabo que chega nele. Se o ruído some, ele vem de antes. Volte equipamento por equipamento, colocando equalizador e processador em bypass um de cada vez."},
+ {t:"Rede elétrica",d:"Desligue luzes com dimmer, reatores e ar-condicionado por um instante. Se o ruído muda, separe o circuito do som. Nunca corte o pino de terra das tomadas."},
+ {t:"Chiado: estrutura de ganho",d:"Ganho bem feito no canal, fader perto do 0, amplificador no volume indicado. Ganho baixo com fader e amplificador lá em cima traz chiado junto."}],
+ fim:"Grave o ruído com o celular e anote quando ele aparece. Esse registro ajuda muito o técnico ou eletricista."},
+{id:"mudo",t:"Não sai som nenhum nas caixas",steps:[
+ {t:"Mesa e master",d:"A mesa está ligada? O master está aberto e sem mute? Os medidores do master mexem quando alguém fala?"},
+ {t:"Amplificadores e caixas ativas",d:"Estão ligados? Algum LED de proteção (PROTECT, CLIP, LIMIT) aceso? Se uma caixa foi ligada antes da mesa, desligue e ligue de novo na ordem: mesa primeiro, caixas por último."},
+ {t:"Processador e equalizador",d:"O equalizador ou processador entre a mesa e as caixas está ligado e sem bypass ou mute estranho?"},
+ {t:"Cabos de saída",d:"Confira o cabo da saída MAIN da mesa até o equalizador ou amplificador. Se tiver um cabo de reserva, troque."},
+ {t:"Disjuntor e tomada",d:"Algum disjuntor caiu? A régua de tomadas está ligada?"}],
+ fim:"Como contorno, ligue o microfone principal direto numa caixa ativa que funcione."},
+{id:"retorno",t:"Retorno sem som ou músico não se ouve",steps:[
+ {t:"Master do retorno",d:"O master daquele aux (MON, AUX ou BUS) está aberto?"},
+ {t:"Envio do canal",d:"O botão de envio daquele canal para o aux está aberto? O músico pediu mais do quê exatamente?"},
+ {t:"Pré ou pós-fader",d:"Se o aux estiver em pós-fader e você abaixou o canal no salão, o retorno some junto. Retorno deve ser pré-fader."},
+ {t:"Caixa de retorno",d:"A caixa de retorno está ligada e com o cabo certo? Teste com outra caixa."},
+ {t:"In-ear",d:"Transmissor ligado, receptor no mesmo canal, pilha nova e volume do receptor aberto?"}],
+ fim:"Como contorno, aproxime o músico de outro retorno que esteja funcionando."},
+{id:"distorce",t:"Som distorcido ou estourado",steps:[
+ {t:"Ganho do canal",d:"O LED PEAK ou CLIP do canal acende? Abaixe o ganho até ficar no verde e encostando no amarelo só nos trechos fortes."},
+ {t:"Microfone sem fio",d:"Pilha fraca ou ganho do transmissor alto também distorcem. Troque a pilha e confira a sensibilidade do transmissor."},
+ {t:"Master e amplificador",d:"O master está muito alto e o amplificador acendendo CLIP? Abaixe o master e equilibre o volume no amplificador."},
+ {t:"Fonte muito perto",d:"Boca colada no microfone ou microfone dentro do bumbo saturam. Afaste um pouco ou use o PAD."},
+ {t:"Caixa com defeito",d:"Se só uma caixa distorce mesmo em volume baixo, o alto-falante pode estar danificado. Teste com outra."}],
+ fim:"Abaixe o volume geral um pouco até a causa ser encontrada: distorção machuca o ouvido e as caixas."},
+{id:"playback",t:"Playback ou notebook sem som ou chiando",steps:[
+ {t:"Volume no computador",d:"O volume do sistema e do player estão altos? A saída de áudio escolhida no computador é a certa (fone, USB, placa)?"},
+ {t:"Cabo e canal",d:"O cabo P2 está bem encaixado? O canal na mesa é estéreo ou são dois canais? Ganho e fader abertos?"},
+ {t:"Notificações",d:"Ative o modo não perturbe para nenhuma notificação sair nas caixas durante o culto."},
+ {t:"Chiado ou zumbido",d:"Tire o carregador do notebook da tomada e teste na bateria. Se o ruído some, é loop de terra: use uma direct box com ground lift."}],
+ fim:"Tenha o playback também no celular, como reserva."},
+{id:"live",t:"A live está sem som ou com som ruim",steps:[
+ {t:"Entrada certa no programa",d:"No programa de transmissão (OBS, vMix, app do celular), a entrada de áudio escolhida é a da mesa? O medidor do programa mexe?"},
+ {t:"Saída da mesa",d:"A saída que vai para a live (USB, aux ou matriz) está aberta e com volume? Se usa um aux para a live, ele precisa estar pós-fader."},
+ {t:"Mix da live",d:"Na live o som acústico do templo não chega. Bateria e instrumentos acústicos costumam precisar de mais volume no mix da live do que no salão."},
+ {t:"Estourando ou baixo demais",d:"Ajuste para os picos ficarem abaixo do vermelho no programa. Um limitador na saída da live ajuda."},
+ {t:"Atraso entre áudio e vídeo",d:"Use o ajuste de atraso de áudio do programa até a boca bater com a voz."}],
+ fim:"Assista à gravação da live com fone depois do culto e anote três ajustes no diário."},
+{id:"voz",t:"A voz some no meio da banda",steps:[
+ {t:"Confira com a ferramenta",d:"Abra o Equilíbrio no modo Banda completa, no meio da igreja, e veja se aparece falta de clareza.",tool:"equilibrio"},
+ {t:"Abaixe quem briga com a voz",d:"Antes de subir a voz, abaixe um pouco violão, teclado e guitarra. Muitas vezes é isso."},
+ {t:"Equalize os instrumentos",d:"Corte um pouco entre 200 e 400 Hz e entre 2 e 4 kHz nos instrumentos harmônicos, abrindo espaço para a voz."},
+ {t:"Equalize a voz",d:"Corta-graves ligado, corte suave em 250 Hz e realce de 2 a 3 dB entre 2 e 4 kHz na voz."},
+ {t:"Compressor",d:"Um compressor moderado na voz (3:1, 3 a 6 dB de redução) mantém a voz na frente nos trechos fracos."},
+ {t:"Retorno vazando",d:"Retorno alto no palco vaza para o salão e embola tudo. Peça para baixar os retornos."}],
+ fim:"Grave o culto e analise depois com calma no Equilíbrio."}
+];
+let sosFlow=null,sosStep=0,sosDone=null;
+function sosRender(){
+  const p=$("sosPanel");
+  if(!sosFlow){p.innerHTML='<div class="row" style="justify-content:space-between"><h2 style="margin:0">O que está acontecendo?</h2><button class="btn ghost sm" id="sosClose" type="button">Fechar</button></div><div class="sosgrid" id="sosGrid"></div>';
+    SOS_FLOWS.forEach(f=>{const b=document.createElement("button");b.type="button";b.className="btn sosopt";b.textContent=f.t;b.onclick=()=>{sosFlow=f;sosStep=0;sosDone=null;sosRender()};$("sosGrid").appendChild(b)});
+    $("sosClose").onclick=()=>{p.hidden=true};return}
+  const f=sosFlow,n=f.steps.length;
+  if(sosDone!==null){
+    const solved=sosDone>=0;
+    p.innerHTML='<h2>'+esc(f.t)+'</h2><p class="sosbigtxt '+(solved?"ok":"hot")+'">'+(solved?"Resolvido!":"Ainda não resolveu")+'</p><p style="margin:0">'+(solved?"Resolveu em: "+esc(f.steps[sosDone].t)+".":esc(f.fim)+" Depois, registre no diário e chame alguém mais experiente.")+'</p><div class="row"><button class="btn" id="sosLog" type="button">Registrar no diário</button><button class="btn ghost" id="sosBack" type="button">Outro problema</button><button class="btn ghost" id="sosClose" type="button">Fechar</button></div>';
+    $("sosLog").onclick=()=>{S.log.unshift({t:hhmm(),type:solved?"Resolvido":"Problema",txt:f.t+(solved?": resolvido em “"+f.steps[sosDone].t+"”":": não resolvido com o roteiro")});save();renderLog();flash($("sosLog"),"Registrado")};
+    $("sosBack").onclick=()=>{sosFlow=null;sosRender()};$("sosClose").onclick=()=>{p.hidden=true;sosFlow=null};return}
+  const s=f.steps[sosStep];
+  p.innerHTML='<div class="row" style="justify-content:space-between"><h2 style="margin:0">'+esc(f.t)+'</h2><span class="mono small muted">Passo '+(sosStep+1)+' de '+n+'</span></div><div class="prog"><i style="width:'+((sosStep+1)/n*100)+'%"></i></div><p class="sosbigtxt">'+esc(s.t)+'</p><p style="margin:0">'+esc(s.d)+'</p>'+(s.tool?'<button class="btn" id="sosTool" type="button">Abrir '+esc((TOOLS.find(t=>t[0]===s.tool)||["",""])[1])+'</button>':'')+'<div class="row"><button class="btn okb" id="sosYes" type="button">Resolveu</button><button class="btn hot" id="sosNo" type="button">'+(sosStep<n-1?"Não resolveu, próximo passo":"Não resolveu")+'</button></div><button class="btn ghost sm" id="sosBack" type="button" style="align-self:flex-start">‹ Escolher outro problema</button>';
+  if(s.tool)$("sosTool").onclick=()=>{location.hash="sos";selectTool(s.tool)};
+  $("sosYes").onclick=()=>{sosDone=sosStep;sosRender()};
+  $("sosNo").onclick=()=>{if(sosStep<n-1){sosStep++;sosRender()}else{sosDone=-1;sosRender()}};
+  $("sosBack").onclick=()=>{sosFlow=null;sosRender()};
+}
+$("sosOpen").onclick=()=>{const p=$("sosPanel");p.hidden=false;sosFlow=null;sosRender();p.scrollIntoView&&p.scrollIntoView({block:"start",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})};
+
+/* ---------- roteiro do culto ---------- */
+let rotEditing=false;
+function rotRender(){
+  const R=S.roteiro,i=Math.min(S.rotIdx,Math.max(0,R.length-1)),now=$("rotNow"),list=$("rotList");
+  $("rotEdit").textContent=rotEditing?"Concluir":"Editar";$("rotNav").hidden=rotEditing;$("rotAddBox").hidden=!rotEditing;
+  if(!R.length){now.innerHTML='<p class="small muted" style="margin:0">Nenhum momento ainda. Toque em Editar para montar o roteiro.</p>'}
+  else if(!rotEditing){const nx=R[i+1];now.innerHTML='<div class="rotnow"><span class="tag">Agora · '+(i+1)+' de '+R.length+'</span><p class="rotname">'+esc(R[i].n)+'</p><p style="margin:0">'+esc(R[i].a||"Sem ações anotadas.")+'</p></div>'+(nx?'<p class="small muted" style="margin:8px 0 0"><b>A seguir:</b> '+esc(nx.n)+(nx.a?" · "+esc(nx.a):"")+'</p>':'<p class="small muted" style="margin:8px 0 0">Último momento do roteiro.</p>')}
+  else now.innerHTML="";
+  $("rotPrev").disabled=i<=0;$("rotNext").disabled=i>=R.length-1;
+  list.innerHTML="";
+  R.forEach((m,k)=>{const li=document.createElement("li");
+    if(!rotEditing){li.className=k===i?"cur":k<i?"past":"";li.innerHTML='<button type="button" class="rotbtn"><b>'+esc(m.n)+'</b>'+(m.a?'<span class="small muted"> · '+esc(m.a)+'</span>':'')+'</button>';li.querySelector("button").onclick=()=>{S.rotIdx=k;save();rotRender()}}
+    else{li.className="rotedit";li.innerHTML='<input type="text" maxlength="60" aria-label="Nome do momento '+(k+1)+'"><textarea rows="2" maxlength="240" aria-label="Ações do momento '+(k+1)+'"></textarea><div class="mact"></div>';
+      const [a]=li.querySelectorAll("input"),b=li.querySelector("textarea");a.value=m.n;b.value=m.a;a.placeholder="Momento (ex.: Pregação)";b.placeholder="O que fazer (ex.: mutar banda, abrir microfone do pastor)";
+      a.onchange=()=>{m.n=a.value;save()};b.onchange=()=>{m.a=b.value;save()};
+      const act=li.querySelector(".mact"),btn=(t,l,fn)=>{const x=document.createElement("button");x.type="button";x.className="ib";x.textContent=t;x.setAttribute("aria-label",l);x.onclick=fn;act.appendChild(x);return x};
+      btn("↑","Subir",()=>{if(k>0){[R[k-1],R[k]]=[R[k],R[k-1]];save();rotRender()}}).disabled=k===0;
+      btn("↓","Descer",()=>{if(k<R.length-1){[R[k+1],R[k]]=[R[k],R[k+1]];save();rotRender()}}).disabled=k===R.length-1;
+      const d=btn("Remover","Remover momento",()=>{if(d.dataset.arm!=="1"){d.dataset.arm="1";d.textContent="Confirmar";d.classList.add("arm");setTimeout(()=>{d.dataset.arm="";d.textContent="Remover";d.classList.remove("arm")},3000);return}R.splice(k,1);if(S.rotIdx>=R.length)S.rotIdx=Math.max(0,R.length-1);save();rotRender()});d.classList.add("del")}
+    list.appendChild(li)});
+}
+$("rotEdit").onclick=()=>{rotEditing=!rotEditing;rotRender()};
+$("rotPrev").onclick=()=>{if(S.rotIdx>0){S.rotIdx--;save();rotRender()}};
+$("rotNext").onclick=()=>{if(S.rotIdx<S.roteiro.length-1){S.rotIdx++;save();rotRender()}};
+$("rotReset").onclick=()=>{S.rotIdx=0;save();rotRender()};
+$("rotAdd").onclick=()=>{if(S.roteiro.length>=40)return;S.roteiro.push({n:"",a:""});save();rotRender();const ins=$("rotList").querySelectorAll("input");if(ins.length)ins[ins.length-1].focus()};
+
+/* ---------- pilhas e sem fio ---------- */
+const DAY=86400000;
+function daysAgo(ts){if(!ts)return null;const a=new Date(ts),b=new Date();a.setHours(0,0,0,0);b.setHours(0,0,0,0);return Math.round((b-a)/DAY)}
+function radRender(){
+  const L=$("radList");L.innerHTML="";let need=0;
+  S.radios.forEach((r,i)=>{const d=daysAgo(r.ts),ok=d===0;if(!ok)need++;
+    const row=document.createElement("div");row.className="radrow";
+    row.innerHTML='<div class="radinfo"><b>'+esc(r.n)+'</b>'+(r.f?'<span class="small muted mono">'+esc(r.f)+'</span>':'')+'<span class="chip '+(ok?"ok":d===null?"warn":d<=1?"warn":"")+'">'+(d===null?"sem registro":d===0?"trocada hoje":d===1?"trocada ontem":"trocada há "+d+" dias")+'</span></div><div class="mact"></div>';
+    const act=row.querySelector(".mact"),btn=(t,cls,fn)=>{const x=document.createElement("button");x.type="button";x.className=cls;x.textContent=t;x.onclick=fn;act.appendChild(x);return x};
+    btn("Troquei agora","btn sm",()=>{r.ts=Date.now();save();radRender()});
+    const del=btn("Remover","ib del",()=>{if(del.dataset.arm!=="1"){del.dataset.arm="1";del.textContent="Confirmar";del.classList.add("arm");setTimeout(()=>{del.dataset.arm="";del.textContent="Remover";del.classList.remove("arm")},3000);return}S.radios.splice(i,1);save();radRender()});
+    L.appendChild(row)});
+  if(!S.radios.length)L.innerHTML='<p class="small muted" style="margin:6px 0">Nenhum microfone sem fio cadastrado.</p>';
+  const sum=$("radSum");sum.textContent=S.radios.length?(need?need+" de "+S.radios.length+" sem troca hoje":"Tudo trocado hoje"):"";sum.className="chip "+(need?"warn":"ok");sum.hidden=!S.radios.length;
+}
+$("radForm").onsubmit=e=>{e.preventDefault();const n=$("radName").value.trim();if(!n||S.radios.length>=30)return;S.radios.push({n:n.slice(0,60),f:$("radFreq").value.trim().slice(0,40),ts:0});$("radName").value="";$("radFreq").value="";save();radRender()};
+$("radAll").onclick=()=>{const t=Date.now();S.radios.forEach(r=>r.ts=t);save();radRender()};
 
 let wipeArm=0;$("wipe").onclick=()=>{const b=$("wipe");
   if(Date.now()-wipeArm>4000){wipeArm=Date.now();b.textContent="Toque de novo para apagar tudo";b.classList.add("danger");setTimeout(()=>{if(Date.now()-wipeArm>=4000){b.textContent="Apagar todos os dados deste aparelho";b.classList.remove("danger")}},4100);return}
@@ -1951,8 +2216,6 @@ $("lvCalBtn").onclick=()=>{const ref=parseFloat(String($("lvRef").value).replace
   if(!(ref>=30&&ref<=130)){showErr("Digite o valor do medidor de referência, entre 30 e 130 dB.");return}
   const e=LV.recent.reduce((a,L)=>a+Math.pow(10,L/10),0)/LV.recent.length;S.calib=ref-10*Math.log10(e);save();showErr("");LV={leqE:0,n:0,max:-999,t:0,last:LV.last,recent:LV.recent};lvRender();flash($("lvCalBtn"),"Calibrado")};
 $("lvCalClear").onclick=()=>{S.calib=null;save();lvRender()};
-$("lvLog").onclick=()=>{if(!LV.n)return;const cal=S.calib!==null,u=cal?"dB("+S.lvW+")":"dBFS (sem calibração)",off=cal?S.calib:0;
-  S.log.unshift({t:hhmm(),type:"Lembrete",txt:"Volume: média "+Math.round(10*Math.log10(LV.leqE/LV.n)+off)+", máximo "+Math.round(LV.max+off)+" "+u+", "+Math.round(LV.t/60)+" min medidos"});save();renderLog();flash($("lvLog"),"Registrado")};
 
 /* ================= GERADOR ================= */
 const GEN={type:"seno",freq:1000,level:-24};
@@ -2038,18 +2301,112 @@ const MAP_SRC=[["Voz masculina","80 a 100 Hz","120 a 200 Hz","Embolado em 250 a 
 function renderMap(){$("mapBands").innerHTML=MAP_BANDS.map(r=>"<tr><td><b>"+esc(r[0])+'</b></td><td class="mono">'+esc(r[1])+"</td><td>"+esc(r[2])+"</td><td>"+esc(r[3])+"</td></tr>").join("");
   $("mapSrc").innerHTML=MAP_SRC.map(r=>"<tr>"+r.map((c,i)=>i?"<td>"+esc(c)+"</td>":"<td><b>"+esc(c)+"</b></td>").join("")+"</tr>").join("")}
 
+/* ================= RUÍDOS ================= */
+function noiseAnalyze(pow,df,clicksPerMin,levels,dur){
+  const out=[],P=k=>pow[Math.max(0,Math.min(pow.length-1,k))];
+  const level=levels.length?pct(levels,0.5):-99,spread=levels.length>3?pct(levels,0.9)-pct(levels,0.1):0;
+  let best=null;
+  for(const base of[60,50]){let hits=[],sum=0;
+    for(let h=1;h<=12;h++){const f=base*h;if(f>2000)break;const k=Math.round(f/df);let pk=0;for(let j=-1;j<=1;j++)pk=Math.max(pk,P(k+j));
+      let s=0,c=0;for(let g=4;g<=15;g++){const a=Math.round((f-g)/df),b=Math.round((f+g)/df);s+=P(a)+P(b);c+=2}
+      const prom=10*Math.log10(pk/(s/c)+1e-20);if(prom>8){hits.push(h);sum+=prom}}
+    if(!best||hits.length>best.hits.length||(hits.length===best.hits.length&&sum>best.sum))best={base,hits,sum}}
+  const humFound=best&&best.hits.length>=2&&best.hits.some(h=>h<=4);
+  const band=(lo,hi)=>{let s=0,c=0;for(let k=Math.max(1,Math.round(lo/df));k<=Math.min(pow.length-1,Math.round(hi/df));k++){s+=pow[k];c++}return c?s/c:1e-20};
+  const slope=10*Math.log10(band(3000,12000)/band(250,1000));
+  let gs=0,as=0,c=0;for(let k=Math.round(2000/df);k<=Math.min(pow.length-1,Math.round(10000/df));k++){gs+=Math.log(pow[k]+1e-20);as+=pow[k];c++}
+  const flat=c?Math.exp(gs/c)/(as/c):0;
+  let tot=0,hf=0;for(let k=1;k<pow.length;k++){tot+=pow[k];const f=k*df;if(f>=2000&&f<=12000)hf+=pow[k]}
+  const hfLevel=level+10*Math.log10(hf/(tot||1)+1e-12);
+  if(level>-35&&spread>10)return{verdict:"Tem som tocando",cls:"warn",items:[{t:"Há música ou voz no ambiente",chip:"warn",d:"Para analisar ruído, deixe o sistema ligado sem ninguém falando ou tocando. Com som tocando, o ruído fica escondido."}],level,base:null,dur};
+  if(level<-75&&!humFound&&clicksPerMin<3)return{verdict:"Silêncio",cls:"ok",items:[{t:"Nenhum ruído relevante",chip:"ok",d:"O nível está muito baixo para o celular perceber algum ruído. Se você ouve algo, aproxime o celular da caixa e aumente um pouco o volume do sistema."}],level,base:null};
+  if(humFound){const rough=best.hits.filter(h=>h>=5).length>=2;
+    out.push({t:rough?"Zumbido áspero da rede (“bzzz”)":"Zumbido grave da rede (“hummm”)",chip:"hot",d:"Encontrei picos em "+best.hits.slice(0,5).map(h=>h*best.base+" Hz").join(", ")+", que são múltiplos de "+best.base+" Hz, a frequência da rede elétrica. "+(rough?"O som áspero, com muitos harmônicos, costuma vir de dimmer de luz, reator de lâmpada, fonte de notebook ou cabo de instrumento perto de cabo de força.":"Costuma ser aterramento, loop de terra (dois equipamentos com terra em tomadas diferentes) ou notebook na tomada.")+" Faça o teste de mutar todos os canais para saber se está antes ou depois da mesa."})}
+  if(hfLevel>-62&&slope>-12&&flat>0.3&&spread<8)out.push({t:"Chiado constante (“shhh”)",chip:"hot",d:"Há ruído agudo e constante. Em geral vem de ganho mal distribuído (ganho baixo com fader ou amplificador lá em cima), de um efeito aberto ou de um equipamento com defeito. Feche os canais sem uso, confira o ganho e coloque os processadores em bypass um por vez."});
+  if(clicksPerMin>=3)out.push({t:"Estalos",chip:clicksPerMin>=10?"hot":"warn",d:"Ouvi cerca de "+Math.round(clicksPerMin)+" estalos por minuto. Mexa nos cabos e conectores para ver se o estalo acompanha o movimento (mau contato). Se só acontece ao girar um botão, é potenciômetro sujo. Se coincide com luz acendendo, separe o circuito do som da iluminação."});
+  if(!out.length&&slope<=-12&&level>-75)out.push({t:"Ruído de ambiente",chip:"warn",d:"O ruído é mais grave e espalhado, típico de ar-condicionado, ventilador, rua ou geladeira. Não parece vir do sistema de som. Confira desligando o sistema por um instante: se continuar igual, é do ambiente."});
+  if(!out.length)out.push({t:"Nada característico",chip:"ok",d:"Não encontrei zumbido de rede, chiado constante nem estalos. Se o ruído aparece só às vezes, grave bem no momento em que ele acontece."});
+  const hot=out.some(o=>o.chip==="hot");
+  return{verdict:hot?"Ruído encontrado":out[0].chip==="warn"?"Atenção":"Tudo limpo",cls:hot?"hot":out[0].chip==="warn"?"warn":"ok",items:out,level,base:humFound?best.base:null,dur};
+}
+function noiseRender(R,src,info){
+  $("nzSrc").innerHTML="<b></b>";$("nzSrc").firstChild.textContent=src;$("nzInfo").textContent=info;
+  $("nzVerdict").textContent=R.verdict;$("nzVerdict").className="vt "+R.cls;
+  const L=$("nzFound");L.innerHTML="";R.items.forEach(o=>{const li=document.createElement("li");li.innerHTML='<span class="chip '+(o.chip==="hot"?"":o.chip)+'">'+(o.chip==="hot"?"Encontrado":o.chip==="warn"?"Provável":"Ok")+'</span> <b>'+esc(o.t)+'</b><br>'+esc(o.d);L.appendChild(li)});
+  $("nzFacts").innerHTML='<dt>Nível do ruído</dt><dd>'+(R.level>-99?Math.round(R.level)+" dBFS (relativo ao microfone)":"--")+'</dd>'+(R.base?'<dt>Rede elétrica</dt><dd>'+R.base+' Hz</dd>':'')+(R.dur?'<dt>Tempo analisado</dt><dd>'+nf(R.dur,1)+' s</dd>':'');
+  lastNoise=R;
+}
+let lastNoise=null;
+function clicksIn(x,start,end,sr){const B=Math.max(32,Math.round(sr*0.005)),lv=[];for(let s=start;s+B<=end;s+=B){let pk=0;for(let i=0;i<B;i++){const v=Math.abs(x[s+i]);if(v>pk)pk=v}lv.push(20*Math.log10(pk+1e-9))}
+  const m=pct(lv,0.5);let n=0;for(let i=1;i<lv.length;i++){if(lv[i]>m+14&&lv[i]>-50&&lv[i]>lv[i-1]+10&&(i+6>=lv.length||lv[i+6]<m+8))n++}return{n,levels:lv}}
+function analyzeNoiseSamples(x,sr){
+  const N=32768,hop=16384,win=hann(N),len=Math.min(x.length,sr*60),pow=new Float64Array(N/2);let fr=0;
+  for(let s=0;s+N<=len;s+=hop){const p=framePow(x,s,N,win);for(let k=0;k<p.length;k++)pow[k]+=p[k];fr++}
+  if(!fr)return null;for(let k=0;k<pow.length;k++)pow[k]/=fr;
+  const c=clicksIn(x,0,len,sr),levels=[];const S2=Math.round(sr*0.2);for(let s=0;s+S2<=len;s+=S2){let q=0;for(let i=0;i<S2;i++)q+=x[s+i]*x[s+i];levels.push(10*Math.log10(q/S2+1e-12))}
+  return noiseAnalyze(pow,sr/N,c.n/(len/sr/60),levels,len/sr);
+}
+function makeNoiseDemo(sr){const n=sr*8,x=new Float32Array(n);let seed=3;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  for(let i=0;i<n;i++){const t=i/sr;let s=0;[0.02,0.012,0.009,0.004,0.003].forEach((a,h)=>{s+=a*Math.sin(2*Math.PI*60*(h+1)*t+h)});x[i]=s+(rnd()*2-1)*0.004}
+  [0.9,2.3,3.1,4.6,5.2,6.8,7.4].forEach(t=>{const k=Math.round(t*sr);for(let j=0;j<Math.round(sr*0.003);j++)x[k+j]+=(rnd()*2-1)*0.4*Math.exp(-j/(sr*0.0008))});return x}
+function runNoiseDemo(){const R=analyzeNoiseSamples(makeNoiseDemo(32000),32000);noiseRender(R,"Exemplo simulado","zumbido de 60 Hz, chiado e estalos")}
+function resetNzBtn(){$("nzLive").classList.remove("on");$("nzLiveTxt").textContent="Ouvir ao vivo"}
+async function startNoiseLive(){
+  stopAll();const mic=await openMic(32768);if(!mic)return;
+  const an=mic.an,sr=mic.ac.sampleRate,fd=new Float32Array(an.frequencyBinCount),td=new Float32Array(an.fftSize),df=sr/an.fftSize,pow=new Float64Array(fd.length);
+  let first=true,clicks=0,secs=0,levels=[],lastDraw=0;const a=Math.exp(-0.5/4),take=Math.round(sr*0.5);
+  $("nzVerdict").textContent="Escutando…";$("nzVerdict").className="vt";
+  micSession("ruidos",mic,()=>{
+    an.getFloatFrequencyData(fd);for(let k=0;k<fd.length;k++){const p=Math.pow(10,fd[k]/10);pow[k]=first?p:pow[k]*a+p*(1-a)}first=false;
+    an.getFloatTimeDomainData(td);const c=clicksIn(td,td.length-take,td.length,sr);clicks+=c.n;secs+=0.5;
+    let q=0;for(let i=td.length-take;i<td.length;i++)q+=td[i]*td[i];levels.push(10*Math.log10(q/take+1e-12));if(levels.length>40)levels.shift();
+    const now=performance.now();if(now-lastDraw<1000)return;lastDraw=now;
+    if(secs<3){$("nzVerdict").textContent="Escutando… "+Math.round(secs)+" s";return}
+    noiseRender(noiseAnalyze(pow,df,clicks/(secs/60),levels,secs),"Ao vivo","escutando pelo microfone");
+  },500,resetNzBtn);
+  $("nzLive").classList.add("on");$("nzLiveTxt").textContent="Parar de ouvir";
+}
+$("nzLive").onclick=()=>session&&session.kind==="ruidos"?stopAll():startNoiseLive();
+$("nzDemo").onclick=()=>{stopAll();runNoiseDemo()};
+$("nzFile").addEventListener("change",async ev=>{const f=ev.target.files[0];if(!f)return;stopAll();showErr("");$("nzVerdict").textContent="Analisando…";$("nzVerdict").className="vt";
+  await new Promise(r=>setTimeout(r,30));
+  try{const {x,sr}=await decodeFile(f);const R=analyzeNoiseSamples(x,sr);if(!R){showErr("A gravação é curta demais. Grave pelo menos 5 segundos.");runNoiseDemo()}else noiseRender(R,"Sua gravação",f.name)}
+  catch(e){showErr("Não consegui ler esse arquivo. Tente uma gravação em .m4a, .mp3 ou .wav.");runNoiseDemo()}ev.target.value=""});
+$("nzLog").onclick=()=>{if(!lastNoise)return;S.log.unshift({t:hhmm(),type:lastNoise.cls==="ok"?"Lembrete":"Problema",txt:"Ruídos: "+lastNoise.items.map(o=>o.t).join("; ")});save();renderLog();flash($("nzLog"),"Registrado no diário")};
+
+/* ---------- histórico de volume ---------- */
+function lvHistRender(){
+  const T=$("lvHist");T.innerHTML="";
+  if(!S.lvHist.length){T.innerHTML='<tr><td colspan="5">Nenhuma medição salva ainda. Meça um culto e toque em Salvar medição.</td></tr>';return}
+  S.lvHist.slice(0,12).forEach(h=>{const tr=document.createElement("tr");const u=h.cal?"dB("+h.w+")":"rel.";
+    tr.innerHTML='<td class="mono">'+esc(new Date(h.d).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"}))+'</td><td>'+esc(h.m)+'</td><td class="mono">'+Math.round(h.leq)+' '+u+'</td><td class="mono">'+Math.round(h.max)+'</td><td class="mono">'+h.min+' min</td>';T.appendChild(tr)})}
+$("lvSave").onclick=()=>{if(!LV.n){showErr("Meça primeiro: toque em Começar a medir.");return}
+  const cal=S.calib!==null,off=cal?S.calib:0,h={d:Date.now(),m:$("lvMoment").value,leq:10*Math.log10(LV.leqE/LV.n)+off,max:LV.max+off,min:Math.max(1,Math.round(LV.t/60)),cal,w:S.lvW};
+  S.lvHist.unshift(h);S.lvHist=S.lvHist.slice(0,100);
+  S.log.unshift({t:hhmm(),type:"Lembrete",txt:"Volume ("+h.m+"): média "+Math.round(h.leq)+", máximo "+Math.round(h.max)+" "+(cal?"dB("+h.w+")":"dBFS sem calibração")+", "+h.min+" min"});
+  save();renderLog();lvHistRender();flash($("lvSave"),"Salvo")};
+$("lvCopy").onclick=()=>{
+  if(!S.lvHist.length)return;
+  const lines=["RELATÓRIO DE VOLUME DO CULTO","Medições feitas com o celular (app Mesa Viva), sempre do mesmo lugar.",""];
+  S.lvHist.slice(0,20).forEach(h=>{lines.push(new Date(h.d).toLocaleDateString("pt-BR")+" · "+h.m+": média "+Math.round(h.leq)+(h.cal?" dB("+h.w+")":" (relativo, sem calibração)")+", máximo "+Math.round(h.max)+", "+h.min+" min")});
+  lines.push("","Referência (NR-15): 85 dB(A) por até 8 horas; 90 dB(A) por até 4 horas; 95 dB(A) por até 2 horas; 100 dB(A) por até 1 hora.");
+  if(S.lvHist.some(h=>!h.cal))lines.push("Atenção: medições sem calibração servem só para comparar entre si.");
+  const txt=lines.join("\n"),ta=$("lvRep");ta.value=txt;
+  try{navigator.clipboard.writeText(txt).then(()=>flash($("lvCopy"),"Copiado"),()=>{ta.hidden=false;ta.select()})}catch(e){ta.hidden=false;ta.select()}};
+$("lvHistClear").onclick=()=>{const b=$("lvHistClear");if(b.dataset.arm!=="1"){b.dataset.arm="1";b.textContent="Toque de novo para apagar";b.classList.add("danger");setTimeout(()=>{b.dataset.arm="";b.textContent="Apagar histórico";b.classList.remove("danger")},3000);return}S.lvHist=[];save();lvHistRender();b.dataset.arm="";b.textContent="Apagar histórico";b.classList.remove("danger")};
+
 /* ================= ABAS DAS FERRAMENTAS ================= */
-const TOOLS=[["microfonia","SOS Microfonia"],["equilibrio","Equilíbrio"],["nivel","Volume"],["gerador","Gerador"],["ouvido","Treino de ouvido"],["calc","Calculadoras"],["mapa","Mapa de frequências"]];
+const TOOLS=[["microfonia","SOS Microfonia"],["ruidos","Ruídos"],["equilibrio","Equilíbrio"],["nivel","Volume"],["gerador","Gerador"],["ouvido","Treino de ouvido"],["calc","Calculadoras"],["mapa","Mapa de frequências"]];
 if(!TOOLS.some(t=>t[0]===S.tool))S.tool="microfonia";
 function renderTools(){const c=$("toolTabs");c.innerHTML="";TOOLS.forEach(([k,t])=>{const b=document.createElement("button");b.type="button";b.role="tab";b.className="tchip";b.textContent=t;b.setAttribute("aria-selected",String(S.tool===k));b.onclick=()=>selectTool(k);c.appendChild(b)});
   TOOLS.forEach(([k])=>{$("t-"+k).hidden=k!==S.tool})}
 function selectTool(k){if(S.tool===k)return;stopAll();showErr("");S.tool=k;save();renderTools();if(k==="microfonia")requestAnimationFrame(redraw);
   const sel=document.querySelector('#toolTabs [aria-selected="true"]');if(sel&&sel.scrollIntoView)sel.scrollIntoView({block:"nearest",inline:"nearest"})}
-function initTools(){renderTools();renderBalModes();runBalDemo();renderLvW();lvRender();renderGen();renderEar();calcAll();renderMap();runDemo()}
+function initTools(){renderTools();renderBalModes();runBalDemo();renderLvW();lvRender();lvHistRender();runNoiseDemo();renderGen();renderEar();calcAll();renderMap();runDemo()}
 
 /* ---------- início ---------- */
 document.querySelectorAll('input[type=text]').forEach(i=>{if(!(i.maxLength>0))i.maxLength=200});
-renderAlerts();renderCheck();renderLog();renderMesa();renderWho();renderReqs();renderPeople();renderAprender();initTools();show();
+renderAlerts();renderCheck();renderLog();renderMesa();renderWho();renderReqs();renderPeople();renderAprender();initTools();rotRender();radRender();show();
 })();
 </script>
 

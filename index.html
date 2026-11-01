@@ -1,0 +1,1342 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mesa Viva">
+<meta name="theme-color" content="#17202b">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Mesa Viva</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: app de uma coluna para o celular do técnico, navegação fixa embaixo como os botões de uma mesa */
+:root{
+  --bg:#eef1f4; --panel:#ffffff; --ink:#17202b; --muted:#5b6878; --line:#d3dae2;
+  --accent:#c97a00; --accent-soft:#fff1d6; --hot:#cf322c; --hot-soft:#fde4e2; --ok:#2b8553; --ok-soft:#e1f3e8;
+  --grid:#e3e8ee; --trace:#3d6f9e; --nav:#17202b; --nav-ink:#c9d3de;
+  --display:"Barlow Condensed","Arial Narrow",Arial,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10151c; --panel:#18202a; --ink:#e7edf3; --muted:#93a1b1; --line:#2a3644;
+  --accent:#ffb02e; --accent-soft:#3a2c10; --hot:#ff5a52; --hot-soft:#3d1a19; --ok:#4cc38a; --ok-soft:#14301f;
+  --grid:#222c38; --trace:#7fb2e5; --nav:#0b0f14; --nav-ink:#93a1b1; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#10151c; --panel:#18202a; --ink:#e7edf3; --muted:#93a1b1; --line:#2a3644;
+  --accent:#ffb02e; --accent-soft:#3a2c10; --hot:#ff5a52; --hot-soft:#3d1a19; --ok:#4cc38a; --ok-soft:#14301f;
+  --grid:#222c38; --trace:#7fb2e5; --nav:#0b0f14; --nav-ink:#93a1b1; color-scheme:dark }
+
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.wrap{max-width:640px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 110px;display:flex;flex-direction:column;gap:16px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.9rem;letter-spacing:.03em;text-transform:uppercase;margin:0;line-height:1}
+.brand span{color:var(--accent)}
+.demo{font-family:var(--mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 8px;white-space:nowrap}
+h1{font-family:var(--display);font-weight:700;font-size:1.6rem;text-transform:uppercase;letter-spacing:.03em;margin:0;line-height:1.1;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.lead{margin:-6px 0 0;color:var(--muted);font-size:.95rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px}
+.view{display:flex;flex-direction:column;gap:16px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.mono{font-family:var(--mono)}
+
+.btn{font:600 .95rem var(--body);border-radius:10px;padding:10px 14px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:focus-visible,.navb:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn.hot{background:var(--hot);border-color:var(--hot);color:#fff}
+.btn.ghost{background:transparent}
+.btn.sm{min-height:34px;padding:6px 10px;font-size:.85rem}
+input[type=text],select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--muted);flex:1;min-width:130px}
+form{display:flex;flex-direction:column;gap:10px}
+
+/* navegação */
+nav.bar{position:fixed;left:0;right:0;bottom:0;background:var(--nav);z-index:20;padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+nav.bar .in{max-width:640px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.navb{background:none;border:0;color:var(--nav-ink);font:600 .72rem var(--body);display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 2px 10px;cursor:pointer;letter-spacing:.02em}
+.navb svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.navb[aria-current="page"]{color:var(--accent)}
+.navb.sos{color:#ff8a84}
+.navb.sos[aria-current="page"]{color:var(--accent)}
+
+/* culto */
+.prog{height:8px;background:var(--grid);border-radius:4px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--ok);transition:width .3s}
+.check{display:flex;flex-direction:column}
+.check label{display:flex;gap:12px;align-items:center;padding:10px 2px;border-top:1px solid var(--line);cursor:pointer}
+.check label:first-child{border-top:0}
+.check input{width:22px;height:22px;accent-color:var(--ok);flex:none}
+.check input:checked+span{color:var(--muted);text-decoration:line-through}
+.calls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:10px;background:var(--hot-soft);border:1px solid var(--hot)}
+.alert b{color:var(--hot)}
+.alert .grow{flex:1;min-width:0}
+.log{display:flex;flex-direction:column;gap:0}
+.log .it{display:grid;grid-template-columns:auto 1fr auto;gap:10px;padding:10px 0;border-top:1px solid var(--line);align-items:start}
+.log .it:first-child{border-top:0}
+.tag{font-family:var(--mono);font-size:.7rem;padding:2px 7px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.tag.hot{background:var(--hot-soft);color:var(--hot)}
+.tag.ok{background:var(--ok-soft);color:var(--ok)}
+.x{background:none;border:0;color:var(--muted);cursor:pointer;font-size:1.1rem;line-height:1;padding:4px}
+
+/* SOS */
+.sosbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sosbtns .btn.hot{grid-column:1/-1;font-size:1.1rem;min-height:60px}
+.btn.hot.on{background:var(--panel);color:var(--hot)}
+.led{width:11px;height:11px;border-radius:50%;background:currentColor}
+.on .led{animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.on .led{animation:none}.prog i{transition:none}}
+input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+.readout{display:flex;flex-direction:column;gap:12px}
+.src{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:.74rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.src b{color:var(--accent);font-weight:500}
+.big{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.freq{font-family:var(--display);font-weight:700;font-size:4rem;line-height:.9;color:var(--hot);font-variant-numeric:tabular-nums}
+.freq.calm{color:var(--ok);font-size:2.3rem}
+.meta{display:flex;flex-direction:column;gap:4px;padding-bottom:4px;align-items:flex-start}
+.chip{display:inline-block;font-size:.8rem;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--hot-soft);color:var(--hot)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+ol.steps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:7px}
+ol.steps strong{color:var(--hot)}
+canvas{display:block;width:100%;height:170px}
+.eqscroll{overflow-x:auto}
+.eq{display:grid;grid-template-columns:repeat(31,minmax(13px,1fr));gap:3px;min-width:450px;align-items:end}
+.band{display:flex;flex-direction:column;align-items:center;gap:4px}
+.slot{position:relative;width:4px;height:70px;background:var(--grid);border-radius:2px}
+.cap{position:absolute;left:50%;top:50%;width:13px;height:7px;margin:-3.5px 0 0 -6.5px;border-radius:2px;background:var(--muted)}
+.band.cut .cap{top:78%;background:var(--hot)}
+.band.cut .slot{background:var(--hot-soft)}
+.lbl{font-family:var(--mono);font-size:.56rem;color:var(--muted);height:1em;white-space:nowrap}
+.band.cut .lbl{color:var(--hot)}
+.err{background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:10px 12px;font-size:.9rem;margin:0}
+
+/* mesa */
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{font-family:var(--display);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;font-size:.8rem;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:4px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+td.ch{font-family:var(--mono);color:var(--accent);width:2.5em;font-variant-numeric:tabular-nums}
+td input{background:transparent;border-color:transparent;padding:6px}
+td input:hover{border-color:var(--line)}
+.req{display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-top:1px solid var(--line);align-items:center}
+.req:first-of-type{border-top:0}
+.req .who{font-weight:600}
+
+/* pessoas */
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.person{display:flex;flex-direction:column;gap:8px}
+.person .nm{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.person h3{margin:0;font-size:1.1rem}
+dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.9rem}
+dt{color:var(--muted)}
+dd{margin:0;min-width:0}
+
+/* aprender */
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
+.seg button{font:600 .9rem var(--body);border:0;background:transparent;color:var(--muted);border-radius:9px;padding:9px 4px;cursor:pointer;min-height:40px}
+.seg button[aria-selected="true"]{background:var(--nav);color:#fff}
+.seg button:focus-visible{outline:3px solid var(--accent);outline-offset:1px}
+.lvl{display:flex;flex-direction:column;gap:8px}
+.lvlhead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.lvlhead h2{margin:0;color:var(--ink);font-size:1.15rem;letter-spacing:.05em}
+.lvlhead p{margin:2px 0 0;color:var(--muted);font-size:.88rem;flex-basis:100%}
+.lesson{display:grid;grid-template-columns:2.2em 1fr auto;gap:10px;align-items:center;text-align:left;width:100%;padding:12px 14px;min-height:56px}
+.num{font-family:var(--display);font-weight:700;font-size:1.35rem;color:var(--accent);text-align:center;font-variant-numeric:tabular-nums}
+.lesson.done .num{color:var(--ok)}
+.lesson .t{font-weight:600;line-height:1.3}
+.back{align-self:flex-start}
+.lessonbody{display:flex;flex-direction:column;gap:14px}
+.lessonbody h1{font-size:1.45rem}
+.lessonbody h3{margin:0 0 6px;font-size:1rem}
+.lessonbody ul,.lessonbody ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:7px}
+.intro{margin:0;font-size:1.02rem}
+.tip{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:10px 12px;margin:0}
+.tip b{color:var(--accent)}
+.quiz{display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--line);padding-top:12px}
+.quiz .qn{font-weight:600;margin:4px 0 0}
+.quiz .btn{justify-content:flex-start;text-align:left;width:100%}
+.quiz .btn.right{border-color:var(--ok);background:var(--ok-soft)}
+.quiz .btn.wrong{border-color:var(--hot);background:var(--hot-soft)}
+.exp{margin:0;font-size:.9rem;color:var(--muted)}
+.nextnav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chipf{font:600 .82rem var(--body);border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer;min-height:34px}
+.chipf[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.mcard{text-align:left;display:flex;flex-direction:column;gap:6px;cursor:pointer;width:100%;font:inherit;color:inherit}
+.mcard:hover{border-color:var(--accent)}
+.mcard:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mcard .mn{font-family:var(--display);font-weight:700;font-size:1.25rem;letter-spacing:.02em;line-height:1.1}
+.mcard .mm{font-size:.82rem;color:var(--muted)}
+.mcard.mine{border-color:var(--ok);box-shadow:inset 0 0 0 1px var(--ok)}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.lv-Simples{background:var(--ok-soft);color:var(--ok)}
+.lv-Intermediária{background:var(--accent-soft);color:var(--accent)}
+.lv-Profissional{background:var(--hot-soft);color:var(--hot)}
+.ficha{display:grid;grid-template-columns:minmax(90px,auto) 1fr;gap:6px 12px;font-size:.92rem;margin:0}
+.ficha dt{color:var(--muted)}
+details.acc{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--panel)}
+details.acc summary{padding:12px 14px;font-weight:600;cursor:pointer;list-style-position:inside}
+details.acc[open] summary{border-bottom:1px solid var(--line)}
+details.acc .in{padding:12px 14px}
+details.acc ul,details.acc ol{margin:0;padding-left:1.25em;display:flex;flex-direction:column;gap:7px}
+.links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px}
+.links a{color:var(--trace);text-decoration:none;display:block;padding:8px 0;border-bottom:1px solid var(--line)}
+.links a:hover{text-decoration:underline}
+.links li:last-child a{border-bottom:0}
+.gl{display:flex;flex-direction:column}
+.gl div{padding:10px 0;border-top:1px solid var(--line)}
+.gl div:first-child{border-top:0}
+.gl b{display:block}
+.gl span{color:var(--muted);font-size:.92rem}
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <p class="brand">Mesa <span>Viva</span></p>
+    <span class="demo">Protótipo · dados de exemplo</span>
+  </div>
+
+  <!-- CULTO -->
+  <section class="view" id="v-culto">
+    <h1>Culto de domingo</h1>
+    <p class="lead">Tudo o que o técnico precisa antes e durante o culto.</p>
+
+    <div class="card">
+      <h2>Chamados do palco</h2>
+      <div id="alerts" class="view" style="gap:8px"></div>
+      <p class="small muted" style="margin:10px 0 8px">Botões que o pastor ou o louvor tocam no celular deles:</p>
+      <div class="calls" id="callBtns"></div>
+    </div>
+
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Checklist pré-culto</h2><span class="mono small" id="ckCount"></span></div>
+      <div class="prog" style="margin-bottom:6px"><i id="ckBar"></i></div>
+      <div class="check" id="check"></div>
+      <button class="btn ghost sm" id="ckReset" type="button" style="margin-top:8px">Recomeçar checklist</button>
+    </div>
+
+    <div class="card">
+      <h2>Diário do culto</h2>
+      <form id="logForm">
+        <div class="row">
+          <label class="f">O que aconteceu<input type="text" id="logTxt" placeholder="Ex.: microfonia no retorno 2"></label>
+          <label class="f" style="flex:0 0 130px;min-width:110px">Tipo<select id="logType"><option>Problema</option><option>Resolvido</option><option>Lembrete</option></select></label>
+        </div>
+        <button class="btn" type="submit">Registrar</button>
+      </form>
+      <div class="log" id="log" style="margin-top:10px"></div>
+    </div>
+  </section>
+
+  <!-- SOS -->
+  <section class="view" id="v-sos" hidden>
+    <h1>SOS Microfonia</h1>
+    <p class="lead">Descubra qual frequência está apitando e o que mexer.</p>
+    <div class="sosbtns">
+      <button class="btn hot" id="liveBtn" type="button"><span class="led"></span><span id="liveTxt">Ouvir ao vivo</span></button>
+      <label class="btn" for="fileIn">Analisar gravação</label>
+      <input type="file" id="fileIn" accept="audio/*,video/*">
+      <button class="btn" id="demoBtn" type="button">Ouvir o exemplo</button>
+    </div>
+    <p class="err" id="err" hidden></p>
+    <div class="card readout" aria-live="polite">
+      <div class="src"><span id="srcLbl"><b>Exemplo simulado</b></span><span id="srcInfo">voz + apito crescendo</span></div>
+      <div class="big"><div class="freq" id="freq">--</div><div class="meta"><span class="chip" id="chip">--</span><span class="mono small muted" id="noteName"></span></div></div>
+      <p style="margin:0" id="desc"></p>
+      <div><h2>O que fazer agora</h2><ol class="steps" id="steps"></ol></div>
+      <p class="small muted" id="others" hidden style="margin:0"></p>
+      <button class="btn ghost sm" id="toLog" type="button" style="align-self:flex-start">Registrar no diário</button>
+    </div>
+    <div class="card"><h2>Espectro</h2><canvas id="spec" aria-label="Espectro de frequências com o pico do apito marcado"></canvas></div>
+    <div class="card"><h2>Equalizador gráfico de 31 bandas</h2><div class="eqscroll"><div class="eq" id="eq"></div></div><p class="small muted" id="eqHint" style="margin:8px 0 0"></p></div>
+  </section>
+
+  <!-- MESA -->
+  <section class="view" id="v-mesa" hidden>
+    <h1>Mapa da mesa</h1>
+    <p class="lead">O que está ligado em cada canal e em cada retorno. Toque no nome para editar.</p>
+    <div class="card">
+      <h2>Pedidos de retorno</h2>
+      <div id="reqs"></div>
+      <form id="reqForm" style="margin-top:10px">
+        <div class="row">
+          <label class="f">Quem pede<select id="reqWho"></select></label>
+          <label class="f">Pedido<select id="reqWhat"><option>Mais voz no meu retorno</option><option>Mais teclado no meu retorno</option><option>Mais violão no meu retorno</option><option>Menos bateria no meu retorno</option><option>Meu retorno está apitando</option></select></label>
+        </div>
+        <button class="btn" type="submit">Simular pedido do músico</button>
+      </form>
+    </div>
+    <div class="card">
+      <h2>Canais</h2>
+      <div class="tblwrap"><table><thead><tr><th>Ch</th><th>Fonte</th><th>Microfone / ligação</th></tr></thead><tbody id="chans"></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Retornos (aux)</h2>
+      <div class="tblwrap"><table><thead><tr><th>Aux</th><th>Para quem</th><th>Leva</th></tr></thead><tbody id="auxs"></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- PESSOAS -->
+  <section class="view" id="v-pessoas" hidden>
+    <h1>Fichas da equipe</h1>
+    <p class="lead">Como cada cantor e pregador soa melhor, para qualquer voluntário acertar de primeira.</p>
+    <div class="people" id="people"></div>
+    <div class="card">
+      <h2>Nova ficha</h2>
+      <form id="pForm">
+        <div class="row">
+          <label class="f">Nome<input type="text" id="pName" required></label>
+          <label class="f">Função<select id="pRole"><option>Voz</option><option>Pregador</option><option>Instrumento</option></select></label>
+        </div>
+        <div class="row">
+          <label class="f">Microfone<input type="text" id="pMic" placeholder="Ex.: sem fio 1"></label>
+          <label class="f">Distância<select id="pDist"><option>Fala colado</option><option>Normal</option><option>Fala longe</option></select></label>
+        </div>
+        <label class="f">EQ que funcionou<input type="text" id="pEq" placeholder="Ex.: corta 200 Hz, realça 3 kHz"></label>
+        <label class="f">Observações<input type="text" id="pObs" placeholder="Ex.: sobe muito no refrão"></label>
+        <button class="btn" type="submit">Salvar ficha</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CURSOS -->
+  <section class="view" id="v-cursos" hidden>
+    <h1>Aprender</h1>
+    <p class="lead">Do primeiro contato com a mesa até os assuntos de técnico profissional, com guias das mesas mais usadas em igrejas.</p>
+    <div class="seg" role="tablist" aria-label="Partes do Aprender">
+      <button type="button" role="tab" id="tab-trilhas" data-p="trilhas" aria-selected="true">Trilhas</button>
+      <button type="button" role="tab" id="tab-mesas" data-p="mesas" aria-selected="false">Mesas</button>
+      <button type="button" role="tab" id="tab-glossario" data-p="glossario" aria-selected="false">Glossário</button>
+    </div>
+    <div id="ap-trilhas" class="view"></div>
+    <div id="ap-mesas" class="view" hidden></div>
+    <div id="ap-glossario" class="view" hidden></div>
+    <div id="ap-detalhe" class="view" hidden></div>
+  </section>
+</div>
+
+<nav class="bar" aria-label="Seções">
+  <div class="in">
+    <button class="navb" data-v="culto" type="button"><svg viewBox="0 0 24 24"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Culto</button>
+    <button class="navb sos" data-v="sos" type="button"><svg viewBox="0 0 24 24"><path d="M2 12h3l3-8 4 16 3-10 2 2h5"/></svg>SOS</button>
+    <button class="navb" data-v="mesa" type="button"><svg viewBox="0 0 24 24"><path d="M6 3v18M12 3v18M18 3v18"/><rect x="4" y="7" width="4" height="3" rx="1"/><rect x="10" y="13" width="4" height="3" rx="1"/><rect x="16" y="9" width="4" height="3" rx="1"/></svg>Mesa</button>
+    <button class="navb" data-v="pessoas" type="button"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5.5 6.5-5.5s5.7 2 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.7 3 2.4 3.5 5.2"/></svg>Equipe</button>
+    <button class="navb" data-v="cursos" type="button"><svg viewBox="0 0 24 24"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10v5c2 2 10 2 12 0v-5"/></svg>Aprender</button>
+  </div>
+</nav>
+
+<script>
+const TRILHAS=[
+{id:"n1",nome:"Nível 1 · Fundamentos",sub:"Para quem nunca operou uma mesa. Conceitos que valem para qualquer equipamento.",aulas:[
+{id:"a01",t:"O som em três ideias: frequência, volume e tempo",min:5,
+intro:"Antes de mexer em qualquer botão, vale entender o que está sendo controlado. Todo ajuste da mesa mexe em uma destas três coisas.",
+s:[
+["Frequência: grave, médio e agudo",["Frequência é quantas vezes por segundo o ar vibra, medida em hertz (Hz). 1 kHz são mil vibrações por segundo.","Um ouvido saudável escuta mais ou menos de 20 Hz a 20 kHz. Com a idade, os agudos vão sumindo primeiro.","Divisão prática: graves de 20 a 250 Hz (peso, ronco), médios de 250 Hz a 4 kHz (corpo e clareza da voz), agudos de 4 a 20 kHz (brilho, chiado, sibilância).","A nota fundamental da voz masculina fica em torno de 85 a 180 Hz e a feminina em torno de 165 a 255 Hz. Já a clareza das palavras, as consoantes, mora entre 2 e 4 kHz."]],
+["Volume: o decibel",["Volume é medido em decibéis (dB), uma escala que cresce em proporção, não em soma. Por isso os números parecem pequenos.","Na prática: subir 6 dB no fader dobra a amplitude do sinal. Subir cerca de 10 dB faz o som parecer duas vezes mais alto para o ouvido.","O dB aparece de vários jeitos: no fader (dB relativo), no medidor da mesa digital (dBFS) e no medidor de volume do salão (dB SPL). São escalas diferentes, e você vai aprender cada uma ao longo das trilhas."]],
+["Tempo: o som demora para chegar",["O som anda cerca de 343 metros por segundo. Isso dá uns 34 cm por milissegundo.","Em um templo de 30 metros, o som da caixa da frente leva quase 0,1 segundo para chegar ao último banco.","Quando duas caixas longe uma da outra tocam a mesma coisa, o som chega em tempos diferentes e vira eco ou som embolado. Esse é o motivo das caixas de delay, assunto do Nível 3."]]
+],
+dica:"Templo cheio soa diferente de templo vazio: as pessoas e as roupas absorvem som, principalmente médios e agudos. O ajuste feito na passagem de som quase sempre precisa de um retoque quando a igreja enche.",
+q:[["Em que faixa está a clareza das palavras (as consoantes)?",["Entre 50 e 100 Hz","Entre 2 e 4 kHz","Acima de 15 kHz"],1,"As consoantes, que fazem a gente entender as palavras, ficam entre 2 e 4 kHz. Por isso essa faixa é tão importante na pregação."],
+["Quanto o som percorre em 1 milissegundo?",["Cerca de 34 cm","Cerca de 3 metros","Cerca de 34 metros"],0,"O som anda cerca de 343 m/s, ou seja, uns 34 cm a cada milissegundo."]]},
+
+{id:"a02",t:"O caminho do sinal: da boca até a caixa",min:5,
+intro:"Quase todo problema de som se resolve seguindo o caminho do sinal, do começo ao fim. Quem entende o caminho para de chutar e começa a diagnosticar.",
+s:[
+["As etapas",["Fonte: a voz ou o instrumento.","Microfone ou direct box: transforma som em sinal elétrico.","Cabo: leva o sinal até a mesa (ou até a stagebox, nas digitais).","Pré-amplificador (ganho): eleva o sinal fraquinho do microfone a um nível de trabalho.","Processamento do canal: filtro de graves, equalizador, compressor, gate.","Fader e roteamento: decidem quanto do canal vai para o master, para os retornos e para os efeitos.","Saída: processador ou equalizador do sistema, amplificador (ou caixa ativa, que já tem amplificador dentro) e, por fim, a caixa de som."]],
+["Diagnóstico em 30 segundos",["Sem som de um microfone? Olhe o medidor do canal. Se ele mexe, o problema está depois do canal (roteamento, master, caixa). Se não mexe, está antes (microfone, pilha, cabo, phantom, ganho).","Use o PFL ou SOLO para escutar o canal no fone sem mexer no som do salão.","Troque uma peça por vez: primeiro o cabo, depois o microfone, depois o canal. Trocar tudo de uma vez esconde a causa."]],
+["Uma corrente é tão forte quanto o elo mais fraco",["Microfone excelente em cabo ruim soa como cabo ruim.","Mesa cara em caixa mal posicionada soa como caixa mal posicionada.","Antes de pedir equipamento novo, confira se cada elo do caminho está funcionando direito."]]
+],
+dica:"Cole um desenho simples do caminho do sinal da sua igreja perto da mesa: quais caixas, quais amplificadores, onde ligam. O voluntário novo agradece.",
+q:[["O medidor do canal do pastor está mexendo, mas não sai som nas caixas. Onde procurar primeiro?",["No microfone e na pilha","No roteamento, no master e nas caixas","No cabo do microfone"],1,"Se o medidor mexe, o sinal está chegando na mesa. O problema está depois: o canal está indo para o master? O master está aberto? As caixas estão ligadas?"],
+["Para que serve o PFL ou SOLO?",["Escutar um canal no fone sem mexer no som do salão","Aumentar o volume de um canal","Silenciar todos os canais"],0,"O PFL (ou SOLO) manda o canal para o fone e para o medidor principal, sem alterar o que a igreja ouve."]]},
+
+{id:"a03",t:"Cabos e conectores sem mistério",min:6,
+intro:"Boa parte dos chiados, zumbidos e falhas no culto vem de cabo. Conhecer os conectores e cuidar dos cabos é a forma mais barata de melhorar o som.",
+s:[
+["Os conectores mais comuns",["XLR (canon): três pinos, usado em microfones e em saídas profissionais. Pino 1 é o terra, pino 2 o positivo, pino 3 o negativo.","P10 (1/4\"): o TS (ponta e corpo) é mono desbalanceado, usado em instrumentos. O TRS (ponta, anel e corpo) pode ser balanceado ou estéreo, como em fones.","P2 (3,5 mm): celular, notebook, fone comum.","RCA: aparelhos domésticos e alguns players.","speakON: liga amplificador em caixa passiva. Trava e aguenta potência alta."]],
+["Balanceado e desbalanceado",["O cabo balanceado leva o sinal duas vezes, uma delas invertida. Na mesa, o ruído que entrou no caminho se cancela. Por isso dá para usar cabos longos.","O desbalanceado não cancela ruído: use até uns 5 metros.","Instrumento longe da mesa? Use uma direct box (DI) perto dele. Ela converte o sinal do instrumento em sinal de microfone balanceado e muitas têm o botão ground lift para tirar zumbido."]],
+["Cuidando dos cabos",["Enrole na técnica alternada (over-under), nunca dando voltas no cotovelo. O cabo dura muito mais e não embola.","Cabo com defeito: marque com fita vermelha na hora e tire de circulação. Cabo ruim que volta para a caixa vira problema no próximo culto.","Etiquete as duas pontas dos cabos de multicabo e de caixas.","Tenha sempre dois cabos XLR testados de reserva perto da mesa."]]
+],
+dica:"Um testador de cabos simples custa pouco e economiza muito tempo antes do culto.",
+q:[["O violão está ligado com um cabo P10 de 15 metros e chia muito. Qual a melhor solução?",["Subir o ganho do canal","Usar uma direct box perto do violão e um cabo XLR até a mesa","Trocar por um cabo P10 mais grosso"],1,"Cabo P10 de instrumento é desbalanceado e capta ruído em distâncias longas. A DI converte para balanceado, e o cabo XLR leva o sinal limpo."],
+["O que fazer com um cabo que falhou no culto?",["Guardar junto com os outros e testar depois","Marcar na hora e tirar de circulação","Usar só em ensaios"],1,"Cabo com defeito misturado aos bons volta a falhar. Marque e separe na hora."]]},
+
+{id:"a04",t:"Microfones: tipos, captação e sem fio",min:7,
+intro:"Escolher e posicionar bem o microfone resolve mais do que qualquer equalizador.",
+s:[
+["Dinâmico e condensador",["Dinâmico: robusto, não precisa de energia, aguenta volume alto. É o padrão para voz no palco e para instrumentos amplificados.","Condensador: mais sensível e detalhado, precisa de phantom power (48V). Capta mais o ambiente e por isso aumenta o risco de microfonia em palcos barulhentos.","Lapelas e headsets costumam ser condensadores de eletreto, alimentados pelo transmissor sem fio."]],
+["Padrão polar: de onde o microfone escuta",["Cardioide: escuta pela frente e rejeita bem o que vem de trás. O retorno fica melhor atrás do microfone.","Supercardioide: mais fechado na frente, mas escuta um pouco por trás. Os retornos rendem mais posicionados em ângulo, nas laterais traseiras.","Omnidirecional: escuta tudo ao redor. Comum em lapelas; exige mais cuidado com caixas por perto."]],
+["Distância e efeito de proximidade",["Quanto mais perto da boca, mais forte o sinal e menos ganho você precisa. Menos ganho significa menos microfonia.","Microfones direcionais ganham graves quando ficam muito perto (efeito de proximidade). Cantor que cola o microfone fica com voz mais grossa; compense com o filtro de graves.","Headset fica sempre na mesma distância da boca e dá muito mais ganho antes da microfonia do que a lapela."]],
+["Sem fio sem susto",["Pilhas novas (ou baterias carregadas) em todo culto, com controle de uso.","Cada microfone precisa de uma frequência própria, sem conflito com os outros e com o retorno sem fio. Use a busca de frequência do receptor.","Antenas do receptor livres, sem ficar atrás de metal ou dentro de rack fechado.","Desligue o transmissor que não está em uso e mute o canal na mesa."]]
+],
+dica:"Registre na ficha da pessoa (aba Equipe) qual microfone funciona melhor para ela. Isso vale ouro para o voluntário que vai operar no próximo domingo.",
+q:[["Qual tipo de microfone precisa de phantom power (48V)?",["Dinâmico","Condensador","Os dois"],1,"Condensadores precisam de energia para funcionar; o phantom de 48V vem pela própria mesa, pelo cabo XLR."],
+["Por que o headset costuma dar menos microfonia que a lapela?",["Porque é mais caro","Porque fica perto da boca e precisa de menos ganho","Porque não capta graves"],1,"Mais perto da boca, o sinal chega forte e o ganho fica baixo. Com menos ganho, a caixa entra menos no microfone."]]},
+
+{id:"a05",t:"Ganho: o ajuste que vem antes de tudo",min:6,
+intro:"O ganho (GAIN ou TRIM) decide quanto do sinal do microfone entra na mesa. Errar aqui atrapalha todo o resto: EQ, compressor, retornos e gravação.",
+s:[
+["O que é e onde fica",["É o primeiro botão do canal, no topo da mesa analógica ou na tela de entrada (preamp) da digital.","Ganho controla a entrada. O fader controla a saída. São coisas diferentes."]],
+["Como ajustar, passo a passo",["Deixe o fader do canal embaixo e aperte PFL ou SOLO.","Peça para a pessoa cantar ou falar no volume real do culto, não sussurrando.","Suba o ganho até o medidor ficar no verde, encostando no amarelo nas partes mais fortes. Vermelho é distorção.","Solte o PFL e suba o fader até o volume desejado no salão."],true],
+["Problemas comuns",["Ganho alto demais: distorce e é a causa número um de microfonia.","Ganho baixo demais com fader lá em cima: chiado e falta de folga.","Fonte muito forte (bumbo, teclado em linha) acendendo vermelho mesmo com ganho no mínimo? Use o botão PAD, que atenua o sinal antes do pré."]]
+],
+dica:"Precisou de muito ganho? Antes de girar o botão, aproxime o microfone da boca. É a solução que nenhum equipamento substitui.",
+q:[["O cantor falou baixinho no teste e canta forte no culto. O que acontece?",["Nada, a mesa compensa sozinha","O canal distorce e pode microfonar","O som fica mais grave"],1,"O ganho foi ajustado para um sinal fraco. Quando ele canta forte, o sinal estoura e a chance de microfonia aumenta. Sempre ajuste com o volume real."],
+["Qual a diferença entre ganho e fader?",["Nenhuma, os dois aumentam o volume","Ganho controla a entrada do canal; fader controla a saída","Fader controla a entrada; ganho controla a saída"],1,"O ganho define o nível de entrada (quanto do microfone entra). O fader define quanto do canal vai para a mixagem."]]},
+
+{id:"a06",t:"Fader, mute e escuta no fone",min:4,
+intro:"Três controles que você usa o culto inteiro. Usar bem cada um deixa a operação calma e precisa.",
+s:[
+["Fader",["O fader controla quanto do canal vai para a mistura principal.","A marca 0 (ou U, de unity) é a posição neutra: o sinal sai como entrou.","Trabalhe com os faders perto do 0. Ali o ajuste é mais fino; lá embaixo, um milímetro muda muito o volume."]],
+["Mute ou ON",["Corta o canal sem perder a posição do fader. Ao voltar, o volume volta exatamente onde estava.","Microfone fora de uso fica mutado. Microfone aberto sem ninguém falando só capta ruído e caixa, e aumenta o risco de microfonia.","Abra o microfone do pregador um instante antes de ele falar, não depois da primeira frase."]],
+["PFL, SOLO e AFL",["PFL (pre-fader listen) escuta o canal antes do fader: ótimo para ajustar ganho e conferir se o microfone está vivo.","AFL (after-fader listen) escuta depois do fader: mostra o que realmente está indo para a mistura.","Use um fone fechado de boa qualidade. Ele é o seu microscópio durante o culto."]]
+],
+dica:"Combine com o louvor um sinal para o fim da música e com o pastor um sinal para quando ele vai falar. Assim você abre e fecha microfones na hora certa.",
+q:[["Para que serve a marca 0 (unity) do fader?",["É o volume máximo","É a posição neutra, sem ganho nem perda","É a posição de mute"],1,"No 0 o canal sai com o mesmo nível com que entrou no fader. Trabalhar perto dele dá mais precisão."],
+["Por que mutar microfones fora de uso?",["Para economizar pilha","Porque microfone aberto capta caixa e ruído e aumenta o risco de microfonia","Porque a mesa esquenta"],1,"Cada microfone aberto soma ruído e dá mais um caminho para a microfonia."]]},
+
+{id:"a07",t:"Equalização básica",min:7,
+intro:"Equalizar é dar a cada fonte o seu espaço. A regra que mais ajuda o iniciante: corte mais do que realça.",
+s:[
+["Filtro de graves (HPF ou LOW CUT)",["Corta tudo abaixo de uma frequência. Ligue em todo microfone de voz.","Ele tira ronco de palco, batidas no pedestal e barulho de manuseio, e libera espaço para o baixo e o bumbo.","Pontos de partida: voz masculina em torno de 100 Hz, feminina em torno de 120 a 150 Hz, fala em 100 a 150 Hz."]],
+["As bandas da mesa",["Mesas simples têm GRAVE (LOW), MÉDIO (MID) e AGUDO (HIGH). Algumas têm o médio com botão de frequência (semi-paramétrico), que ajuda muito.","Voz embolada costuma ter excesso entre 200 e 400 Hz: corte um pouco aí.","Voz nasal ou de telefone: excesso perto de 800 Hz a 1 kHz.","Falta de clareza: presença entre 2 e 5 kHz. Realce com cuidado.","Voz áspera ou estridente: excesso entre 2 e 4 kHz; sibilância (o \"s\" que fere) entre 5 e 8 kHz."]],
+["Pontos de partida por instrumento",["Bumbo: peso entre 60 e 100 Hz, ataque entre 2 e 4 kHz, corte o \"papelão\" perto de 300 a 500 Hz.","Baixo: fundamento entre 60 e 200 Hz; um pouco de 700 Hz a 1 kHz ajuda a ser ouvido em caixas pequenas.","Violão: corte o embolado perto de 200 a 300 Hz, brilho em torno de 5 kHz.","Teclado e piano: se o baixo estiver presente, use filtro de graves para os dois não brigarem."]],
+["Regras de ouro",["Primeiro ganho, depois EQ. EQ não conserta ganho errado.","Corte estreito para problemas, realce largo e suave para cor.","Compare ligando e desligando o EQ do canal. Se não melhorou de verdade, volte tudo ao meio.","Equalize ouvindo a banda junta, não só o canal sozinho."]]
+],
+dica:"Comece o culto com todos os EQs no meio (flat) e o filtro de graves ligado nas vozes. É um ponto de partida seguro para qualquer voluntário.",
+q:[["A voz do pregador está abafada. Onde mexer primeiro?",["Cortar um pouco entre 200 e 400 Hz","Subir muito o grave","Desligar o filtro de graves"],0,"Abafado e embolado normalmente é excesso de médio-grave. Um corte suave entre 200 e 400 Hz devolve clareza."],
+["Qual é o papel do filtro de graves (HPF) numa voz?",["Deixar a voz mais grossa","Tirar ronco e barulho de baixa frequência que a voz não precisa","Aumentar o volume da voz"],1,"A voz quase não tem conteúdo útil abaixo de 80 a 100 Hz. O filtro limpa essa região e deixa espaço para outros instrumentos."]]},
+
+{id:"a08",t:"Microfonia: por que acontece e como parar",min:7,
+intro:"Microfonia (feedback) é o som da caixa entrando de novo no microfone, sendo amplificado e voltando em ciclo. Entender o ciclo é o que permite quebrá-lo.",
+s:[
+["Primeiros socorros (no meio do culto)",["Abaixe o fader do microfone que está apitando até parar. Isso resolve na hora.","Descubra qual microfone é: geralmente o que está mais perto de uma caixa ou do retorno.","Com o apito controlado, ache a frequência (o SOS Microfonia ajuda) e corte só ela no equalizador da caixa ou do retorno."],true],
+["As quatro alavancas contra a microfonia",["Aproximar a fonte do microfone. Cada vez que a distância boca-microfone cai pela metade, o sinal sobe cerca de 6 dB, e você pode baixar o ganho.","Afastar as caixas dos microfones, e nunca apontar caixa para microfone.","Usar a direcionalidade: retorno na região que o microfone rejeita.","Equalizar: cortes estreitos nas frequências que anelam. É a última alavanca, não a primeira."]],
+["O que costuma causar",["Pregador andando na frente das caixas com o microfone aberto.","Retorno alto demais no palco.","Lapela em pessoa que fala baixo, exigindo muito ganho.","Microfones abertos sem uso.","Ganho ajustado com a pessoa sussurrando."]]
+],
+dica:"Faça o teste antes do culto: com o sistema no volume do culto, caminhe com o microfone do pregador pelos lugares onde ele costuma andar. Os pontos de apito viram regra combinada com ele.",
+q:[["Qual a primeira coisa a fazer quando começa um apito?",["Desligar a mesa","Abaixar o fader do microfone que apita","Subir o volume geral para cobrir o apito"],1,"Abaixar o canal quebra o ciclo na hora. Depois, com calma, você descobre a frequência e corta."],
+["O que acontece quando a boca do cantor fica com metade da distância do microfone?",["O sinal sobe cerca de 6 dB e dá para usar menos ganho","Nada muda","O sinal cai 6 dB"],0,"Pela lei do inverso do quadrado da distância, dividir a distância pela metade aumenta o sinal em cerca de 6 dB."]]},
+
+{id:"a09",t:"Para quem fala ao microfone: pastor, dirigente e avisos",min:5,
+intro:"Metade dos problemas de som começa em quem segura o microfone. Esta aula foi feita para você mostrar ao pastor e à liderança.",
+s:[
+["Microfone de mão",["A cerca de um palmo da boca, apontado para a boca, não para o queixo nem para o teto.","Não abaixe o microfone para falar mais alto: aproxime-se dele.","Não cubra a grade com a mão: muda o som e provoca microfonia."]],
+["Lapela e headset",["Lapela no centro do peito, a uns dois palmos da boca, longe da gola que roça.","Headset: a cápsula no canto da boca, sem encostar, sempre na mesma posição.","Cuidado com colares, cachecóis e microfone escondido sob a roupa."]],
+["Movimentação no palco",["Evite passar na frente das caixas com o microfone ligado.","Combine com o técnico antes de chamar alguém para falar ou mudar de lugar.","Ao terminar, desligue o transmissor ou peça para o técnico mutar."]],
+["Comunicação com a técnica",["Um sinal simples para \"me aumenta\" e \"me abaixa\" evita frases no meio da pregação.","Chegue alguns minutos antes para testar o microfone no lugar real de onde vai falar.","Pregadores visitantes: o técnico preenche uma ficha na hora (aba Equipe)."]]
+],
+dica:"Deixe o celular ou o tablet com esta aula aberta e mostre ao pregador visitante antes do culto. Dois minutos de conversa evitam o culto inteiro de ajustes.",
+q:[["Onde deve ficar o microfone de lapela?",["Na gola, virado para o lado","No centro do peito","No bolso da camisa"],1,"No centro do peito ele capta a voz por igual, mesmo quando a pessoa vira a cabeça."],
+["O pregador quer falar mais alto. O que é melhor?",["Afastar o microfone","Aproximar-se do microfone","Pedir mais ganho ao técnico"],1,"Aproximar o microfone aumenta o sinal sem aumentar o ganho, reduzindo o risco de microfonia."]]},
+
+{id:"a10",t:"Passagem de som em 15 minutos",min:6,
+intro:"Uma passagem de som organizada vale mais que uma longa e bagunçada. Este roteiro serve para a maioria dos cultos.",
+s:[
+["Roteiro",["Ligue na ordem: primeiro a mesa e os processadores, por último os amplificadores e caixas ativas. Para desligar, ao contrário. Isso evita estalos que podem danificar alto-falantes.","Line check: cada canal tem sinal? Alguém fala ou toca em cada microfone e instrumento, rapidinho, enquanto você confere o medidor.","Ganho canal por canal, com cada músico tocando no volume real do culto.","Retornos: cada músico pede o que precisa ouvir. Comece com pouco.","Som do salão: a banda toca um trecho junta e você ajusta EQ e equilíbrio ouvindo do meio do templo.","Púlpito: teste o microfone do pregador no lugar real e no volume real.","Salve a cena (digital) ou fotografe a mesa (analógica) e anote o que mudou no diário."],true],
+["O que evitar",["Músicos tocando ao mesmo tempo enquanto você ajusta um canal.","Ajustar tudo com a igreja vazia e não retocar quando enche.","Começar a passagem em cima da hora do culto."]]
+],
+dica:"Use o Checklist pré-culto do app para não esquecer pilhas, gravação e microfone do púlpito.",
+q:[["Qual a ordem certa para ligar o sistema?",["Caixas primeiro, mesa por último","Mesa e processadores primeiro, amplificadores e caixas por último","Tanto faz"],1,"Ligar as caixas por último evita que os estalos de ligar a mesa cheguem amplificados aos alto-falantes."],
+["Na passagem, por que ajustar o ganho com o músico tocando no volume real?",["Para economizar tempo","Porque o ganho ajustado com volume baixo vai estourar no culto","Porque a mesa exige"],1,"O ganho depende do nível que entra. Ajustar com volume irreal leva a distorção ou chiado no culto."]]}
+]},
+
+{id:"n2",nome:"Nível 2 · Operador",sub:"Retornos, dinâmica, efeitos e mixagem do louvor e da pregação.",aulas:[
+{id:"b01",t:"Auxiliares: pré-fader e pós-fader",min:6,
+intro:"Os auxiliares (AUX, MON, FX) criam misturas separadas da principal. Eles alimentam os retornos, os efeitos e muitas vezes a transmissão.",
+s:[
+["Pré-fader",["O envio sai antes do fader do canal. Mexer no fader do salão não muda o retorno.","É o modo certo para retornos: o músico não pode perder a própria voz porque você abaixou o canal no salão."]],
+["Pós-fader",["O envio sai depois do fader. Se você abaixa o canal no salão, o envio cai junto.","É o modo certo para efeitos (reverb, delay): o efeito acompanha o volume da voz.","Também serve para uma mistura de transmissão que siga o salão, quando a mesa não tem matriz."]],
+["Na prática",["Confira em cada aux se ele está PRE ou POST. Em mesas analógicas pode ser uma chave por aux ou fixa; nas digitais fica na configuração do barramento.","Dê nome aos auxiliares: \"Retorno vozes\", \"Retorno bateria\", \"Reverb\", \"Live\"."]]
+],
+dica:"Na aba Mesa do app, mantenha atualizado o que cada aux leva e para quem. É a primeira coisa que um voluntário novo precisa saber.",
+q:[["Qual modo usar para retornos de palco?",["Pós-fader","Pré-fader","Qualquer um"],1,"Pré-fader mantém o retorno independente do que você faz no fader do salão."],
+["Por que efeitos costumam ser pós-fader?",["Porque soam mais alto","Para o efeito acompanhar o volume do canal","Porque a mesa não deixa diferente"],1,"Se você abaixa a voz no salão, o reverb dela também precisa abaixar. Pós-fader faz isso sozinho."]]},
+
+{id:"b02",t:"Retornos que ajudam o louvor",min:7,
+intro:"Retorno bom é aquele que deixa o músico tocar e cantar afinado, no menor volume possível.",
+s:[
+["Menos é mais",["Cada retorno leva só o que a pessoa precisa: em geral a própria voz e um instrumento de referência harmônica.","Retorno alto vaza para o salão, embola o som da igreja e provoca microfonia.","Quanto mais coisas no retorno, mais alto ele precisa ficar para cada uma ser ouvida."]],
+["Posicionamento",["Monitor de chão apontado para os ouvidos de quem usa, na região que o microfone rejeita (atrás do cardioide, em ângulo no supercardioide).","Evite o retorno de um músico apontar para o microfone de outro."]],
+["Equalização e microfonia no retorno",["A maioria das microfonias em igreja nasce no retorno, não nas caixas do salão.","Use o equalizador gráfico do retorno para cortar as frequências que anelam (veja a aula de Ringing out, no Nível 3).","Um filtro de graves no retorno de vozes limpa muito."]],
+["In-ear (fone de retorno)",["Tira o som do palco: menos microfonia e menos vazamento para o salão.","Exige mix mais caprichado, de preferência estéreo, e cuidado com o volume para proteger a audição.","Apps de mixagem pessoal (MonitorMix, Qu4You, More Me, CQ4You) deixam cada músico ajustar o próprio retorno pelo celular."]],
+["Comunicação",["Combine sinais de mão: apontar para o ouvido e para cima ou para baixo.","Use o pedido de retorno do app ou o talkback da mesa em vez de gritos no palco."]]
+],
+dica:"Antes de subir um retorno porque o músico pediu \"mais\", pergunte \"mais o quê?\". Às vezes ele precisa de menos de outra coisa.",
+q:[["Onde nasce a maioria das microfonias em igreja?",["Nas caixas do fundo","Nos retornos do palco","No notebook do playback"],1,"O retorno fica perto dos microfones e apontado para eles. É o caminho mais curto para o ciclo da microfonia."],
+["O cantor pede mais volume no retorno, que já está cheio de instrumentos. O que tentar primeiro?",["Subir tudo","Tirar do retorno o que ele não precisa","Trocar o microfone"],1,"Limpar o retorno faz a voz aparecer sem subir o volume geral."]]},
+
+{id:"b03",t:"Compressor sem medo",min:8,
+intro:"O compressor reduz a diferença entre as partes mais fracas e mais fortes do sinal. Bem usado, ele deixa a voz presente sem sustos.",
+s:[
+["Os controles",["Threshold (limiar): a partir de que nível o compressor começa a agir.","Ratio (razão): quanto ele segura. Em 4:1, cada 4 dB acima do limiar viram 1 dB.","Attack: quão rápido ele reage. Rápido segura picos; lento deixa passar o ataque das notas e consoantes.","Release: quão rápido ele solta depois que o sinal cai.","Makeup ou gain: devolve o volume perdido na compressão.","Medidor de redução de ganho (GR): mostra quanto ele está segurando."]],
+["Pontos de partida",["Voz cantada: ratio 2:1 a 3:1, redução de 3 a 6 dB nos trechos fortes.","Pregação: ratio 3:1 a 4:1, ajuda com quem alterna sussurro e grito.","Baixo: ratio 4:1, attack médio, para deixar as notas por igual.","Mesas com compressor de um botão (como as Yamaha MG e TF) já escolhem esses ajustes; gire até o efeito ficar natural."]],
+["Cuidados",["Compressão demais tira a vida da música e sobe o ruído do palco e da caixa no microfone, aumentando o risco de microfonia.","Compressor não substitui o ganho bem ajustado.","Se você não ouve diferença ligando e desligando, provavelmente ele não está fazendo nada útil ou está fazendo demais em tudo."]]
+],
+dica:"Na voz do pastor, um compressor moderado é o melhor amigo do voluntário: menos sustos quando ele grita e as frases baixinhas continuam audíveis.",
+q:[["Com ratio 4:1, o sinal passa 8 dB acima do limiar. Quanto sai acima do limiar?",["8 dB","2 dB","4 dB"],1,"Em 4:1, cada 4 dB acima viram 1 dB. Então 8 dB viram 2 dB."],
+["Qual o risco de comprimir demais um microfone de voz?",["Nenhum","A voz perde vida e o ruído do ambiente sobe, aumentando o risco de microfonia","A voz fica mais aguda"],1,"A compressão forte puxa para cima tudo o que é fraco, inclusive o som das caixas que entra no microfone."]]},
+
+{id:"b04",t:"Gate e expansor",min:5,
+intro:"O gate fecha o canal quando o sinal fica abaixo de um limiar. Ele limpa microfones que captam muito vazamento.",
+s:[
+["Onde usar",["Tons e caixa da bateria: fecham entre as batidas e reduzem o vazamento dos pratos.","Bumbo: deixa o som mais seco e definido.","Canais com ruído constante, como um amplificador de guitarra chiando."]],
+["Onde evitar",["Voz falada e cantada: o gate pode cortar começos e finais de palavras. Se precisar, prefira o expansor, que abaixa em vez de fechar.","Microfone do pastor: quase nunca é necessário."]],
+["Controles",["Threshold: nível em que abre.","Range ou depth: quanto ele abaixa quando fecha (fechar tudo nem sempre é o melhor).","Attack, hold e release: quão rápido abre, quanto tempo segura aberto e quão rápido fecha."]]
+],
+dica:"Ajuste o gate com o músico tocando forte e fraco. Um gate que corta notas suaves é pior do que nenhum gate.",
+q:[["Qual a diferença entre gate e expansor?",["Nenhuma","O gate fecha o canal; o expansor apenas abaixa o sinal fraco","O expansor aumenta o volume"],1,"O expansor é mais suave: reduz o nível abaixo do limiar sem cortar totalmente."],
+["Por que evitar gate na voz?",["Ele pode cortar começos e finais de palavras","Ele deixa a voz mais grave","Ele aumenta a microfonia"],0,"Sílabas fracas podem ficar abaixo do limiar e sumir."]]},
+
+{id:"b05",t:"Reverb e delay na igreja",min:6,
+intro:"Efeitos dão ambiente e beleza às vozes cantadas. Na igreja, o desafio é que o próprio templo já tem reverberação.",
+s:[
+["Antes de tudo: o templo",["Templos com paredes duras já reverberam bastante. Somar muito reverb da mesa deixa tudo embolado.","Em templos secos (carpete, cortinas, teto baixo), um pouco de reverb ajuda muito o louvor."]],
+["Reverb",["Tipos: hall (grande e longo), plate (brilhante, ótimo para vozes), room (pequeno e natural).","Pré-delay de 20 a 60 ms separa a voz do reverb e mantém as palavras na frente.","Filtre o retorno do reverb: corte graves (abaixo de uns 200 Hz) e um pouco dos agudos extremos.","Quase nenhum reverb na fala. A pregação precisa de clareza, não de ambiente."]],
+["Delay",["Repetições da voz, de preferência no tempo da música. Use o tap tempo da mesa batendo no ritmo.","Em volume baixo, dá profundidade sem ser percebido como eco."]],
+["Como ligar",["Envie as vozes pelo aux de efeito (pós-fader) e ajuste a volta do efeito (FX return) na mistura.","Use o mute do efeito entre as músicas e durante avisos e orações faladas."]]
+],
+dica:"Crie um hábito: efeito ligado nas músicas, desligado na fala. Algumas mesas digitais deixam isso num mute group ou numa cena.",
+q:[["Para que serve o pré-delay do reverb?",["Para separar a voz do efeito e manter as palavras claras","Para aumentar o volume","Para tirar microfonia"],0,"Atrasar um pouco o início do reverb deixa a voz original chegar limpa antes do ambiente."],
+["Quanto reverb usar na pregação?",["Bastante, para dar emoção","Quase nenhum","O mesmo das músicas"],1,"Fala precisa de inteligibilidade. O reverb do templo já basta."]]},
+
+{id:"b06",t:"Mixando o louvor",min:8,
+intro:"Mixar o louvor é ajudar a igreja a cantar. A congregação é o instrumento principal; a banda serve a ela.",
+s:[
+["Ordem de construção",["Comece pela voz principal: é ela que conduz a igreja.","Depois a base rítmica (bumbo, caixa, baixo), que dá o chão.","Depois a harmonia (teclado, violão, guitarra).","Por fim os vocais de apoio, abaixo da voz principal, como uma cama."],true],
+["Espaço para cada um",["Instrumentos que brigam na mesma faixa embolam. Corte em um o que sobra no outro: por exemplo, filtro de graves no violão para o baixo respirar.","Use o pan com moderação: em igreja, boa parte do público não está no centro.","Volume não é clareza. Muitas vezes abaixar um instrumento faz outro aparecer melhor."]],
+["Dinâmica do culto",["Momentos de ministração pedem mixagem mais suave e voz bem na frente.","Momentos de celebração podem ter mais energia, dentro do limite de volume combinado.","Acompanhe o roteiro: saber o que vem a seguir é metade da mixagem."]],
+["Onde ouvir",["A mesa muitas vezes está num lugar ruim (fundo, canto, balcão). Caminhe até o meio do templo durante a passagem e às vezes no culto.","Confira de vez em quando com o fone, principalmente as vozes."]]
+],
+dica:"Se a congregação parou de cantar, algo está alto demais ou a letra não está clara. Escute a igreja, não só a banda.",
+q:[["Por onde começar a construir a mixagem do louvor?",["Pelos pratos da bateria","Pela voz principal","Pelo teclado"],1,"A voz principal conduz a igreja. Tudo se constrói ao redor dela."],
+["Violão e baixo estão embolados. Uma boa solução é:",["Subir os dois","Usar filtro de graves no violão","Tirar o baixo"],1,"O violão não precisa dos graves profundos; cortar ali dá espaço ao baixo."]]},
+
+{id:"b07",t:"Pregação clara do primeiro ao último banco",min:6,
+intro:"Na pregação, a meta é uma só: cada palavra entendida, sem cansar quem ouve.",
+s:[
+["Cadeia de canal recomendada",["Filtro de graves entre 100 e 150 Hz.","Corte suave entre 200 e 400 Hz se a voz soar abafada.","Leve realce entre 2 e 4 kHz se faltar clareza.","Compressor 3:1 a 4:1, com 3 a 6 dB de redução nos trechos fortes.","De-esser ou corte estreito entre 5 e 8 kHz se o \"s\" ferir.","Sem reverb."],true],
+["Consistência",["O pregador muda de intensidade o tempo todo. Acompanhe com o fader, em movimentos pequenos.","Pregador visitante: ganho e EQ novos, e uma ficha nova no app.","Troca de microfone no meio do culto: confira ganho e EQ do canal novo."]],
+["Ambiente",["Música de fundo durante oração ou apelo precisa ficar bem abaixo da voz.","Em algumas mesas digitais dá para fazer a música abaixar sozinha quando o pastor fala (ducking, Nível 4)."]]
+],
+dica:"Sente no último banco durante um culto e ouça a pregação inteira de lá. Você vai descobrir o que a igreja realmente escuta.",
+q:[["Qual efeito NÃO deve ser usado na pregação?",["Compressor","Filtro de graves","Reverb"],2,"A pregação precisa de clareza. O templo já tem ambiente natural."],
+["O \"s\" do pregador está ferindo o ouvido. Onde mexer?",["Entre 5 e 8 kHz","Entre 100 e 200 Hz","Entre 500 e 800 Hz"],0,"A sibilância fica entre 5 e 8 kHz. Um de-esser ou corte estreito ali resolve."]]},
+
+{id:"b08",t:"Volume na igreja: quanto é demais",min:6,
+intro:"Volume é o assunto que mais gera atrito entre louvor, liderança e congregação. Medir tira a discussão do gosto pessoal.",
+s:[
+["Medindo",["O volume do salão é medido em dB SPL. A ponderação A, dB(A), imita a sensibilidade do ouvido e quase ignora graves. A ponderação C, dB(C), considera mais os graves.","Apps de medição no celular dão uma boa noção, mas não são precisos: compare sempre do mesmo lugar e com o mesmo aparelho.","Meça no meio do templo, não na frente da caixa nem ao lado da mesa."]],
+["Referências",["Conversa normal fica em torno de 60 dB.","A norma brasileira de exposição ao ruído no trabalho (NR-15) admite 85 dB(A) por até 8 horas. A cada 5 dB a mais, o tempo seguro cai pela metade: 90 dB(A) por 4 horas, 95 dB(A) por 2 horas, 100 dB(A) por 1 hora.","Músicos e técnicos que passam horas no palco toda semana estão expostos mais vezes do que a congregação. Protetores auriculares para ensaios são um cuidado sério."]],
+["Combinando com a liderança",["Defina com a liderança uma faixa-alvo para o louvor e outra para a pregação, medida sempre do mesmo ponto.","Registre no relatório do culto quando passou do combinado e por quê.","Volume alto não resolve som ruim: muitas vezes o problema é clareza, não falta de volume."]]
+],
+dica:"Graves altos cansam e incomodam vizinhos, mas aparecem pouco no dB(A). Se a reclamação é \"está alto\" e o medidor diz que não, confira em dB(C).",
+q:[["Pela NR-15, por quanto tempo é admitida exposição a 90 dB(A)?",["8 horas","4 horas","1 hora"],1,"A NR-15 dobra o tempo a cada 5 dB a menos: 85 dB(A) por 8 h, 90 dB(A) por 4 h."],
+["Qual ponderação considera mais os graves?",["dB(A)","dB(C)","As duas iguais"],1,"A ponderação A atenua os graves para imitar o ouvido em volumes moderados; a C é quase plana."]]},
+
+{id:"b09",t:"Gravação e transmissão ao vivo",min:7,
+intro:"A mixagem que soa bem no templo quase nunca soa bem na transmissão. Entender por quê evita lives sem bateria ou sem voz.",
+s:[
+["Por que o mix da live é diferente",["No templo, a bateria, o amplificador de guitarra e a própria sala somam som acústico ao que sai das caixas. Na live só existe o que passa pela mesa.","Por isso, numa live tirada do master, a bateria e a guitarra costumam sumir e a voz fica alta demais."]],
+["Como fazer",["Use um aux pós-fader ou uma matriz dedicada para a transmissão, com volumes próprios.","Coloque um compressor ou limitador nessa saída para a live não estourar.","Um ou dois microfones de ambiente captam a congregação cantando e dão vida à transmissão.","Monitore a live com fone, de preferência o retorno real da plataforma, com atraso."]],
+["Ligando no computador",["Muitas mesas têm interface USB (Yamaha MG XU, Xenyx USB, Signature, e praticamente todas as digitais).","Mesa analógica sem USB: use a saída REC OUT ou um aux para uma interface de áudio. Evite ligar saída de linha direto na entrada de microfone do celular sem adaptador atenuador.","No programa de transmissão, ajuste o nível para os picos ficarem abaixo do vermelho."]],
+["Gravação",["Gravação estéreo do mix serve como registro.","Gravação multipista (cada canal separado) permite remixar depois e treinar voluntários (veja Virtual soundcheck no Nível 3)."]]
+],
+dica:"Assista à gravação da live do domingo passado na segunda-feira, com fone. Anote três coisas para melhorar no diário.",
+q:[["Por que a bateria costuma sumir na live tirada do master?",["Porque o microfone da bateria é ruim","Porque no templo boa parte do som da bateria é acústico e não passa pela mesa","Porque a live corta graves"],1,"No salão você ouve a bateria acústica direto. A mesa leva pouco dela, e a live só recebe o que passa pela mesa."],
+["Qual saída usar para uma mix própria da live?",["Aux pré-fader dos retornos","Aux pós-fader ou matriz dedicada","Saída de fone"],1,"Um aux pós-fader ou matriz permite volumes próprios para a live, acompanhando o que acontece no culto."]]},
+
+{id:"b10",t:"Manutenção e organização do ministério de som",min:5,
+intro:"Equipamento bem cuidado e organizado é metade de um culto sem susto.",
+s:[
+["Rotina semanal",["Pilhas: troque ou recarregue sempre, e anote a data. Recarregáveis de boa qualidade reduzem custo, desde que haja controle.","Grelhas de microfone: limpe com regularidade (higiene e som).","Cabos com defeito separados e consertados.","Capa na mesa depois do culto: poeira e líquidos são inimigos."]],
+["Organização",["Etiquete canais na mesa e cabos no palco.","Mantenha atualizado o mapa de canais e retornos (aba Mesa).","Inventário simples: o que existe, onde fica, quem emprestou."]],
+["Elétrica e atualizações",["Ligue o som em circuito próprio e estável. Um nobreak para a mesa digital evita perder tudo numa queda de energia.","Atualize firmware de mesas digitais e apps durante a semana, nunca no dia do culto, e salve um backup antes."]]
+],
+dica:"Escolha um dia por mês para a revisão geral do equipamento e registre no diário do app.",
+q:[["Quando atualizar o firmware da mesa digital?",["Domingo antes do culto","Durante a semana, com backup salvo antes","Nunca"],1,"Atualização pode mudar ou falhar. Faça com tempo para testar e com backup."],
+["Para que serve um nobreak na mesa digital?",["Aumentar o volume","Evitar desligamento e perda de configuração numa queda de energia","Melhorar o grave"],1,"Uma queda de energia reinicia a mesa no meio do culto. O nobreak dá tempo para a energia voltar."]]}
+]},
+
+{id:"n3",nome:"Nível 3 · Técnico",sub:"Mesas digitais, sistema de caixas, acústica e redes.",aulas:[
+{id:"c01",t:"Mesa digital: os conceitos que mudam tudo",min:8,
+intro:"Mesas digitais assustam porque escondem os controles em telas. Mas todas seguem as mesmas ideias. Entendeu uma, entende as outras.",
+s:[
+["Entrada física não é canal",["Na analógica, a entrada 1 é o canal 1. Na digital, existe o patch (roteamento): você decide que entrada física, ou que canal da stagebox ou do USB, alimenta cada canal.","Isso permite trocar um microfone de lugar no palco sem trocar o canal na mesa."]],
+["Camadas (layers)",["Com menos faders que canais, a mesa mostra os canais em camadas: entradas 1 a 8, 9 a 16, auxiliares, efeitos, masters.","Camadas personalizadas (custom ou user layers) juntam o que você mais usa: pastor, voz principal, DCAs da banda."]],
+["Cenas, shows e bibliotecas",["Cena (scene ou snapshot) é uma foto de todos os ajustes da mesa. Você salva e chama quando quiser.","Show é o conjunto de cenas e configurações.","Biblioteca (library ou preset) guarda ajustes de um canal, de um EQ ou de um efeito para reaproveitar.","Safes e recall filters protegem itens que não devem mudar quando você chama uma cena, como o ganho dos microfones sem fio."]],
+["Hábitos de segurança",["Salve uma cena base que funcione sempre e nunca grave por cima dela. Trabalhe em cópias.","Dê nome e data às cenas: \"Culto domingo manhã 2026-10\".","Faça backup do show em pendrive e no computador."]]
+],
+dica:"Monte uma camada personalizada com só o que o voluntário iniciante precisa. Ele aprende a mesa aos poucos sem se perder.",
+q:[["O que é o patch numa mesa digital?",["Um efeito","O roteamento que liga entradas físicas aos canais","Um tipo de cabo"],1,"No patch você define que entrada alimenta cada canal, o que dá flexibilidade enorme."],
+["Para que servem os safes ou recall filters?",["Proteger ajustes que não devem mudar ao chamar uma cena","Salvar cenas automaticamente","Desligar canais"],0,"Com safes, chamar uma cena não mexe nos itens protegidos."]]},
+
+{id:"c02",t:"DCA, subgrupo e mute group",min:7,
+intro:"Três ferramentas para controlar vários canais de uma vez. Parecem iguais, mas fazem coisas bem diferentes.",
+s:[
+["DCA (ou VCA)",["É um controle remoto de volume: o fader do DCA sobe ou desce vários canais juntos, mantendo o equilíbrio entre eles.","Não mistura áudio: cada canal continua indo para onde ia. Por isso não dá para pôr um compressor no DCA.","Exemplos de igreja: DCA Vozes, DCA Banda, DCA Bateria, DCA Púlpito."]],
+["Subgrupo",["Soma o áudio de vários canais em um barramento. O resultado pode receber EQ e compressor.","Exemplo: subgrupo da bateria com um compressor que segura o conjunto.","Em mesas analógicas, como as Xenyx com subgrupos, é a forma de controlar a banda num fader só."]],
+["Mute group",["Um botão muta vários canais de uma vez.","Exemplos: \"Banda\" (muta tudo da banda quando começa a pregação), \"Efeitos\" (muta reverb e delay na fala), \"Palco\" (muta microfones do palco durante a ceia)."]]
+],
+dica:"Monte na passagem de som um mute group \"Banda\" e um DCA \"Vozes\". Só isso já deixa a operação do culto muito mais tranquila.",
+q:[["É possível colocar um compressor em um DCA?",["Sim","Não, o DCA não mistura áudio, só controla volume","Só em mesas Yamaha"],1,"O DCA apenas move o nível dos canais. Para processar o conjunto, use um subgrupo."],
+["Quando a pregação começa, o melhor jeito de calar toda a banda é:",["Abaixar os faders um por um","Usar um mute group da banda","Desligar a mesa"],1,"Um botão silencia tudo e, ao final, devolve cada canal ao nível de antes."]]},
+
+{id:"c03",t:"Equalizador paramétrico na prática",min:7,
+intro:"O EQ paramétrico deixa você escolher a frequência, o quanto mexer e a largura da faixa. É a ferramenta mais poderosa do canal.",
+s:[
+["Os três controles",["Frequência: onde mexer.","Ganho: quanto subir ou cortar.","Q (largura): quanto da vizinhança é afetado. Q alto é estreito (cirúrgico); Q baixo é largo (musical)."]],
+["Técnica de varredura (sweep)",["Suba uns 8 a 10 dB com Q estreito.","Varra a frequência devagar até achar o ponto onde o problema fica pior (o embolado, o nasal, o áspero).","Transforme esse ganho em corte, e diminua até soar natural."],true],
+["Mapa rápido da voz",["Peso: 120 a 250 Hz.","Embolado: 200 a 400 Hz.","Nasal: 800 Hz a 1,2 kHz.","Presença: 2 a 5 kHz.","Sibilância: 5 a 8 kHz.","Ar: acima de 10 kHz."]],
+["EQ dinâmico",["Algumas mesas têm EQ dinâmico ou multibanda: o corte só acontece quando a frequência passa de um limiar.","Ótimo para a voz que fica áspera só nas notas fortes, ou para um \"s\" que aparece às vezes."]]
+],
+dica:"Na varredura, faça os testes com volume moderado e por pouco tempo: realces fortes cansam o ouvido e podem incomodar a igreja.",
+q:[["O que um Q alto significa?",["Faixa larga, mexe em muitas frequências","Faixa estreita, ajuste cirúrgico","Mais volume"],1,"Q alto concentra o ajuste numa faixa estreita. Bom para problemas pontuais."],
+["Na técnica de varredura, você começa:",["Cortando muito com Q largo","Realçando com Q estreito para achar o problema","Desligando o EQ"],1,"O realce estreito exagera o problema e facilita encontrá-lo. Depois ele vira corte."]]},
+
+{id:"c04",t:"Ringing out: tirando a microfonia antes do culto",min:8,
+intro:"Ringing out é preparar o sistema para não microfonar, cortando as frequências mais sensíveis antes que o culto comece.",
+s:[
+["Procedimento",["Com o sistema no volume do culto, abra o microfone na posição real de uso.","Suba o ganho ou o fader devagar até começar a anelar (um tom sustentado, ainda baixinho).","Identifique a frequência com um analisador (RTA) ou com o SOS Microfonia.","Corte essa frequência no equalizador da saída (PA ou retorno) com filtro estreito, de 3 a 6 dB.","Repita para mais duas a quatro frequências. Pare quando o ganho extra que você conquista ficar pequeno.","Faça o processo separado para cada retorno."],true],
+["Cuidados",["Não exagere: cortes demais deixam o som oco e sem vida.","Proteja os ouvidos e avise quem estiver no templo.","Refaça se mudar caixas, microfones ou a posição da banda."]],
+["Supressores automáticos",["Algumas mesas fazem isso sozinhas: dbx AFS2 nas Soundcraft Ui, Feedback Assistant nas Allen & Heath CQ e Qu, FBQ que indica as frequências nas Behringer Xenyx.","O modo fixo (fixed) é usado antes do culto para criar filtros permanentes; o modo ao vivo (live) cria filtros temporários durante o culto.","Mesmo com o automático, entender o processo manual ajuda a perceber quando ele está exagerando."]]
+],
+dica:"Anote no diário do app as frequências que costumam microfonar na sua igreja. Elas se repetem e viram atalho para o próximo voluntário.",
+q:[["Onde fazer os cortes do ringing out?",["No EQ de cada canal de banda","No EQ da saída (PA ou retorno)","No compressor"],1,"As frequências que anelam dependem da sala e das caixas, então o corte vai na saída."],
+["Para que serve o modo fixo de um supressor automático?",["Criar filtros permanentes antes do culto","Aumentar o volume","Gravar o culto"],0,"No modo fixo, o supressor encontra e trava filtros durante a preparação."]]},
+
+{id:"c05",t:"Acústica do templo",min:7,
+intro:"A sala é o último equipamento da cadeia e muitas vezes o mais difícil de mudar. Entender a acústica evita brigar com ela.",
+s:[
+["Tempo de reverberação",["É o tempo que o som leva para cair 60 dB depois que a fonte para (RT60).","Fala precisa de reverberação curta. Música pode ter um pouco mais.","Templos grandes, com piso, paredes e teto duros, podem passar de 2 segundos. Aí tudo embola, por melhor que seja a mesa."]],
+["Problemas comuns",["Eco na parede do fundo: o som volta para o altar com atraso.","Eco vibrante entre paredes paralelas (flutter).","Graves acumulando nos cantos."]],
+["O que ajuda",["Cortinas pesadas, carpete e estofados absorvem.","Painéis absorventes na parede do fundo e atrás do altar costumam dar o maior resultado por real investido.","Público absorve muito: templo cheio é mais seco.","Direcione as caixas para as pessoas, não para paredes e teto."]],
+["O que não ajuda",["Subir o volume: aumenta também a reverberação.","Excesso de reverb artificial num templo que já reverbera."]]
+],
+dica:"Bata palmas forte no templo vazio e ouça. Se a cauda do som dura muito ou soa como \"tzzz\", a acústica merece atenção antes de comprar equipamento novo.",
+q:[["O que é o RT60?",["O volume máximo da sala","O tempo para o som cair 60 dB depois que a fonte para","A frequência da microfonia"],1,"É a medida clássica de reverberação de uma sala."],
+["O templo é muito reverberante. Subir o volume resolve?",["Sim","Não, aumenta também a reverberação","Só nos graves"],1,"Mais volume excita ainda mais a sala. A solução é direcionar o som e tratar a acústica."]]},
+
+{id:"c06",t:"Caixas: cobertura, posição e delay",min:8,
+intro:"Uma boa mesa não salva caixas mal posicionadas. A meta é que todos os bancos ouçam parecido.",
+s:[
+["Cobertura",["Cada caixa tem um ângulo de cobertura. Aponte para o público, cobrindo do primeiro ao último banco.","Caixas altas e inclinadas para baixo cobrem melhor e ficam longe dos microfones.","Evite caixas atrás ou ao lado dos microfones do altar."]],
+["Lei do inverso do quadrado",["Cada vez que a distância dobra, o som cai cerca de 6 dB.","Por isso quem está na frente ouve muito alto e quem está no fundo ouve baixo, se só houver caixas na frente."]],
+["Caixas de delay",["Em templos compridos, caixas no meio ou no fundo reforçam o som para quem está longe.","Elas precisam de atraso eletrônico para tocar junto com o som que vem da frente: distância em metros dividida por 343, em segundos, ou cerca de 2,9 ms por metro.","Somar alguns milissegundos a mais faz o ouvido perceber que o som vem do altar."]],
+["Subwoofers",["O crossover separa graves (sub) e o resto (caixas principais), muitas vezes entre 80 e 120 Hz.","Graves se espalham para todos os lados e acumulam em cantos. Teste posições.","Em igreja, sub demais é a origem de muitas reclamações de volume."]]
+],
+dica:"Caminhe pelo templo com a música de referência tocando e anote onde o som fica diferente. Esse mapa ajuda a decidir posição de caixas e delays.",
+q:[["Uma caixa de delay está a 20 m das caixas principais. Qual o atraso aproximado?",["5,8 ms","58 ms","580 ms"],1,"20 m divididos por 343 m/s dão cerca de 0,058 s, ou 58 ms (mais alguns ms de margem)."],
+["O que acontece com o volume quando a distância da caixa dobra?",["Cai cerca de 6 dB","Cai pela metade em dB","Não muda"],0,"Pela lei do inverso do quadrado, cada vez que a distância dobra o nível cai cerca de 6 dB."]]},
+
+{id:"c07",t:"Wi-Fi, apps e controle remoto",min:7,
+intro:"Mixar pelo tablet do meio do templo é uma das maiores vantagens das digitais. E uma rede mal feita é uma das maiores fontes de susto.",
+s:[
+["Rede interna ou roteador",["Algumas mesas têm Wi-Fi próprio (Behringer XR18, Soundcraft Ui, Allen & Heath CQ). Outras precisam de roteador ligado na porta de rede (X32, TF, DM3, WING, SQ).","O Wi-Fi interno é prático, mas costuma ter alcance e número de aparelhos limitados. Para vários músicos com app de retorno, use roteador."]],
+["Configuração segura",["Rede só para o som, com senha, separada da Wi-Fi dos membros e visitantes.","Mesa ligada na porta LAN do roteador, nunca na porta WAN ou Internet.","IP fixo para a mesa, fora da faixa que o roteador distribui (DHCP).","Prefira 5 GHz quando os aparelhos aceitarem: menos interferência. Em 2,4 GHz, escolha o canal menos lotado (1, 6 ou 11).","Roteador em lugar alto e com visada para o palco e para a mesa."]],
+["Plano B",["Tenha sempre um controle físico ou um segundo aparelho pronto.","Tablet principal carregado e com bloqueio de tela desativado durante o culto.","Teste a conexão antes de começar, andando pelo templo."]]
+],
+dica:"Escreva o nome da rede e o IP da mesa numa etiqueta dentro do rack. Senha, guarde com a liderança técnica.",
+q:[["Em qual porta do roteador a mesa deve ser ligada?",["WAN/Internet","LAN","Qualquer uma"],1,"A porta WAN é para a internet. Ligada nela, a mesa não aparece para os apps."],
+["Por que a rede do som deve ser separada da Wi-Fi dos membros?",["Para economizar internet","Para evitar interferência, lotação e alguém mexendo na mesa por acidente","Porque a mesa não aceita senha"],1,"Uma rede dedicada é mais estável e segura."]]},
+
+{id:"c08",t:"Gravação multipista e virtual soundcheck",min:7,
+intro:"Gravar cada canal separado transforma o culto em material de treino. É a forma mais rápida de formar voluntários.",
+s:[
+["Como gravar",["Pelo USB da mesa em um computador com programa de gravação (DAW), ou direto em pendrive ou cartão nas mesas que têm gravador interno.","Grave o sinal antes do processamento do canal, quando possível: assim você remixa do zero."]],
+["Virtual soundcheck",["Durante a semana, a mesa recebe de volta as faixas gravadas, como se a banda estivesse tocando.","Na prática, cada canal passa a ler o USB em vez do microfone. Em muitas mesas basta trocar a fonte do canal ou chamar uma cena preparada para isso.","O voluntário treina ganho, EQ, compressor e retornos sem ninguém no palco."]],
+["Cuidados",["Volte as entradas para os microfones antes do culto. Uma cena exclusiva para o virtual soundcheck evita esquecimentos.","Espaço em disco: muitos canais por mais de uma hora ocupam vários gigabytes.","Respeite direitos e privacidade: gravações de ensaio e culto ficam com a equipe."]]
+],
+dica:"Reserve uma noite por mês para o \"culto de treino\" com a gravação do domingo. Cada voluntário faz a mixagem e os outros comentam.",
+q:[["O que é virtual soundcheck?",["Passagem de som pelo celular","Usar a gravação multipista para alimentar a mesa como se a banda estivesse tocando","Um app de afinação"],1,"A mesa toca as faixas gravadas e você mixa como se fosse ao vivo."],
+["Qual o risco mais comum depois de um virtual soundcheck?",["Esquecer os canais lendo o USB no culto","A mesa esquentar","Perder as cenas"],0,"Se os canais continuam lendo o USB, os microfones ficam mudos no culto. Use uma cena específica e volte à cena de culto."]]}
+]},
+
+{id:"n4",nome:"Nível 4 · Profissional",sub:"Assuntos difíceis: níveis, fase, automixer, áudio em rede, medição e liderança.",aulas:[
+{id:"d01",t:"Estrutura de ganho profissional",min:8,
+intro:"Gain staging é cuidar do nível do sinal em cada ponto da cadeia, para ter o máximo de qualidade e de folga sem distorcer.",
+s:[
+["As escalas",["dBFS: escala digital. 0 dBFS é o teto absoluto; acima disso o sinal corta (clipping digital, muito desagradável).","dBu e dBV: escalas analógicas. Equipamento profissional trabalha com nível nominal de +4 dBu; equipamento doméstico com -10 dBV.","Headroom: a folga entre o nível de trabalho e o máximo antes de distorcer."]],
+["Na entrada da mesa digital",["Uma prática comum é deixar o sinal médio por volta de -18 dBFS e os picos abaixo de -6 dBFS.","Não há ganho em encostar no 0 dBFS: a qualidade não melhora e o risco de cortar aumenta."]],
+["Ao longo da cadeia",["Cada processador (EQ, compressor) pode aumentar o nível. Confira antes e depois.","A saída da mesa precisa casar com a entrada do processador e do amplificador: um nível muito alto na mesa com o amplificador baixo, ou o contrário, piora ruído e distorção.","Limitadores no processador do sistema protegem caixas, não substituem uma operação cuidadosa."]]
+],
+dica:"Documente os níveis do sistema (mesa, processador, amplificador) depois de ajustados e trave quem pode mexer neles.",
+q:[["O que acontece acima de 0 dBFS numa mesa digital?",["O som fica mais quente","O sinal corta (clipping)","Nada"],1,"0 dBFS é o limite do conversor. Acima disso o sinal é cortado de forma brusca."],
+["Qual o nível nominal típico de equipamento profissional?",["-10 dBV","+4 dBu","0 dBFS"],1,"Equipamento profissional usa +4 dBu como referência; o doméstico, -10 dBV."]]},
+
+{id:"d02",t:"Fase e polaridade",min:7,
+intro:"Dois microfones captando a mesma fonte podem se anular em algumas frequências. Entender fase resolve sons finos e ocos que nenhum EQ conserta.",
+s:[
+["O problema",["Quando o mesmo som chega a dois microfones em tempos diferentes, a soma cancela algumas frequências e reforça outras (filtro pente).","O resultado é um som oco, metálico ou fino."]],
+["Regra 3:1",["A distância entre dois microfones deve ser pelo menos três vezes a distância de cada um até a sua fonte.","Exemplo: cantor a 10 cm do microfone pede outro microfone a pelo menos 30 cm de distância.","Em coros e púlpitos com dois microfones, essa regra evita muito problema."]],
+["Polaridade",["O botão Ø (ou phase) inverte a polaridade do canal.","Uso clássico: caixa da bateria com microfone em cima e embaixo; bumbo com microfone dentro e fora.","Teste: com os dois canais abertos, inverta um deles. A posição que soa mais cheia e com mais grave é a certa."]],
+["Duplo microfone no púlpito",["Dois microfones para a mesma pessoa só se forem bem próximos (cápsulas juntas) e alinhados.","Em geral, um microfone bem posicionado é melhor que dois."]]
+],
+dica:"Se ao abrir um segundo microfone a voz fica mais fina, em vez de mais forte, você está ouvindo cancelamento de fase.",
+q:[["Pela regra 3:1, um cantor está a 15 cm do microfone. A que distância mínima deve ficar outro microfone?",["15 cm","30 cm","45 cm"],2,"Três vezes 15 cm dá 45 cm."],
+["Para que serve o botão Ø?",["Inverter a polaridade do canal","Ligar o phantom","Abrir o PFL"],0,"Ele inverte a polaridade, útil quando dois microfones captam a mesma fonte de lados opostos."]]},
+
+{id:"d03",t:"Sidechain, ducking e compressão avançada",min:7,
+intro:"A dinâmica vai além do compressor no canal. Com sidechain, um sinal controla o processamento de outro.",
+s:[
+["Ducking",["A música de fundo abaixa sozinha quando o pastor fala e volta quando ele para.","Configuração típica: compressor ou ducker no canal (ou grupo) da música, com o sidechain vindo do canal do pastor.","Ótimo para orações e apelos com fundo musical."]],
+["Compressão em paralelo",["Mistura o sinal original com uma cópia muito comprimida.","Mantém os ataques naturais e dá corpo. Comum em bateria e às vezes em vozes."]],
+["Limitador na saída",["Na saída da transmissão ou da gravação, um limitador impede que picos passem do teto.","No sistema de caixas, limitadores protegem alto-falantes. Ajuste com orientação técnica."]],
+["Multibanda e EQ dinâmico",["Comprimem só uma faixa de frequências.","Exemplo: segurar a aspereza entre 2 e 4 kHz quando a cantora sobe, sem mexer no resto da voz."]]
+],
+dica:"Teste o ducking na passagem de som com o pastor falando por cima da música. O tempo de release decide se a música volta de forma natural ou brusca.",
+q:[["No ducking da música de fundo, de onde vem o sinal de sidechain?",["Do canal da música","Do canal do pastor","Do master"],1,"É a voz do pastor que manda o compressor abaixar a música."],
+["Para que serve um limitador na saída da live?",["Impedir que picos passem do teto e distorçam","Aumentar o reverb","Trocar de cena"],0,"O limitador segura os picos no limite definido."]]},
+
+{id:"d04",t:"Automixer: muitos microfones abertos sem caos",min:6,
+intro:"Mesa redonda, casamento, ceia com vários participantes: muitos microfones abertos somam ruído e reduzem o ganho antes da microfonia.",
+s:[
+["Por que é difícil",["Cada vez que o número de microfones abertos dobra, o ganho disponível antes da microfonia cai cerca de 3 dB.","Fechar e abrir na mão com várias pessoas falando é quase impossível."]],
+["Como o automixer ajuda",["Ele distribui o ganho automaticamente: quem fala recebe ganho, quem está em silêncio é abaixado.","O total de ganho fica constante, como se só um microfone estivesse aberto.","Exemplos: o AMM (automatic mic mixing) das Allen & Heath (CQ, SQ e outras), e automixers dedicados."]],
+["Quando usar",["Púlpito com vários microfones fixos.","Painéis e entrevistas.","Coral com vários microfones suspensos, com cuidado."]]
+],
+dica:"Mesmo com automixer, mute os microfones que não vão ser usados naquele momento do culto.",
+q:[["O que acontece com o ganho antes da microfonia quando dobra o número de microfones abertos?",["Aumenta 3 dB","Cai cerca de 3 dB","Não muda"],1,"Mais microfones abertos somam mais caminhos para a microfonia."],
+["O que o automixer faz?",["Grava os microfones","Distribui o ganho entre os microfones conforme quem está falando","Afina as vozes"],1,"Ele mantém o ganho total constante, privilegiando quem fala."]]},
+
+{id:"d05",t:"Áudio em rede e stageboxes",min:7,
+intro:"Em vez de um multicabo grosso com dezenas de vias, um cabo de rede leva todos os canais entre palco e mesa.",
+s:[
+["Os sistemas",["AES50: usado por Behringer e Midas (X32, M32, WING) com stageboxes como S16, S32, DL16 e DL32.","SLink e gigaACE: usados pela Allen & Heath.","Dante: padrão aberto adotado por várias marcas, com placas opcionais em muitas mesas (por exemplo, NY64-D na Yamaha TF, versões D da DM3 e da Qu).","Esses sistemas não se misturam diretamente: AES50 não conversa com Dante sem um conversor."]],
+["Vantagens",["Menos cabos, menos peso, sem perda em distâncias longas.","Pré-amplificadores perto do palco, sinal digital até a mesa.","Facilidade para compartilhar canais com gravação, transmissão e segunda mesa."]],
+["Cuidados",["Cabo de rede de boa qualidade (blindado em ambientes de palco), com conectores robustos.","Clock: um equipamento é o mestre de sincronismo; os outros seguem.","Dante: switches gerenciáveis bem configurados. Não misture com a rede da igreja.","Latência baixa é normal, mas cada conversão soma um pouco."]]
+],
+dica:"Guarde um cabo de rede de reserva testado junto ao rack. Se o cabo da stagebox falhar, todos os canais caem juntos.",
+q:[["AES50 e Dante conversam direto entre si?",["Sim","Não, precisam de conversor","Só em 5 GHz"],1,"São protocolos diferentes. Para ligá-los é preciso um equipamento de conversão."],
+["Qual a principal vantagem de uma stagebox digital?",["Um cabo de rede substitui o multicabo e os pré-amplificadores ficam no palco","Mais efeitos","Mais volume"],0,"Menos cabos e sinal digital sem perdas até a mesa."]]},
+
+{id:"d06",t:"Medição e alinhamento do sistema",min:8,
+intro:"Alinhar o sistema é ajustar caixas e processadores com medição, não só com o ouvido. É trabalho do técnico responsável, feito com calma, e não do operador de domingo.",
+s:[
+["Ferramentas",["Analisador em tempo real (RTA): mostra o espectro do que o microfone escuta.","Função de transferência (dois canais): compara o sinal que sai da mesa com o que o microfone de medição capta, mostrando o que a sala e as caixas fazem com o som. Programas como Smaart (pago) e REW (gratuito) fazem isso.","Microfone de medição omnidirecional calibrado e ruído rosa ou música de referência."]],
+["O que se ajusta",["Equalização do sistema: corrigir o que a sala e as caixas exageram, com cortes, não com realces.","Alinhamento de tempo entre sub e caixas principais, e entre principais e delays.","Níveis relativos entre zonas (frente, fundo, balcão).","Limitadores de proteção."]],
+["Depois de alinhar",["Trave e documente os processadores. O operador de domingo mexe na mesa, não no sistema.","Refaça a medição se mudar caixas, layout ou o templo passar por reforma."]]
+],
+dica:"Uma visita de um profissional para alinhar o sistema costuma valer mais do que um equipamento novo. Peça para documentar tudo.",
+q:[["Qual a diferença entre RTA e função de transferência?",["Nenhuma","O RTA mostra o espectro captado; a função de transferência compara o que sai da mesa com o que chega ao microfone","A função de transferência só mede graves"],1,"Comparar entrada e saída revela o efeito real das caixas e da sala."],
+["Quem deve mexer no processador do sistema depois de alinhado?",["Qualquer voluntário","O técnico responsável, com documentação","Os músicos"],1,"O sistema alinhado deve ficar travado. Ajustes do culto se fazem na mesa."]]},
+
+{id:"d07",t:"In-ear profissional",min:7,
+intro:"Retorno por fone muda o palco: menos volume, menos microfonia e mais precisão. Mas exige cuidado técnico e com a audição.",
+s:[
+["Mixagem",["Mix estéreo com pan ajuda a separar instrumentos e reduz o volume necessário.","Inclua um ou dois microfones de ambiente para o músico ouvir a congregação e não se sentir isolado.","Comece pela referência principal de cada um (voz, clique, instrumento) e acrescente o mínimo."]],
+["Segurança auditiva",["O fone fica dentro do ouvido: o volume necessário costuma ser menor que o de um monitor de chão, mas o risco existe.","Fones bem vedados permitem volume mais baixo.","Use limitador na saída do in-ear e oriente os músicos a começar sempre com volume baixo."]],
+["Sem fio ou com fio",["Com fio: barato e confiável para quem fica parado (bateria, teclado).","Sem fio: liberdade para vocais, exige gerenciar frequências e baterias.","Amplificadores de fone com mixer pessoal ou apps (MonitorMix, Qu4You, CQ4You, More Me, WING-Q) dão autonomia ao músico."]]
+],
+dica:"Faça um ensaio inteiro só com in-ear antes de estrear no culto. A banda precisa de alguns ensaios para se acostumar.",
+q:[["Por que incluir microfones de ambiente no in-ear?",["Para o músico ouvir a congregação e não se sentir isolado","Para aumentar a microfonia","Para gravar"],0,"Sem ambiente, o músico fica isolado e tende a cantar ou tocar descolado da igreja."],
+["Qual cuidado é essencial no in-ear?",["Volume sempre no máximo","Limitador na saída e volume moderado","Usar só um lado do fone"],1,"O limitador protege contra picos e o volume moderado protege a audição."]]},
+
+{id:"d08",t:"Liderança e postura do técnico",min:6,
+intro:"O técnico de som serve a igreja de um lugar pouco visto e muito ouvido. Postura e liderança pesam tanto quanto técnica.",
+s:[
+["Antes do culto",["Converse com o louvor e com quem vai pregar: roteiro, músicas, momentos especiais, vídeos.","Chegue cedo e trate a passagem de som como parte do culto, não como obrigação."]],
+["Durante o culto",["Calma: erros acontecem. Resolva primeiro, explique depois.","Atenção total: celular só para o app do culto.","Ouça a igreja: se as pessoas não estão cantando ou entendendo, algo precisa de ajuste."]],
+["Depois do culto",["Registre no diário o que deu certo e o que deu errado.","Dê retorno ao louvor com respeito e em particular.","Agradeça a equipe."]],
+["Formando a equipe",["Ninguém deve ser o único que sabe operar o som. Ensine, escale e deixe os outros operarem com você por perto.","Use as trilhas deste app como roteiro de formação: Nível 1 para entrar na escala, Nível 2 para operar sozinho, Nível 3 para liderar.","Valorize o voluntário: um ministério de som saudável é aquele em que as pessoas querem permanecer."]]
+],
+dica:"Combine com a liderança um canal simples para pedidos durante o culto (o botão de chamado do app) e evite recados por gestos confusos.",
+q:[["Algo deu errado no meio do culto. Qual a melhor postura?",["Explicar o erro ao pastor na hora","Resolver com calma e conversar depois","Desligar tudo"],1,"Resolver primeiro protege o culto. A conversa e o aprendizado vêm depois."],
+["Por que ninguém deve ser o único que sabe operar o som?",["Para dividir o cansaço e garantir que o culto aconteça mesmo sem essa pessoa","Porque é regra da mesa","Para economizar"],0,"Um ministério que depende de uma só pessoa vive em risco. Formar outros é parte do serviço."]]}
+]}
+];
+
+const MESAS=[
+{id:"analogica",nome:"Analógica nacional",modelos:"Ciclotron e similares, de 4 a 16 canais",tipo:"analogica",nivel:"Simples",
+resumo:"Muitas igrejas começam com mesas analógicas nacionais. Os nomes dos botões mudam um pouco de marca para marca, mas a lógica é sempre a mesma.",
+ideal:"Igrejas pequenas, congregações e salas de apoio, com poucos microfones e um voluntário por culto.",
+ficha:[["Controle","Todos os botões no painel; nada é salvo"],["Retornos","Normalmente 1 ou 2 saídas de monitor ou aux"],["Efeitos","Algumas têm eco ou reverb interno"],["Wi-Fi","Não tem"]],
+sec:[
+["Primeiras impressões",["Cada coluna vertical é um canal. De cima para baixo, quase sempre: ganho, equalizador (agudo, médio, grave), envio de monitor ou aux, envio de efeito, pan, mute e fader.","À direita fica a seção master: volume geral, volume dos retornos, efeito e fone.","Antes de começar, \"zere\" a mesa: EQs no meio, auxiliares no mínimo, pans no centro e faders embaixo."]],
+["Ligar e conectar",["Microfones nas entradas XLR; instrumentos nas entradas P10 ou por direct box.","Saída master (L e R) para o amplificador ou as caixas ativas; saída de monitor para os retornos.","Phantom 48V só se houver microfone condensador. Ligue com os faders abaixados.","Ordem de ligar: mesa primeiro, caixas por último. Para desligar, ao contrário."],true],
+["Primeiros passos no culto",["Ajuste o ganho de cada canal com a pessoa falando ou tocando no volume real (aula Ganho).","Suba os faders até o volume desejado, com o master perto do 0.","Retornos: gire o botão MON ou AUX de cada canal para montar o que vai para o palco."],true],
+["\"Salvar\" a configuração",["Mesa analógica não guarda ajustes. O jeito é registrar.","Depois da passagem de som, tire uma foto da mesa inteira com o celular.","Use fita crepe abaixo dos faders com o nome de cada canal.","Registre na aba Equipe os ajustes que funcionam para cada pessoa."]],
+["Mutar vários canais",["Se a mesa tiver botão MUTE ou ON por canal, use-o: o fader fica no lugar.","Algumas mesas têm subgrupos: mande a banda para o subgrupo e controle tudo num fader só.","Sem mute nem subgrupo, abaixe os faders. Deixe uma marca de caneta no ponto de volta."]],
+["Gravar e transmitir",["Use a saída REC OUT, ou um aux, ligada a uma interface de áudio ou ao computador.","Evite ligar a saída da mesa direto na entrada de microfone do celular sem um cabo adaptador com atenuação: o som distorce."]],
+["Erros comuns",["Ganho no máximo e fader quase fechado (ou o contrário).","Todos os botões de EQ girados para cima: o som fica embolado e microfona.","Retornos tirados do master: quando você mexe no salão, o palco perde a referência."]]
+],
+videos:[["Sonorização em Igrejas, Aula 4: Mesa de som (AUDITECH SOLUTION)","https://www.youtube.com/watch?v=kv2lXhx_RoM"],["Curso de Sonoplastia, Aula 1: Som e mesa de som (HHS Engenharia)","https://www.youtube.com/watch?v=diSsZVoVB9s"],["Curso completo de mesa de som (CineAudioLab)","https://www.youtube.com/playlist?list=PL8anJsMEApsbzVlgh5r4TyZ3MxCjSfhoS"]],
+fontes:[]},
+
+{id:"yamaha-mg",nome:"Yamaha MG",modelos:"MG10XU, MG12XU, MG16XU e MG20XU",tipo:"analogica",nivel:"Simples",
+resumo:"Uma das analógicas mais comuns em igrejas. Pré-amplificadores D-PRE de boa qualidade, compressor de um botão e efeitos SPX.",
+ideal:"Igrejas pequenas e médias que querem uma analógica confiável, com USB para transmissão.",
+ficha:[["MG10XU","4 entradas de microfone, até 10 entradas no total"],["Filtro de graves","80 Hz nos canais mono"],["EQ","3 bandas (MG10XU: 10 kHz, 2,5 kHz e 100 Hz)"],["PAD","26 dB nos canais mono"],["Efeitos","SPX com 24 programas"],["USB","Interface de áudio 2 entradas e 2 saídas"]],
+sec:[
+["Primeiras impressões",["Canais mono à esquerda (microfones) e estéreo à direita (teclado, playback).","O botão COMP de um só giro aplica compressão já ajustada pela Yamaha: comece com pouco e aumente até a voz ficar estável.","Os botões 26 dB (PAD) e o filtro de 80 Hz ficam no topo dos canais mono."]],
+["Ligar e conectar",["Microfones nas entradas XLR dos canais mono; playback nas entradas estéreo.","Saídas principais (STEREO OUT) para as caixas; MONITOR OUT ou AUX para retorno.","Phantom 48V com chave geral: ligue só se precisar."]],
+["Primeiros passos no culto",["Ligue o filtro de 80 Hz em todos os microfones de voz.","Ajuste o ganho com o LED PEAK como alerta: se acende com frequência, abaixe.","Use o COMP no microfone do pregador e da voz principal."],true],
+["Retornos e efeitos",["Na MG10XU existe um só envio auxiliar, que também alimenta o efeito interno. Usar o mesmo envio para retorno e efeito é uma limitação: o músico ouve o reverb no retorno.","Nos modelos maiores da linha há mais auxiliares. Se a igreja precisa de dois ou mais retornos, considere um modelo maior.","Escolha o programa SPX pelo seletor e ajuste o retorno do efeito com moderação."]],
+["Salvar e mutar",["Como toda analógica, não salva ajustes: fotografe a mesa depois da passagem.","Nos modelos maiores há botões ON por canal e saídas de grupo para controlar vários canais; confira no painel do seu modelo."]],
+["Gravar e transmitir",["A porta USB funciona como interface de áudio no computador e, com o adaptador certo, em iPad.","No programa de transmissão escolha a MG como entrada de áudio e ajuste o nível para não estourar."]],
+["Erros comuns",["COMP no máximo: a voz fica achatada e o ruído do palco sobe.","Usar o único aux da MG10XU para retorno e esquecer que o efeito também sai nele."]]
+],
+videos:[["Manual de operação Yamaha MG20, MG16, MG12 e MG10 (tutorial completo)","https://www.youtube.com/watch?v=Ud_jvZfSI0I"],["Yamaha MG10XU, vale a pena?","https://www.youtube.com/watch?v=xwRY8aQybF0"]],
+fontes:[["Ficha técnica da MG10XU (SoundPro)","https://soundpro.com/products/yamaha-mg10xu-10-channel-analog-mixer-with-effects-and-usb"]]},
+
+{id:"xenyx",nome:"Behringer Xenyx",modelos:"X1222USB, X1832USB, X2442USB e similares",tipo:"analogica",nivel:"Simples",
+resumo:"Analógica muito presente em igrejas pelo preço. Os modelos maiores têm um recurso precioso para iniciantes: o FBQ, que mostra onde está a microfonia.",
+ideal:"Igrejas com orçamento curto que precisam de vários microfones, retornos e subgrupos.",
+ficha:[["X1832USB","18 canais, 6 pré-amplificadores com phantom"],["EQ do canal","3 bandas com médio semi-paramétrico"],["Equalizador gráfico","9 bandas estéreo, para o master ou para o monitor"],["FBQ","Detecção de microfonia no equalizador gráfico"],["Auxiliares","3 por canal, um com chave pré ou pós"],["Subgrupos","2, com saída própria"],["Efeitos","16 presets editáveis, com tap tempo"]],
+sec:[
+["Primeiras impressões",["Canais de microfone à esquerda, estéreo à direita; equalizador gráfico e efeitos na seção master.","O médio do EQ tem botão de frequência: gire para encontrar o ponto exato do problema."]],
+["FBQ: achando a microfonia",["Ligue o FBQ no equalizador gráfico.","Quando houver microfonia (ou quase), os LEDs dos sliders nas frequências problemáticas acendem.","Abaixe um pouco o slider aceso, só o necessário.","Escolha se o gráfico atua no master (caixas do salão) ou no monitor (retorno), conforme de onde vem o apito."],true],
+["Mutar vários canais com subgrupos",["Nos canais da banda, ligue a atribuição para o subgrupo (botão 1-2 ou 3-4) e desligue a atribuição direta para o MAIN.","Ligue o subgrupo no master.","Agora o fader do subgrupo controla a banda inteira: abaixe na pregação, suba no louvor."],true],
+["Retornos",["Use o aux pré-fader para o retorno principal.","Os outros auxiliares servem para outro retorno ou para efeito externo."]],
+["Gravar e transmitir",["A porta USB leva o som estéreo ao computador.","O Voice Canceller é feito para karaokê: deixe desligado no culto."]],
+["Erros comuns",["Ligar o FBQ e cortar sliders demais: o som fica oco.","Esquecer canais atribuídos ao MAIN e ao subgrupo ao mesmo tempo: o som dobra."]]
+],
+videos:[["Como usar a mesa Behringer QX1202FX","https://www.youtube.com/watch?v=U2czIG_zClg"],["Utilizando a conexão USB da Xenyx X1204USB","https://www.youtube.com/watch?v=1UHb3-Z_V1k"],["Gravações com a Xenyx 1204USB no Audacity e retorno","https://www.youtube.com/watch?v=HXUJgNr9vjI"]],
+fontes:[["Ficha técnica da X1832USB (zZounds)","https://www.zzounds.com/item--BEHX1832USB"]]},
+
+{id:"signature",nome:"Soundcraft Signature",modelos:"Signature 12, 12 MTK, 16 e 22",tipo:"analogica",nivel:"Simples",
+resumo:"Analógica de som refinado, com equalizador de estilo britânico, efeitos Lexicon e limitadores dbx nos canais.",
+ideal:"Igrejas que querem qualidade de áudio superior numa analógica e fazem transmissão pelo USB.",
+ficha:[["Pré-amplificadores","Ghost, com phantom 48V em todos os canais de microfone"],["EQ","Sapphyre com médio varrível (140 Hz a 3 kHz nos mono)"],["Dinâmica","Limitadores dbx nos canais de entrada"],["Efeitos","Motor Lexicon (reverb, delay, chorus, modulação)"],["Entradas Hi-Z","Para violão e guitarra direto"],["USB","2 entradas e 2 saídas (o modelo MTK grava multipista)"]],
+sec:[
+["Primeiras impressões",["O limitador dbx do canal segura os picos sem você perceber: ótimo para a voz do pregador.","As entradas Hi-Z permitem ligar violão ou guitarra direto, sem direct box, em distâncias curtas."]],
+["Primeiros passos",["Ganho, filtro de graves e só depois EQ.","Ligue o dbx nos canais de voz e ajuste até o LED indicar ação só nos picos.","Escolha o efeito Lexicon e mande as vozes pelo envio de efeito."],true],
+["Retornos e subgrupos",["Os auxiliares têm chave pré ou pós: retorno em pré, efeito externo em pós.","Use os subgrupos para controlar a banda num só fader e mutar na pregação."]],
+["Gravar e transmitir",["A USB leva a mixagem estéreo ao computador. O modelo MTK permite gravar canais separados.","Para live, prefira um aux ou subgrupo dedicado em vez do master."]],
+["Salvar",["Analógica: fotografe a mesa após a passagem e guarde as fichas de cada pessoa no app."]]
+],
+videos:[["Analisando a Signature 12 MTK: prós, contras e dicas","https://www.youtube.com/watch?v=zIAIhoGlYl8"],["Como fazer live com a Soundcraft Signature 12","https://www.youtube.com/watch?v=RxvzVjyFC2A"],["Mesa analógica ainda vale a pena? Análise da Signature 12","https://www.youtube.com/watch?v=SQ7b3MVBbNE"]],
+fontes:[["Ficha técnica da Signature 12 (Markertek)","https://www.markertek.com/product/scft-signature12/soundcraft-signature-12-12-input-compact-analogue-mixer"]]},
+
+{id:"xr18",nome:"Behringer X Air XR18",modelos:"XR18, XR16, XR12 e a irmã Midas MR18",tipo:"compacta",nivel:"Intermediária",
+resumo:"Mesa digital em formato de caixa, sem faders: tudo é controlado por tablet, celular ou computador. Uma das digitais mais populares em igrejas brasileiras.",
+ideal:"Igrejas que querem dar o primeiro passo no digital com orçamento curto e mixar do meio do templo.",
+ficha:[["Entradas","16 pré-amplificadores Midas (XR18)"],["Wi-Fi","Ponto de acesso interno"],["Apps","X AIR (iPad e Android) e X AIR Edit (computador)"],["USB","Interface de áudio de 18 canais"],["Mute groups","4"],["Midas MR18","Mesmo conceito, com apps da Midas"]],
+sec:[
+["Conectar pelo Wi-Fi da própria mesa",["Coloque a chave REMOTE na posição ACCESS POINT e ligue a mesa.","Recomendado na primeira vez: com um clipe de papel, segure o botão RESET (furinho acima do ícone de Wi-Fi) por 2 segundos para resetar a rede.","No tablet ou celular, conecte à rede com o nome do modelo e parte do MAC, por exemplo XR18-19-1B-07. Por padrão ela vem sem senha.","Abra o app X AIR, confira o IP 192.168.1.1 e toque em conectar.","No computador, abra o X AIR Edit, clique em Setup e escolha a mesa."],true],
+["Deixando a conexão estável",["O ponto de acesso interno atende poucos aparelhos ao mesmo tempo (até 4 clientes). Para mais músicos com app, use um roteador externo ligado pela porta de rede.","Antena apontada para cima e com visada para o tablet.","Escolha o canal de Wi-Fi menos lotado (1, 6 ou 11).","Defina senha na rede da mesa para ninguém conectar por acidente."]],
+["Reset",["Segurar o RESET por 2 segundos volta as configurações de rede.","Segurar por 10 segundos volta a mesa às configurações de fábrica. Depois desligue, espere 5 segundos e ligue de novo."]],
+["Primeiros passos",["Na tela de entrada (preamp), ajuste ganho e ligue o phantom só onde precisa.","Dê nome e cor aos canais: o voluntário agradece.","Monte os retornos nos barramentos auxiliares (Bus), conferindo se estão pré-fader."],true],
+["Salvar cenas (snapshots)",["No app, abra a área de Snapshots.","Salve a cena com nome claro, como \"Culto domingo\".","Para chamar, selecione a cena e carregue. Use os filtros de recall (safes) para não mudar o que não deve, como o ganho dos sem fio."],true],
+["Mutar vários canais",["A XR18 tem 4 mute groups. Atribua os canais da banda a um deles e os efeitos a outro.","Um toque muta a banda inteira na pregação."]],
+["Gravar e transmitir",["Pelo USB, a XR18 funciona como interface de 18 canais: grave multipista no computador ou mande uma mixagem para a transmissão.","Prepare um barramento próprio para a live, com volumes diferentes do salão."]],
+["Recursos profissionais",["Virtual soundcheck: grave pelo USB e depois faça os canais lerem o USB para treinar.","Analisador (RTA) no app para ajudar na equalização e no ringing out.","Apps de terceiros, como o Mixing Station, também controlam a família X Air."]]
+],
+videos:[["Como conectar e controlar a XR18 no celular","https://www.youtube.com/watch?v=RRhDqYBzEvg"],["Como gravar cenas na XR18","https://www.youtube.com/watch?v=YrIlM9WJwZQ"],["XR18 em português","https://www.youtube.com/watch?v=c_w1sxRA8As"],["X18: configuração de áudio para transmissão ao vivo e PA","https://www.youtube.com/watch?v=Jdc_zUCSM2Y"],["XR18: como configurar entradas e saídas","https://www.youtube.com/watch?v=RugT0C0zkg8"]],
+fontes:[["Manual da XR18: ponto de acesso (ManualsLib)","https://www.manualslib.com/manual/1069916/Behringer-Xr18.html?page=15"],["Guia de problemas da família X Air (Sweetwater)","https://www.sweetwater.com/sweetcare/articles/x-air-troubleshooting-guide/"]]},
+
+{id:"ui",nome:"Soundcraft Ui",modelos:"Ui12, Ui16 e Ui24R",tipo:"compacta",nivel:"Intermediária",
+resumo:"Mesas sem faders controladas pelo navegador de qualquer aparelho, sem instalar app. A Ui24R grava multipista em pendrive e tem supressor de microfonia dbx.",
+ideal:"Igrejas que querem controle pelo navegador, gravação simples em pendrive e retornos pelo celular dos músicos.",
+ficha:[["Controle","Navegador (sem app), em tablet, celular ou computador"],["Wi-Fi","Hotspot interno"],["Microfonia","dbx AFS2 com 12 filtros, nos masters e auxiliares (Ui24R)"],["Grupos","6 mute groups e 6 view groups (Ui24R)"],["Gravação","2 pistas e multipista até 22 canais em USB (Ui24R)"],["Retorno pessoal","More Me"]],
+sec:[
+["Conectar pelo hotspot da mesa",["Ligue a mesa e conecte o aparelho na rede Wi-Fi que ela cria.","A senha padrão do hotspot é scuiwlan. Troque depois em Settings, Network.","Abra o navegador e digite 10.10.1.1 (ou ui.io ou ui-mixer.io).","A Soundcraft recomenda o Firefox; navegadores baseados em Chrome podem ficar travando em alguns aparelhos."],true],
+["Usando roteador externo",["Ligue o cabo na porta LAN do roteador, nunca na WAN. Na Ui24R use a porta Ethernet, não a Ethernet 2.","Dê à mesa um IP fixo fora da faixa DHCP do roteador (exemplo: roteador distribui de .100 a .150; mesa em 192.168.1.200).","Configure em Settings, Network, Config. O login padrão dessa área é admin / admin.","Com roteador, ui.io não funciona: digite o IP da mesa."],true],
+["Resets úteis",["Rede: segure o botão de reset lateral ao ligar, por cerca de 10 segundos, e espere uns 3 minutos.","O reset básico também volta a senha do hotspot para scuiwlan.","Para voltar a mesa ao estado inicial de mixagem, carregue a snapshot Init do show padrão."]],
+["Shows e snapshots",["Snapshot guarda todos os ajustes; show é a pasta com várias snapshots.","A mesa vem com o Default Show e a snapshot Init.","Crie um show da igreja e snapshots como \"Culto domingo\" e \"Culto jovens\".","Snapshots não podem ser copiadas de um show para outro: organize desde o começo."]],
+["Mutar vários canais",["Abra os Mute Groups na barra lateral. Segure o botão do grupo para editar quem faz parte.","Monte grupos como \"Banda\" e \"Efeitos\".","Os View Groups mostram só os canais escolhidos: ótimo para o voluntário iniciante ver apenas o essencial."]],
+["Microfonia com AFS2",["No EQ do master ou do aux, ative o AFS2.","Modo Fixed: antes do culto, para criar filtros permanentes no ringing out.","Modo Live: durante o culto, filtros temporários.","Lock: congela os filtros encontrados."]],
+["Retornos e More Me",["Cada músico abre o navegador no próprio celular e controla o seu retorno.","Com o More Me, ele escolhe seus canais principais (a voz e o instrumento) e equilibra num fader grande.","Use os acessos por usuário para impedir que o músico mexa no salão."]],
+["Gravar e transmitir",["Pendrive na mesa: gravação estéreo ou multipista (Ui24R).","USB para computador na Ui24R: interface de 32 x 32 para DAW e transmissão.","Player interno toca playback e música ambiente do pendrive."]]
+],
+videos:[["Tutorial completo Ui24R + mixagem ao vivo","https://www.youtube.com/watch?v=6D5-f4XGsnc"],["Wi-Fi estável na Ui24R: instalação de roteador","https://www.youtube.com/watch?v=dhQG8NjrEcs"],["Ui24R: gravação multipista no pendrive","https://www.youtube.com/watch?v=lGuTBGeccJI"],["Ui24R: guia completo do equalizador","https://www.youtube.com/watch?v=Qujv7a0tyoI"],["Criando cenas na Ui24R longe da mesa","https://www.youtube.com/watch?v=wkG_m1ayVrU"]],
+fontes:[["Perguntas frequentes da linha Ui (HARMAN)","https://help.harmanpro.com/sc-ui-series/ui-series-digital-mixers-faq"],["Roteador externo com mesas Ui (HARMAN)","https://harman.helpjuice.com/en_US/setting-up-an-external-router-with-soundcraft-ui-mixers"],["Manual da Ui24R (ManualsLib)","https://www.manualslib.com/manual/1316472/Soundcraft-Ui24r.html"]]},
+
+{id:"cq",nome:"Allen & Heath CQ",modelos:"CQ-12T, CQ-18T e CQ-20B",tipo:"compacta",nivel:"Intermediária",
+resumo:"Mesa compacta com tela sensível ao toque, Wi-Fi interno e assistentes que ajustam ganho e combatem microfonia. Muito indicada para equipes de voluntários.",
+ideal:"Igrejas de até umas 200 pessoas com voluntários pouco experientes que querem um sistema que ajude a acertar.",
+ficha:[["CQ-18T","16 entradas de microfone, tela de 7 polegadas"],["Wi-Fi","Dual band interno (2,4 e 5 GHz) e Bluetooth"],["Assistentes","Gain Assistant, Feedback Assistant e AMM"],["Grupos","4 mute groups e 4 DCAs"],["Cenas","Até 100 por show"],["Gravação","Multipista em cartão SD ou USB; interface USB 24 x 22 (CQ-18T)"]],
+sec:[
+["Primeiras impressões",["A CQ-18T não tem faders físicos: tudo acontece na tela e nos botões giratórios. A CQ-20B é a versão sem tela, só por app.","Os Quick Channels são predefinições de canal por instrumento: um ótimo ponto de partida."]],
+["Ganho automático (Gain Assistant)",["Ligue o microfone e, se precisar, o phantom em CONFIG, INPUTS.","Toque em Auto Set e peça para a pessoa cantar ou tocar no volume do culto.","O Auto Gain pode ficar ligado: se a fonte ficar mais forte que na passagem, ele abaixa o ganho."],true],
+["Feedback Assistant (ringing out)",["Em CONFIG, OUTPUTS, escolha o tipo de EQ PEQ & FBA na saída desejada.","Em PROCESSING, OUTPUTS, abra a aba DETECT e use o modo Fixed, com HOLD desligado.","Suba a saída até o volume do culto. O assistente cria até 12 filtros fixos onde houver microfonia.","Depois ligue o HOLD, ou passe para o modo Live durante o culto."],true],
+["Cenas",["Em HOME, SCENES, salve antes de experimentar: chamar uma cena substitui tudo e não dá para desfazer.","Faça backup do show num pendrive em HOME, DATA, SHOWS."]],
+["Mutar vários canais",["Configure os 4 mute groups e os 4 DCAs em CONFIG, CONTROL & NETWORK.","Cada canal pode estar em um mute group e um DCA.","O botão do grupo fica vermelho só quando todos os membros estão mutados."]],
+["Retornos",["Saídas 1 a 6 são os retornos. Ajuste os envios no PROCESSING de cada canal ou na tela de faders com Sends to.","Escolha pré ou pós-fader em CONFIG, OUTPUTS.","Os músicos podem controlar o próprio retorno pelo app CQ4You."]],
+["Gravar e transmitir",["Cartão SD (SDHC, Classe 10, formatado na própria mesa): arme os canais em HOME, RECORD, MULTITRACK e grave pelo botão de transporte.","Pelo USB, a mesa vira interface multicanal para DAW e transmissão (no Windows pode ser preciso o driver ASIO do site da Allen & Heath)."]],
+["Recursos profissionais",["AMM (mixagem automática de microfones) para painéis e púlpitos com vários microfones.","Efeitos em modo compartilhado (vários canais) ou inserido (um canal só)."]]
+],
+videos:[["Allen & Heath CQ explicadas em 13 minutos (inglês)","https://www.youtube.com/watch?v=-sEVV83ZfH8"],["Live Allen & Heath CQ-18T com Guilherme Fahl","https://www.youtube.com/watch?v=CfZEB9_hL4Q"],["Startup, config e pré-amplificador na CQ-18T (inglês)","https://www.youtube.com/watch?v=4QwRDgKofHs"]],
+fontes:[["CQ: How to (Allen & Heath)","https://support.allen-heath.com/hc/en-gb/articles/48456861200017-CQ-How-to"],["Ficha da CQ-18T (Digital Mixing)","https://digital-mixing.com/en/base/console/allen-heath-cq-18t-en/"]]},
+
+{id:"tf",nome:"Yamaha TF",modelos:"TF1, TF3, TF5 e TF-Rack",tipo:"console",nivel:"Intermediária",
+resumo:"Digital com faders e tela de toque, pensada para quem vem da analógica. Compressor e EQ de um botão e mais de 200 predefinições ajudam o voluntário.",
+ideal:"Igrejas que estão migrando da analógica e querem faders físicos com recursos digitais.",
+ficha:[["Interface","TouchFlow: tela de toque com botão Touch & Turn"],["Ajuda ao operador","1-knob COMP e 1-knob EQ, QuickPro Presets (mais de 200)"],["Cenas","2 bancos de 100 (A e B), 200 no total"],["DCA","8 (TF3)"],["Apps","TF StageMix (iPad), MonitorMix (até 10 aparelhos), TF Editor (computador)"],["USB","Até 34 x 34 canais para gravação (TF3)"],["Expansão","Slot para placa Dante NY64-D"]],
+sec:[
+["Conectar os apps",["A TF não tem Wi-Fi interno: ligue um roteador Wi-Fi na porta de rede (NETWORK) da mesa.","Conecte o iPad ou o celular nessa rede e abra o TF StageMix (controle completo) ou o MonitorMix (retorno de cada músico).","Até três aparelhos com TF Editor ou StageMix podem estar conectados ao mesmo tempo, e até 10 com MonitorMix."],true],
+["Primeiros passos",["Escolha um QuickPro Preset para cada canal (voz masculina, voz feminina, violão, bumbo...).","Ajuste o ganho e use o 1-knob COMP e o 1-knob EQ para refinar sem entrar nos detalhes.","Para ajustes finos, toque no knob e a mesa abre a tela completa de EQ ou compressor."],true],
+["Cenas",["Salve sua cena base no banco A e mantenha cópias de teste no banco B.","Algumas cenas de fábrica já vêm com os recursos de um botão ligados ou desligados.","O TF Editor permite preparar e organizar cenas no computador, até sem a mesa."]],
+["Mutar e agrupar",["Use os DCAs para controlar vozes e banda em poucos faders.","Use os grupos de mute para calar a banda ou os efeitos com um toque."]],
+["Retornos",["Os barramentos AUX alimentam os retornos. Com o MonitorMix, cada músico ajusta o seu pelo celular.","No MonitorMix o músico pode criar grupos pessoais (um fader para todos os vocais, por exemplo)."]],
+["Gravar e transmitir",["USB para computador: gravação multipista e transmissão.","Pendrive: gravação estéreo direto na mesa."]],
+["Recursos profissionais",["Presets de saída para caixas e in-ear de diversos tamanhos de sala.","Placa NY64-D para integrar a mesa a uma rede Dante e stageboxes Tio."]]
+],
+videos:[["Review e tutorial Yamaha TF1, TF3 e TF5 (Musical Center, PT-BR)","https://www.youtube.com/watch?v=P_-u-9QYqm4"],["Como baixar e instalar o software da linha TF","https://www.youtube.com/watch?v=8aCDi0i0lPA"],["Linha TF: perguntas frequentes","https://www.youtube.com/watch?v=sVxnJPHEcBU"],["Yamaha TF Series: vídeos tutoriais (playlist)","https://www.youtube.com/playlist?list=PL3rjqgoqj7LJLzdKlbYWrjmEzKQiPAHm7"]],
+fontes:[["Recursos da TF-Rack (Yamaha)","https://usa.yamaha.com/products/proaudio/mixers/tf-rack/features.html"],["Downloads e manuais da linha TF (Yamaha Brasil)","https://br.yamaha.com/pt/business/audio/products/mixers/tf/resources.html"]]},
+
+{id:"dm3",nome:"Yamaha DM3",modelos:"DM3 Standard (DM3S) e DM3 com Dante",tipo:"console",nivel:"Intermediária",
+resumo:"Console compacto com tela grande, faders motorizados e processamento em 96 kHz. Herda a lógica da TF, com mais qualidade e opção Dante.",
+ideal:"Igrejas pequenas e médias que querem um console compacto de alto nível, com integração em rede Dante.",
+ficha:[["Entradas","16 pré-amplificadores, 18 canais de mixagem"],["Barramentos","6 aux, 2 matrizes e 2 de efeito"],["Superfície","9 faders motorizados e tela multitoque"],["Agrupamento","Vínculo de canais (channel link) e teclas de usuário"],["Gravação","Pendrive estéreo e 18 canais pelo USB"],["Apps","DM3 Editor, DM3 StageMix (iPad), DM3 MonitorMix (até 10 aparelhos)"]],
+sec:[
+["Conectar os apps",["A DM3 não tem Wi-Fi interno: o controle remoto exige cabo de rede ou um roteador Wi-Fi ligado à mesa.","Conecte o iPad ao roteador e abra o DM3 StageMix; os músicos usam o DM3 MonitorMix."],true],
+["Primeiras impressões",["Camadas: Inputs 1-8, Inputs 9-16, FX e Monitor, Output, e duas camadas personalizadas.","O botão ON de cada canal funciona como mute: aceso é ligado, apagado é mudo.","Seis teclas de usuário podem chamar cenas, mutes e outras funções."]],
+["Agrupar e mutar",["Na revisão de lançamento, a DM3 não tinha DCAs: usava o vínculo de canais para mover vários faders juntos, mantendo o equilíbrio. Confira se o firmware da sua mesa trouxe novidades.","Programe uma tecla de usuário para mutar a banda na pregação."]],
+["Cenas",["Atribua cenas às teclas de usuário para trocar rápido entre louvor e pregação.","Use o DM3 Editor para preparar e organizar cenas no computador e guardar no pendrive."]],
+["Gravar e transmitir",["Gravação estéreo direto no pendrive, sem computador.","Gravação multipista de 18 canais e interface USB 18 x 18 em 48 ou 96 kHz para DAW e transmissão."]],
+["Recursos profissionais",["Versão com Dante: 16 x 16 canais em rede.","Processamento interno em 96 kHz."]]
+],
+videos:[["DM3 Yamaha: overview e dicas básicas","https://www.youtube.com/watch?v=MUe6AhFPl1w"],["DM3 Yamaha: dicas avançadas","https://www.youtube.com/watch?v=BE3slOxCvGE"],["Conhecendo a DM3: PA e monitor com a mesma mesa","https://www.youtube.com/watch?v=_lkZd9AjU50"]],
+fontes:[["Análise da DM3 (Sound On Sound)","https://www.soundonsound.com/reviews/yamaha-dm3"]]},
+
+{id:"x32",nome:"Behringer X32 e Midas M32",modelos:"X32, X32 Compact, X32 Producer, X32 Rack, M32 e M32R",tipo:"console",nivel:"Profissional",
+resumo:"A digital mais conhecida das igrejas. Comunidade enorme, muitos tutoriais em português e stageboxes em rede AES50. A Midas M32 segue a mesma lógica.",
+ideal:"Igrejas médias e grandes, com banda completa, vários retornos e transmissão.",
+ficha:[["Barramentos","16 mix bus e 6 matrizes"],["Grupos","8 DCAs e 6 mute groups"],["Efeitos","8 unidades no rack virtual"],["Cenas","Até 100"],["Rede de áudio","AES50 para stageboxes (S16, S32, DL16, DL32)"],["Apps","Editor para computador e apps para tablet e celular; apps de terceiros como o Mixing Station"]],
+sec:[
+["Conectar os apps",["A X32 não tem Wi-Fi interno: ligue um roteador na porta de rede de controle remoto da mesa.","Em SETUP, aba de rede, defina IP, máscara e gateway compatíveis com o roteador (IP fixo fora da faixa DHCP).","No tablet, conectado ao roteador, abra o app de controle, informe o IP e conecte."],true],
+["Mute groups",["A X32 tem 6 mute groups, nos botões à direita do fader principal.","Para atribuir: ligue Mute Grp na tela, segure o botão do grupo desejado e aperte o select dos canais.","Desligue Mute Grp para voltar ao modo normal."],true],
+["DCAs",["Segure o botão select do DCA e aperte o select dos canais que farão parte.","Nomes, ícones e cores dos DCAs ficam em SETUP, DCA Groups."]],
+["Cenas",["Na seção Scenes, use o botão VIEW para abrir a lista.","Salve, nomeie e carregue cenas pelo menu da seção (o botão Utility oferece copiar, salvar e nomear).","Configure os safes para não mudar ganho de microfones sem fio ou a saída da live ao chamar uma cena."]],
+["Segurança no culto",["Em SETUP, Global: Safe Main Levels mantém o master mutado ao ligar e impede que uma cena suba o master.","Lock Console trava a mesa; segure HOME por uns 5 segundos para destravar.","Safe Shutdown evita perder dados ao desligar."]],
+["Retornos e efeitos",["Use os mix bus como retornos, conferindo se estão pré-fader.","Efeitos 1 a 4 podem ser usados por envio (side-chain) ou como insert; 5 a 8 só como insert.","Talkback: os botões Talk A e Talk B mandam sua voz para os retornos escolhidos."]],
+["Gravar e transmitir",["Pendrive na porta USB do topo: gravação estéreo.","Placa X-USB: até 32 canais para computador. A placa X-Live grava multipista em cartão SD.","Use uma matriz ou um bus dedicado para a live."]],
+["Recursos profissionais",["Seção Assign com bancos de botões personalizáveis.","Camadas personalizadas (user layers) para o voluntário.","Stageboxes AES50 levando 32 canais por um cabo de rede.","Virtual soundcheck pela placa de expansão."]]
+],
+videos:[["Console X32 dicas (playlist)","https://www.youtube.com/playlist?list=PL4V0Knwr6PFbTSAtBhpMk4kOrpIWOcNUi"],["Curso X32 Behringer (MAXMIX, playlist)","https://www.youtube.com/playlist?list=PLGp719fC8rhpiDMaXw0i2y8X370QrY8hF"],["Behringer X32: visão geral e review","https://www.youtube.com/watch?v=i1sbtCXUKnw"],["Configurando canal no app da X32 (Mixing Station)","https://www.youtube.com/watch?v=D7c77uoHPvU"],["Configurando o bus como retorno no Mixing Station","https://www.youtube.com/watch?v=MPhrfpBa8dk"],["X32: como colocar efeitos nos retornos","https://www.youtube.com/watch?v=IEmHPTUKFCc"]],
+fontes:[["Manual da X32 Compact (Adorama)","https://www.adorama.com/col/productManuals/BEX32COMPACT.pdf"],["Recomendações de mesas para igrejas (SoundPro)","https://soundpro.com/blogs/house-of-worship/best-digital-mixer-for-church-2026"]]},
+
+{id:"ah-qu-sq",nome:"Allen & Heath Qu e SQ",modelos:"Qu-5, Qu-6, Qu-7 e SQ-5, SQ-6, SQ-7",tipo:"console",nivel:"Profissional",
+resumo:"Linhas com faders motorizados e tela de toque. A Qu é a porta de entrada; a SQ é muito usada em igrejas médias por processamento em 96 kHz, latência baixíssima e automixer.",
+ideal:"Igrejas médias (Qu) e médias a grandes (SQ), com transmissão, in-ear e vários cultos.",
+ficha:[["Qu (nova geração)","Tela de 7 polegadas, Feedback Assist e Gain Assist, USB-C 32 x 32, versões D com Dante"],["SQ-5","48 canais, 16+1 faders motorizados, 16 pré-amplificadores"],["Grupos (SQ)","8 DCAs e 8 mute groups"],["Cenas (SQ)","Até 300 por show"],["Automixer (SQ)","AMM DEEP integrado"],["Gravação (SQ)","SQ-Drive em pendrive e USB 32 x 32"],["Apps","QuMixPad e Qu4You; SQ MixPad e SQ4You"]],
+sec:[
+["Conectar os apps",["Ligue um roteador Wi-Fi na porta de rede da mesa.","No iPad, abra o MixPad da linha (QuMixPad ou SQ MixPad) para mixar de qualquer lugar do templo.","Os músicos usam o Qu4You ou o SQ4You no celular para ajustar o próprio retorno."],true],
+["Primeiros passos",["Use os assistentes de ganho e de microfonia nas Qu da nova geração para acelerar a passagem.","Organize camadas personalizadas: pastor, voz principal, DCAs e masters numa só camada."]],
+["Cenas",["Salve uma cena base e use os filtros de recall e os safes por canal.","Na SQ, até 300 cenas por show: crie uma por tipo de culto e evento."]],
+["Mutar e agrupar",["SQ: 8 DCAs e 8 mute groups para vozes, banda, efeitos e púlpito.","Monte o mute group da banda para a pregação."]],
+["Gravar e transmitir",["Qu: USB-C de 32 canais para gravação multipista e transmissão.","SQ: SQ-Drive grava estéreo ou multipista direto em pendrive; USB 32 x 32 para computador."]],
+["Recursos profissionais",["AMM (automixer) para púlpito com vários microfones e painéis.","Expansão por SLink e placas de rede (Dante, Waves) para stageboxes.","Latência abaixo de 0,7 ms na SQ."]]
+],
+videos:[["Allen & Heath SQ: Getting Started (inglês)","https://www.youtube.com/watch?v=u1WkHNs52NI"],["Quick guide Allen & Heath SQ5 (inglês)","https://www.youtube.com/watch?v=udZ-OZJsIiA"],["Empezando con la SQ (espanhol, legendado)","https://www.youtube.com/watch?v=1NRH03tnjWg"]],
+fontes:[["Nova linha Qu (Bekafun)","https://www.bekafun.com/en/news/n/962/Allen-Heath-QU"],["Ficha da SQ-5 (SoundPro)","https://soundpro.com/allen-heath-sq-5-digital-mixer"]]},
+
+{id:"wing",nome:"Behringer WING",modelos:"WING, WING Compact e WING Rack",tipo:"console",nivel:"Profissional",
+resumo:"Console digital topo de linha da Behringer: muitos canais, tela grande e gravação de até 64 pistas. Conversa com stageboxes AES50 da X32.",
+ideal:"Igrejas grandes ou com produção intensa: vários cultos, transmissão profissional e in-ear para toda a banda.",
+ficha:[["Canais","48 no total, sendo 40 canais estéreo de entrada"],["Barramentos","16 aux estéreo, 8 matrizes, 4 mains"],["Grupos","8 mute groups e DCAs"],["Tela","10,1 polegadas multitoque"],["Gravação","2 cartões SD, até 64 pistas (WING Live)"],["Rede","3 portas AES50, StageConnect, Ethernet com switch interno"],["Apps","WING CoPilot, WING-Edit e WING-Q"]],
+sec:[
+["Conectar os apps",["A WING não tem hotspot Wi-Fi: ligue um roteador numa das portas Ethernet.","Use o WING CoPilot no celular ou tablet para controle remoto e edição offline; o WING-Edit no computador.","Os músicos usam o WING-Q para retornos pessoais."],true],
+["Primeiras impressões",["Cada canal tem posições para plugins de gate, dinâmica e EQ, com vários modelos inspirados em equipamentos clássicos.","As teclas de acesso rápido e a tela grande dão acesso direto a buses, mains, matrizes e DCAs."]],
+["Mutar e agrupar",["8 mute groups: crie \"Banda\", \"Efeitos\", \"Púlpito\" e \"Palco\".","DCAs para vozes, instrumentos e bateria."]],
+["Cenas e shows",["Trabalhe com shows e snapshots; mantenha uma snapshot base protegida e cópias para cada culto.","Faça backup em cartão ou no computador pelo WING-Edit."]],
+["Gravar e transmitir",["Gravação multipista em dois cartões SD, até 64 pistas.","USB de 48 canais para computador.","Mixes dedicadas para live nas matrizes."]],
+["Recursos profissionais",["Stageboxes AES50 e integração com X32 e M32.","Opção de rede Dante ou SoundGrid por módulo.","StageConnect para levar canais ao palco com cabo simples."]]
+],
+videos:[["Behringer WING com 374 canais? (GrupoMaster.Pro)","https://www.youtube.com/watch?v=AdHCSCw38Gc"],["Curso WING Behringer (playlist)","https://www.youtube.com/playlist?list=PLSsn75IepEpEiKU8KlZH6D_2ZWGQD0Nm7"],["Behringer WING Overview: Get Started (inglês)","https://www.youtube.com/watch?v=rMLl2ja4pyY"]],
+fontes:[["Ficha da WING Compact (Thomann)","https://thomannmusic.no/behringer_wing_compact.htm"]]}
+];
+
+const GLOSSARIO=[
+["AES50","Protocolo de áudio em rede da Behringer e Midas que leva dezenas de canais por um cabo de rede entre mesa e stagebox."],
+["AFL","Escuta do canal depois do fader, mostrando o que de fato vai para a mixagem."],
+["AFS2","Supressor automático de microfonia da dbx, presente nas Soundcraft Ui."],
+["AMM","Automatic Mic Mixing: automixer que distribui o ganho entre vários microfones abertos."],
+["Aux","Barramento auxiliar: mistura separada usada para retornos, efeitos ou transmissão."],
+["Balanceado","Sinal transmitido em dois condutores com polaridades opostas, que cancela ruído no caminho."],
+["Barramento (bus)","Ponto onde vários canais são somados: master, aux, subgrupo, matriz."],
+["Cardioide","Microfone que capta pela frente e rejeita bem o som que vem de trás."],
+["Cena (scene ou snapshot)","Registro de todos os ajustes de uma mesa digital, que pode ser salvo e chamado depois."],
+["Compressor","Processador que reduz a diferença entre partes fortes e fracas do sinal."],
+["Crossover","Divide o sinal por faixas de frequência, por exemplo entre subwoofer e caixas principais."],
+["dB SPL","Nível de pressão sonora: o volume que chega aos ouvidos no salão."],
+["dBFS","Escala digital; 0 dBFS é o máximo antes de o sinal cortar."],
+["DCA ou VCA","Fader que controla o volume de vários canais juntos sem somar o áudio."],
+["Dante","Padrão de áudio em rede usado por várias marcas."],
+["De-esser","Compressor que age só na faixa do \"s\" (sibilância)."],
+["Direct box (DI)","Converte o sinal de um instrumento em sinal balanceado de microfone."],
+["Fader","Controle deslizante que define quanto do canal vai para a mixagem."],
+["Feedback","Microfonia: o som da caixa volta ao microfone e se realimenta, gerando apito."],
+["Filtro de graves (HPF)","Corta frequências abaixo de um ponto. Essencial em vozes."],
+["Gain staging","Cuidado com o nível do sinal em cada etapa da cadeia."],
+["Ganho (gain ou trim)","Controle de entrada que define quanto do sinal do microfone entra no canal."],
+["Gate","Fecha o canal quando o sinal fica abaixo de um limiar."],
+["Headroom","Folga entre o nível de trabalho e o nível máximo antes da distorção."],
+["Hz e kHz","Unidades de frequência. 1 kHz são 1.000 Hz."],
+["In-ear","Retorno por fone dentro do ouvido."],
+["Insert","Ponto do canal onde um processador é inserido apenas naquele sinal."],
+["Latência","Atraso entre a entrada e a saída do som num sistema digital."],
+["Matriz","Saída formada pela combinação de outros barramentos; ótima para live e caixas de delay."],
+["Mute group","Botão que muta vários canais ao mesmo tempo."],
+["PAD","Atenuador que reduz sinais muito fortes antes do pré-amplificador."],
+["Pan","Posição do som entre esquerda e direita."],
+["Patch","Roteamento que liga entradas físicas aos canais da mesa digital."],
+["PFL ou Solo","Escuta do canal no fone antes do fader, sem alterar o som do salão."],
+["Phantom power (48V)","Alimentação enviada pelo cabo XLR para microfones condensadores."],
+["Pós-fader","Envio que acompanha o fader do canal. Usado em efeitos."],
+["Pré-fader","Envio independente do fader do canal. Usado em retornos."],
+["Q","Largura de atuação de uma banda do equalizador paramétrico."],
+["RT60","Tempo de reverberação: quanto o som leva para cair 60 dB numa sala."],
+["RTA","Analisador de espectro em tempo real."],
+["Safe ou recall filter","Proteção que impede que uma cena mude determinado ajuste."],
+["Sidechain","Entrada que permite a um sinal controlar o processamento de outro, como no ducking."],
+["Stagebox","Caixa de entradas e saídas no palco, ligada à mesa por cabo de rede."],
+["Subgrupo","Barramento que soma vários canais e permite processá-los juntos."],
+["Talkback","Microfone do técnico para falar nos retornos."],
+["Unity (0 dB)","Posição neutra do fader: o sinal sai com o mesmo nível com que entrou."],
+["XLR","Conector de três pinos usado em microfones e linhas balanceadas."]
+];
+
+const CURSOS_EXTRA=[
+["Curso iniciação à mesa de som digital (MAXMIX Audio Cursos, 23 vídeos)","https://www.youtube.com/playlist?list=PLGp719fC8rhprPoUmSmiogmjp_i0poQ_d"],
+["Curso completo de mesa de som (CineAudioLab, 17 vídeos)","https://www.youtube.com/playlist?list=PL8anJsMEApsbzVlgh5r4TyZ3MxCjSfhoS"],
+["Sonorização em Igrejas, série de aulas (AUDITECH SOLUTION)","https://www.youtube.com/watch?v=kv2lXhx_RoM"],
+["Curso de Sonoplastia, Aula 1 (HHS Engenharia)","https://www.youtube.com/watch?v=diSsZVoVB9s"],
+["Workshop online de sonorização em igrejas","https://www.youtube.com/watch?v=jzRQzhErg6A"],
+["Biblioteca de artigos de sonorização (Música Sacra e Adoração)","https://musicaeadoracao.com.br/artigos-tecnicos/sonorizacao/"]
+];
+
+</script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const nf=(v,d)=>v.toLocaleString("pt-BR",{minimumFractionDigits:d,maximumFractionDigits:d});
+const hhmm=()=>new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+
+/* ---------- estado local (só neste aparelho) ---------- */
+const KEY="mesaviva-v1";
+const seed={
+  check:[["Pilhas novas nos microfones sem fio",true],["Cabos testados e microfones com sinal",true],["Retornos ligados e conferidos com os músicos",false],["Passagem de som da voz principal",false],["Microfone do púlpito testado com o pastor",false],["Gravação ou transmissão ligada",false]],
+  log:[{t:"09:12",type:"Problema",txt:"Violão sem sinal no canal 6"},{t:"09:15",type:"Resolvido",txt:"Trocado o cabo do violão; cabo velho separado com fita vermelha"}],
+  alerts:[],
+  chans:[["Pastor","Sem fio 1 (lapela)"],["Púlpito","Microfone de haste"],["Voz principal","Sem fio 2"],["Voz 2","Dinâmico com fio"],["Voz 3","Dinâmico com fio"],["Violão","Direct box"],["Teclado L","Direct box"],["Teclado R","Direct box"],["Baixo","Direct box"],["Bumbo","Microfone de bumbo"],["Caixa","Dinâmico"],["Overhead","Condensador"],["Guitarra","Dinâmico no amplificador"],["Playback","Notebook, cabo P2"]],
+  auxs:[["Vozes (frente do palco)","Vozes + teclado + violão"],["Bateria","Baixo + bumbo + voz principal"],["Teclado","Teclado + vozes"],["Pregador","Só púlpito, bem baixo"]],
+  reqs:[{who:"Ana (voz principal)",what:"Mais teclado no meu retorno",t:"09:31",done:false}],
+  people:[
+    {n:"Pastor Marcos",r:"Pregador",mic:"Sem fio 1, lapela",d:"Fala colado",eq:"Corta 200 Hz, compressor um pouco mais forte",o:"Anda muito pelo palco; cuidado ao passar na frente das caixas"},
+    {n:"Ana",r:"Voz",mic:"Sem fio 2",d:"Normal",eq:"Corta-graves em 120 Hz, realce leve em 3 kHz",o:"Sobe muito no refrão; deixe o fader com folga"},
+    {n:"João",r:"Voz",mic:"Dinâmico com fio, canal 4",d:"Fala longe",eq:"Ganho um pouco mais alto, corta 250 Hz",o:"Afasta o microfone nas notas altas"}
+  ],
+  done:[]
+};
+let S;try{S=JSON.parse(localStorage.getItem(KEY))||null}catch(e){S=null}
+if(!S||!S.chans)S=JSON.parse(JSON.stringify(seed));
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ---------- navegação ---------- */
+const views=["culto","sos","mesa","pessoas","cursos"];
+function show(){let v=location.hash.slice(1);if(!views.includes(v))v="culto";views.forEach(x=>{$("v-"+x).hidden=x!==v});document.querySelectorAll(".navb").forEach(b=>b.setAttribute("aria-current",b.dataset.v===v?"page":"false"));if(v==="sos")requestAnimationFrame(redraw);window.scrollTo(0,0)}
+document.querySelectorAll(".navb").forEach(b=>b.addEventListener("click",()=>{location.hash=b.dataset.v}));
+window.addEventListener("hashchange",show);
+
+/* ---------- culto ---------- */
+const CALLS=[["Microfone falhando","hot"],["Volume baixo","warn"],["Microfonia!","hot"],["Retorno sem som","warn"]];
+CALLS.forEach(([t])=>{const b=document.createElement("button");b.type="button";b.className="btn sm";b.textContent=t;b.onclick=()=>{S.alerts.unshift({t:hhmm(),txt:t,from:["Pastor","Louvor"][S.alerts.length%2]});save();renderAlerts()};$("callBtns").appendChild(b)});
+function renderAlerts(){const a=$("alerts");a.innerHTML="";if(!S.alerts.length){a.innerHTML='<p class="small muted" style="margin:0">Nenhum chamado agora.</p>';return}
+  S.alerts.forEach((x,i)=>{const d=document.createElement("div");d.className="alert";d.innerHTML='<div class="grow"><b>'+esc(x.txt)+'</b><div class="small muted">'+esc(x.from)+' · '+esc(x.t)+'</div></div>';const ok=document.createElement("button");ok.className="btn sm";ok.type="button";ok.textContent="Resolvido";ok.onclick=()=>{S.log.unshift({t:hhmm(),type:"Resolvido",txt:"Chamado: "+x.txt});S.alerts.splice(i,1);save();renderAlerts();renderLog()};d.appendChild(ok);a.appendChild(d)})}
+function renderCheck(){const c=$("check");c.innerHTML="";let n=0;S.check.forEach((it,i)=>{if(it[1])n++;const l=document.createElement("label");l.innerHTML='<input type="checkbox" id="ck'+i+'"'+(it[1]?" checked":"")+'><span>'+esc(it[0])+'</span>';l.querySelector("input").onchange=e=>{it[1]=e.target.checked;save();renderCheck()};c.appendChild(l)});
+  $("ckCount").textContent=n+" de "+S.check.length;$("ckBar").style.width=(100*n/S.check.length)+"%"}
+$("ckReset").onclick=()=>{S.check.forEach(i=>i[1]=false);save();renderCheck()};
+function renderLog(){const l=$("log");l.innerHTML="";S.log.forEach((x,i)=>{const d=document.createElement("div");d.className="it";const cls=x.type==="Problema"?"hot":x.type==="Resolvido"?"ok":"";d.innerHTML='<span class="mono small muted">'+esc(x.t)+'</span><div><span class="tag '+cls+'">'+esc(x.type)+'</span> '+esc(x.txt)+'</div>';const b=document.createElement("button");b.className="x";b.type="button";b.setAttribute("aria-label","Apagar registro");b.textContent="×";b.onclick=()=>{S.log.splice(i,1);save();renderLog()};d.appendChild(b);l.appendChild(d)})}
+$("logForm").onsubmit=e=>{e.preventDefault();const t=$("logTxt").value.trim();if(!t)return;S.log.unshift({t:hhmm(),type:$("logType").value,txt:t});$("logTxt").value="";save();renderLog()};
+
+/* ---------- mesa ---------- */
+function renderMesa(){
+  const tb=$("chans");tb.innerHTML="";S.chans.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="cn'+i+'" aria-label="Fonte do canal '+(i+1)+'"></td><td><input type="text" id="cm'+i+'" aria-label="Microfone do canal '+(i+1)+'"></td>';const [a,b]=tr.querySelectorAll("input");a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save();renderWho()};b.onchange=()=>{c[1]=b.value;save()};tb.appendChild(tr)});
+  const ta=$("auxs");ta.innerHTML="";S.auxs.forEach((c,i)=>{const tr=document.createElement("tr");tr.innerHTML='<td class="ch">'+(i+1)+'</td><td><input type="text" id="an'+i+'" aria-label="Retorno '+(i+1)+'"></td><td><input type="text" id="am'+i+'" aria-label="O que o retorno '+(i+1)+' leva"></td>';const [a,b]=tr.querySelectorAll("input");a.value=c[0];b.value=c[1];a.onchange=()=>{c[0]=a.value;save()};b.onchange=()=>{c[1]=b.value;save()};ta.appendChild(tr)});
+}
+function renderWho(){const s=$("reqWho");s.innerHTML="";S.people.filter(p=>p.r!=="Pregador").map(p=>p.n).concat(["Baterista","Tecladista","Violonista"]).forEach(n=>{const o=document.createElement("option");o.textContent=n;s.appendChild(o)})}
+function renderReqs(){const r=$("reqs");r.innerHTML="";const open=S.reqs.filter(x=>!x.done);if(!open.length){r.innerHTML='<p class="small muted" style="margin:0">Nenhum pedido pendente.</p>';return}
+  S.reqs.forEach((x,i)=>{if(x.done)return;const d=document.createElement("div");d.className="req";d.innerHTML='<div><div class="who">'+esc(x.who)+'</div><div class="small">'+esc(x.what)+' <span class="mono muted">· '+esc(x.t)+'</span></div></div>';const b=document.createElement("button");b.className="btn sm";b.type="button";b.textContent="Feito";b.onclick=()=>{x.done=true;save();renderReqs()};d.appendChild(b);r.appendChild(d)})}
+$("reqForm").onsubmit=e=>{e.preventDefault();S.reqs.unshift({who:$("reqWho").value,what:$("reqWhat").value,t:hhmm(),done:false});save();renderReqs()};
+
+/* ---------- pessoas ---------- */
+function renderPeople(){const g=$("people");g.innerHTML="";S.people.forEach((p,i)=>{const c=document.createElement("div");c.className="card person";c.innerHTML='<div class="nm"><h3>'+esc(p.n)+'</h3><span class="tag">'+esc(p.r)+'</span></div><dl><dt>Mic</dt><dd>'+esc(p.mic||"-")+'</dd><dt>Distância</dt><dd>'+esc(p.d)+'</dd><dt>EQ</dt><dd>'+esc(p.eq||"-")+'</dd><dt>Obs.</dt><dd>'+esc(p.o||"-")+'</dd></dl>';const b=document.createElement("button");b.className="btn ghost sm";b.type="button";b.textContent="Remover";b.style.alignSelf="flex-start";b.onclick=()=>{S.people.splice(i,1);save();renderPeople();renderWho()};c.appendChild(b);g.appendChild(c)})}
+$("pForm").onsubmit=e=>{e.preventDefault();const n=$("pName").value.trim();if(!n)return;S.people.push({n,r:$("pRole").value,mic:$("pMic").value.trim(),d:$("pDist").value,eq:$("pEq").value.trim(),o:$("pObs").value.trim()});e.target.reset();save();renderPeople();renderWho()};
+
+/* ---------- aprender ---------- */
+const ALL=[];TRILHAS.forEach(n=>n.aulas.forEach(a=>{a.nivel=n;ALL.push(a)}));
+if(!Array.isArray(S.done))S.done=[];
+S.done=S.done.filter(x=>typeof x==="string"&&ALL.some(a=>a.id===x));
+const TIPOS={analogica:"Analógica",compacta:"Digital compacta",console:"Console digital"};
+let apPart="trilhas",mesaFiltro="todas";
+const el=(tag,cls,html)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e};
+function listHtml(items,ordered){const t=ordered?"ol":"ul";return"<"+t+">"+items.map(x=>"<li>"+esc(x)+"</li>").join("")+"</"+t+">"}
+function apShow(part){
+  apPart=part;["trilhas","mesas","glossario"].forEach(p=>{$("ap-"+p).hidden=p!==part;$("tab-"+p).setAttribute("aria-selected",String(p===part))});
+  $("ap-detalhe").hidden=true;document.querySelector("#v-cursos .seg").hidden=false;
+}
+document.querySelectorAll("#v-cursos .seg button").forEach(b=>b.onclick=()=>apShow(b.dataset.p));
+function openDetail(){["trilhas","mesas","glossario"].forEach(p=>$("ap-"+p).hidden=true);document.querySelector("#v-cursos .seg").hidden=true;const d=$("ap-detalhe");d.hidden=false;d.innerHTML="";window.scrollTo(0,0);return d}
+function backBtn(label){const b=el("button","btn ghost sm back","‹ "+esc(label));b.type="button";b.onclick=()=>{apShow(apPart);window.scrollTo(0,0)};return b}
+
+function renderTrilhas(){
+  const box=$("ap-trilhas");box.innerHTML="";
+  const tot=ALL.length,dn=S.done.length;
+  const pc=el("div","card");pc.innerHTML='<div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Seu progresso</h2><span class="mono small">'+dn+' de '+tot+' aulas</span></div><div class="prog"><i style="width:'+(100*dn/tot)+'%"></i></div><p class="small muted" style="margin:8px 0 0">Cada aula termina com perguntas. Acerte todas para concluir.</p>';
+  box.appendChild(pc);
+  TRILHAS.forEach(n=>{
+    const lv=el("div","lvl"),d=n.aulas.filter(a=>S.done.includes(a.id)).length;
+    lv.appendChild(el("div","lvlhead",'<h2>'+esc(n.nome)+'</h2><span class="mono small muted">'+d+'/'+n.aulas.length+'</span><p>'+esc(n.sub)+'</p>'));
+    n.aulas.forEach((a,i)=>{const done=S.done.includes(a.id);const b=el("button","card btn lesson"+(done?" done":""),'<span class="num">'+(done?"✓":(i+1))+'</span><span><span class="t">'+esc(a.t)+'</span><br><span class="small muted">'+a.min+' min · '+a.q.length+' perguntas'+(done?" · concluída":"")+'</span></span><span class="muted" aria-hidden="true">›</span>');b.type="button";b.onclick=()=>openLesson(a.id);lv.appendChild(b)});
+    box.appendChild(lv);
+  });
+  const ex=el("div","card");ex.innerHTML='<h2>Para continuar estudando</h2><ul class="links">'+CURSOS_EXTRA.map(([t,u])=>'<li><a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(t)+' ↗</a></li>').join("")+'</ul>';
+  box.appendChild(ex);
+}
+
+function openLesson(id){
+  const idx=ALL.findIndex(a=>a.id===id),a=ALL[idx],d=openDetail();
+  d.appendChild(backBtn("Trilhas"));
+  const c=el("div","card lessonbody");
+  let h='<span class="tag">'+esc(a.nivel.nome)+' · '+a.min+' min</span><h1>'+esc(a.t)+'</h1><p class="intro">'+esc(a.intro)+'</p>';
+  a.s.forEach(([tt,items,ord])=>{h+='<div><h3>'+esc(tt)+'</h3>'+listHtml(items,ord)+'</div>'});
+  h+='<p class="tip"><b>Na igreja: </b>'+esc(a.dica)+'</p>';
+  c.innerHTML=h;
+  const qz=el("div","quiz");qz.appendChild(el("h2",null,"Perguntas"));
+  const ok=new Array(a.q.length).fill(false);
+  a.q.forEach(([q,opts,ans,exp],qi)=>{
+    qz.appendChild(el("p","qn",(qi+1)+". "+esc(q)));
+    const res=el("p","exp");res.hidden=true;
+    opts.forEach((o,k)=>{const b=el("button","btn",esc(o));b.type="button";b.onclick=()=>{
+      [...b.parentNode.querySelectorAll('[data-q="'+qi+'"]')].forEach(x=>x.classList.remove("right","wrong"));
+      if(k===ans){b.classList.add("right");ok[qi]=true;res.textContent="Isso mesmo. "+exp}else{b.classList.add("wrong");ok[qi]=false;res.textContent="Ainda não. Releia a aula e tente outra opção."}
+      res.hidden=false;
+      if(ok.every(Boolean)&&!S.done.includes(a.id)){S.done.push(a.id);save();fin.hidden=false}
+    };b.dataset.q=qi;qz.appendChild(b)});
+    qz.appendChild(res);
+  });
+  const fin=el("p","tip",'<b>Aula concluída.</b> Seu progresso foi salvo neste aparelho.');fin.hidden=!S.done.includes(a.id);
+  qz.appendChild(fin);c.appendChild(qz);d.appendChild(c);
+  const nav=el("div","nextnav");
+  if(idx>0){const p=el("button","btn ghost sm","‹ Aula anterior");p.type="button";p.onclick=()=>openLesson(ALL[idx-1].id);nav.appendChild(p)}else nav.appendChild(el("span"));
+  if(idx<ALL.length-1){const n=el("button","btn sm","Próxima aula ›");n.type="button";n.onclick=()=>openLesson(ALL[idx+1].id);nav.appendChild(n)}
+  d.appendChild(nav);
+}
+
+function renderMesas(){
+  const box=$("ap-mesas");box.innerHTML="";
+  box.appendChild(el("p","small muted","Escolha a mesa para ver como conectar, operar, salvar cenas, mutar vários canais e usar os recursos avançados. Das analógicas simples aos consoles profissionais.",null));
+  box.lastChild.style.margin="0";
+  const ch=el("div","chips");
+  [["todas","Todas"],["analogica","Analógicas"],["compacta","Digitais compactas"],["console","Consoles digitais"]].forEach(([k,t])=>{const b=el("button","chipf",t);b.type="button";b.setAttribute("aria-pressed",String(mesaFiltro===k));b.onclick=()=>{mesaFiltro=k;renderMesas()};ch.appendChild(b)});
+  box.appendChild(ch);
+  const g=el("div","mgrid");
+  const list=MESAS.filter(m=>mesaFiltro==="todas"||m.tipo===mesaFiltro).sort((a,b)=>(b.id===S.mesa)-(a.id===S.mesa));
+  list.forEach(m=>{const b=el("button","card mcard"+(m.id===S.mesa?" mine":""),'<span class="badges"><span class="tag">'+esc(TIPOS[m.tipo])+'</span><span class="tag lv-'+esc(m.nivel)+'">'+esc(m.nivel)+'</span>'+(m.id===S.mesa?'<span class="tag ok">Mesa da igreja</span>':'')+'</span><span class="mn">'+esc(m.nome)+'</span><span class="mm">'+esc(m.modelos)+'</span><span class="small">'+esc(m.ideal)+'</span>');b.type="button";b.onclick=()=>openMesa(m.id);g.appendChild(b)});
+  box.appendChild(g);
+}
+
+function openMesa(id){
+  const m=MESAS.find(x=>x.id===id),d=openDetail();
+  d.appendChild(backBtn("Mesas"));
+  const head=el("div","card lessonbody");
+  head.innerHTML='<span class="badges"><span class="tag">'+esc(TIPOS[m.tipo])+'</span><span class="tag lv-'+esc(m.nivel)+'">'+esc(m.nivel)+'</span></span><h1>'+esc(m.nome)+'</h1><p class="small muted" style="margin:-6px 0 0">'+esc(m.modelos)+'</p><p class="intro">'+esc(m.resumo)+'</p><p style="margin:0"><b>Indicada para:</b> '+esc(m.ideal)+'</p><dl class="ficha">'+m.ficha.map(([k,v])=>'<dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd>').join("")+'</dl>';
+  const mine=el("button","btn sm",m.id===S.mesa?"✓ Esta é a mesa da igreja":"Marcar como a mesa da igreja");mine.type="button";mine.style.alignSelf="flex-start";
+  mine.onclick=()=>{S.mesa=S.mesa===m.id?null:m.id;save();mine.textContent=m.id===S.mesa?"✓ Esta é a mesa da igreja":"Marcar como a mesa da igreja"};
+  head.appendChild(mine);d.appendChild(head);
+  m.sec.forEach(([t,items,ord],i)=>{const det=el("details","acc");if(i===0)det.open=true;det.innerHTML='<summary>'+esc(t)+'</summary><div class="in">'+listHtml(items,ord)+'</div>';d.appendChild(det)});
+  if(m.videos.length){const v=el("div","card");v.innerHTML='<h2>Vídeos no YouTube</h2><ul class="links">'+m.videos.map(([t,u])=>'<li><a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(t)+' ↗</a></li>').join("")+'</ul>';d.appendChild(v)}
+  if(m.fontes.length){const f=el("div","card");f.innerHTML='<h2>Fontes e manuais</h2><ul class="links">'+m.fontes.map(([t,u])=>'<li><a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(t)+' ↗</a></li>').join("")+'</ul><p class="small muted" style="margin:8px 0 0">Menus e recursos mudam com o firmware. Na dúvida, confira o manual da versão da sua mesa.</p>';d.appendChild(f)}
+}
+
+function renderGlossario(){
+  const box=$("ap-glossario");box.innerHTML="";
+  const lab=el("label","f",'Buscar termo<input type="text" id="glBusca" placeholder="Ex.: DCA, phantom, ganho">');box.appendChild(lab);
+  const list=el("div","card gl");box.appendChild(list);
+  const draw=q=>{q=(q||"").toLowerCase();list.innerHTML="";const r=GLOSSARIO.filter(([t,d])=>!q||t.toLowerCase().includes(q)||d.toLowerCase().includes(q));
+    if(!r.length){list.innerHTML='<div><span>Nenhum termo encontrado.</span></div>';return}
+    r.forEach(([t,d])=>list.appendChild(el("div",null,'<b>'+esc(t)+'</b><span>'+esc(d)+'</span>')))};
+  draw("");$("glBusca").oninput=e=>draw(e.target.value);
+}
+function renderAprender(){renderTrilhas();renderMesas();renderGlossario()}
+const _save=save;save=function(){_save();renderTrilhas();renderMesas()};
+
+/* ================= SOS MICROFONIA ================= */
+const ISO=[20,25,31.5,40,50,63,80,100,125,160,200,250,315,400,500,630,800,1000,1250,1600,2000,2500,3150,4000,5000,6300,8000,10000,12500,16000,20000];
+const NOTES=["Dó","Dó#","Ré","Ré#","Mi","Fá","Fá#","Sol","Sol#","Lá","Lá#","Si"];
+function fmtFreq(f){return f>=1000?nf(f/1000,f>=10000?1:2)+" kHz":Math.round(f)+" Hz"}
+function isoLabel(f){if(f<1000)return String(f).replace(".",",");const k=f/1000;return(Number.isInteger(k)?String(k):nf(k,2).replace(/0+$/,""))+"k"}
+function nearestIso(f){let b=0,d=1e9;ISO.forEach((x,i)=>{const e=Math.abs(Math.log2(f/x));if(e<d){d=e;b=i}});return b}
+function noteOf(f){const m=Math.round(12*Math.log2(f/440))+69;return NOTES[((m%12)+12)%12]+" "+(Math.floor(m/12)-1)}
+function range(f){
+  if(f<200)return{chip:"Grave",desc:"Som grave, tipo ronco ou “huuum”. Comum com microfone de púlpito perto das caixas ou palco oco."};
+  if(f<800)return{chip:"Médio-grave",desc:"Som de buzina ou voz embolada. Muitas vezes vem do retorno do palco."};
+  if(f<3000)return{chip:"Médio-agudo",desc:"O apito clássico. É a faixa em que a voz é mais sensível, por isso aparece tanto em igreja."};
+  return{chip:"Agudo",desc:"Apito fino e estridente. Comum com microfone de lapela ou retorno muito alto."};
+}
+function mixKnob(f){if(f<250)return"no botão GRAVE (LOW) do canal";if(f<=5000)return"no botão MÉDIO (MID) do canal; se a mesa tiver o botão de frequência do médio, gire até "+fmtFreq(f);return"no botão AGUDO (HIGH) do canal"}
+
+function fft(re,im){const n=re.length;for(let i=1,j=0;i<n;i++){let b=n>>1;for(;j&b;b>>=1)j^=b;j^=b;if(i<j){[re[i],re[j]]=[re[j],re[i]];[im[i],im[j]]=[im[j],im[i]]}}
+  for(let len=2;len<=n;len<<=1){const a=-2*Math.PI/len,wr=Math.cos(a),wi=Math.sin(a);for(let i=0;i<n;i+=len){let cr=1,ci=0;for(let k=0;k<len/2;k++){const u=i+k,v=u+len/2,tr=re[v]*cr-im[v]*ci,ti=re[v]*ci+im[v]*cr;re[v]=re[u]-tr;im[v]=im[u]-ti;re[u]+=tr;im[u]+=ti;const t=cr*wr-ci*wi;ci=cr*wi+ci*wr;cr=t}}}}
+function frameDb(x,start,N,win){const re=new Float32Array(N),im=new Float32Array(N);for(let i=0;i<N;i++)re[i]=(x[start+i]||0)*win[i];fft(re,im);const o=new Float32Array(N/2);for(let k=0;k<N/2;k++)o[k]=10*Math.log10((re[k]*re[k]+im[k]*im[k])/(N*N)+1e-14);return o}
+function findPeaks(db,df,minProm){
+  const kmin=Math.max(3,Math.floor(80/df)),kmax=Math.min(db.length-3,Math.floor(12000/df));
+  let mx=-200;for(let k=kmin;k<=kmax;k++)if(db[k]>mx)mx=db[k];
+  const out=[];
+  for(let k=kmin;k<=kmax;k++){
+    const b=db[k];if(b<mx-35)continue;
+    if(!(b>db[k-1]&&b>=db[k+1]&&b>db[k-2]&&b>=db[k+2]))continue;
+    const lo=Math.floor(k/1.26),hi=Math.min(db.length-1,Math.ceil(k*1.26));let s=0,c=0;
+    for(let j=lo;j<=hi;j++){if(Math.abs(j-k)<=3)continue;s+=db[j];c++}
+    if(c<4)continue;const prom=b-s/c;if(prom<minProm)continue;
+    const a=db[k-1],cc=db[k+1],den=a-2*b+cc,p=den?0.5*(a-cc)/den:0;
+    out.push({f:(k+p)*df,prom,level:b});
+  }
+  return out.sort((x,y)=>y.prom-x.prom).slice(0,6);
+}
+const bucket=f=>Math.round(24*Math.log2(f/1000));
+function analyzeSamples(x,sr){
+  const N=8192,hop=N/2,win=new Float32Array(N);for(let i=0;i<N;i++)win[i]=0.5-0.5*Math.cos(2*Math.PI*i/(N-1));
+  const len=Math.min(x.length,sr*90),df=sr/N,hopSec=hop/sr;
+  const tracks=new Map(),hold=new Float32Array(N/2).fill(-200);
+  let i=0;
+  for(let s=0;s+N<=len;s+=hop,i++){
+    const db=frameDb(x,s,N,win);for(let k=0;k<db.length;k++)if(db[k]>hold[k])hold[k]=db[k];
+    for(const pk of findPeaks(db,df,15)){
+      let b=bucket(pk.f);for(const nb of[b,b-1,b+1]){const t=tracks.get(nb);if(t&&t.last>=i-1){b=nb;break}}
+      let t=tracks.get(b);if(!t){t={run:0,best:0,last:-9,sp:0,n:0,fs:0};tracks.set(b,t)}
+      if(t.last===i)continue;
+      t.run=t.last>=i-1?t.run+1:1;t.last=i;if(t.run>t.best)t.best=t.run;t.sp+=pk.prom;t.n++;t.fs+=pk.f;
+    }
+  }
+  const cands=[];
+  tracks.forEach(t=>{const dur=t.best*hopSec;if(dur>=0.5)cands.push({f:t.fs/t.n,dur,prom:t.sp/t.n,score:dur*t.sp/t.n})});
+  cands.sort((a,b)=>b.score-a.score);
+  return{cands:cands.slice(0,3),spec:hold,df,dur:len/sr};
+}
+
+const canvas=$("spec"),ctx=canvas.getContext("2d");let lastSpec=null,lastMarks=[],lastCands=[];
+function tok(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()}
+function drawSpec(db,df,marks){
+  lastSpec={db,df};lastMarks=marks||[];
+  const w=canvas.clientWidth,h=canvas.clientHeight;if(!w)return;
+  const dpr=window.devicePixelRatio||1;canvas.width=w*dpr;canvas.height=h*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  const pl=8,pr=8,pt=8,pb=22,fmin=50,fmax=16000,lmin=Math.log10(fmin),lspan=Math.log10(fmax)-lmin;
+  const X=f=>pl+(Math.log10(f)-lmin)/lspan*(w-pl-pr);
+  let top=-200;for(let k=1;k<db.length;k++){const f=k*df;if(f>=fmin&&f<=fmax&&db[k]>top)top=db[k]}
+  const ymax=top+6,ymin=top-70,Y=v=>pt+(ymax-Math.max(ymin,Math.min(ymax,v)))/(ymax-ymin)*(h-pt-pb);
+  ctx.font="500 10px "+tok("--mono");ctx.textAlign="center";
+  [63,125,250,500,1000,2000,4000,8000,16000].forEach(f=>{const x=X(f);ctx.strokeStyle=tok("--grid");ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,pt);ctx.lineTo(x,h-pb);ctx.stroke();ctx.fillStyle=tok("--muted");ctx.fillText(f>=1000?(f/1000)+"k":String(f),Math.min(w-14,x),h-6)});
+  ctx.beginPath();let first=true;
+  for(let k=1;k<db.length;k++){const f=k*df;if(f<fmin||f>fmax)continue;const x=X(f),y=Y(db[k]);if(first){ctx.moveTo(x,y);first=false}else ctx.lineTo(x,y)}
+  ctx.strokeStyle=tok("--trace");ctx.lineWidth=1.4;ctx.stroke();
+  (marks||[]).forEach((m,i)=>{const x=X(m.f);ctx.strokeStyle=tok("--hot");ctx.lineWidth=i?1:2;ctx.setLineDash(i?[3,3]:[]);ctx.beginPath();ctx.moveTo(x,pt);ctx.lineTo(x,h-pb);ctx.stroke();ctx.setLineDash([]);
+    if(!i){const right=x>w-70;ctx.fillStyle=tok("--hot");ctx.textAlign=right?"right":"left";ctx.font="600 12px "+tok("--body");ctx.fillText(fmtFreq(m.f),x+(right?-6:6),pt+12);ctx.textAlign="center"}});
+}
+function redraw(){if(lastSpec)drawSpec(lastSpec.db,lastSpec.df,lastMarks)}
+window.addEventListener("resize",redraw);
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",redraw)}catch(e){}
+new MutationObserver(redraw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+
+const eq=$("eq");
+ISO.forEach((f,i)=>{const d=document.createElement("div");d.className="band";d.innerHTML='<div class="slot"><div class="cap"></div></div><div class="lbl"></div>';eq.appendChild(d)});
+function markEq(idx){[...eq.children].forEach((d,i)=>{const on=idx.includes(i);d.classList.toggle("cut",on);d.querySelector(".lbl").textContent=(on||i%3===0||i===30)?isoLabel(ISO[i]):""})}
+
+function render(cands,srcLabel,srcInfo){
+  lastCands=cands;
+  $("srcLbl").innerHTML="<b></b>";$("srcLbl").firstChild.textContent=srcLabel;$("srcInfo").textContent=srcInfo;
+  const steps=$("steps");steps.innerHTML="";
+  if(!cands.length){
+    $("freq").textContent="Sem apito";$("freq").classList.add("calm");
+    $("chip").textContent="Tudo limpo";$("chip").className="chip ok";$("noteName").textContent="";
+    $("desc").textContent="Não encontrei nenhuma frequência presa por tempo suficiente para ser microfonia.";
+    ["Se o apito acontece só às vezes, grave de novo bem no momento em que ele aparece.","Se o som está embolado ou alto demais, isso não é microfonia: veja a aula de equalização."].forEach(t=>{const li=document.createElement("li");li.textContent=t;steps.appendChild(li)});
+    markEq([]);$("eqHint").textContent="Nenhuma chave precisa ser mexida agora.";$("others").hidden=true;return;
+  }
+  const c=cands[0],r=range(c.f),bi=nearestIso(c.f);
+  $("freq").textContent=fmtFreq(c.f);$("freq").classList.remove("calm");
+  $("chip").textContent=r.chip;$("chip").className="chip";$("noteName").textContent="nota "+noteOf(c.f);
+  $("desc").textContent=r.desc;
+  ["Abaixe um pouco o volume do microfone que está apitando até o som parar. Isso resolve na hora.",
+   "No equalizador gráfico da caixa (ou do retorno), abaixe a chave de <strong>"+isoLabel(ISO[bi])+"</strong> entre 3 e 6 dB.",
+   "Se a mesa só tem Grave, Médio e Agudo: corte um pouco "+mixKnob(c.f)+".",
+   "Confira se o microfone está apontado para uma caixa de som. Afaste ou mude o ângulo."].forEach(t=>{const li=document.createElement("li");li.innerHTML=t;steps.appendChild(li)});
+  markEq([bi]);$("eqHint").textContent="Abaixe a chave em vermelho ("+isoLabel(ISO[bi])+"Hz). Comece com pouco e só aumente o corte se precisar.";
+  if(cands.length>1){$("others").hidden=false;$("others").textContent="Também suspeito: "+cands.slice(1).map(o=>fmtFreq(o.f)).join(" e ")+". Se o apito voltar depois do primeiro corte, olhe para "+(cands.length>2?"elas":"ela")+"."}
+  else $("others").hidden=true;
+}
+function showErr(t){const e=$("err");e.textContent=t;e.hidden=!t}
+$("toLog").onclick=()=>{const c=lastCands[0];S.log.unshift({t:hhmm(),type:c?"Problema":"Lembrete",txt:c?"Microfonia em "+fmtFreq(c.f)+" (cortar "+isoLabel(ISO[nearestIso(c.f)])+"Hz no EQ)":"SOS: nenhum apito detectado"});save();renderLog();$("toLog").textContent="Registrado no diário";setTimeout(()=>{$("toLog").textContent="Registrar no diário"},1800)};
+
+function makeDemo(sr){
+  const dur=5,n=sr*dur,x=new Float32Array(n);let lp=0,vlp=0,ph=0,seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+  let f0=130;
+  for(let i=0;i<n;i++){const t=i/sr;
+    lp+=0.02*((rnd()*2-1)-lp);let s=lp*0.25;
+    const syl=t%0.35;if(syl<0.005)f0=110+rnd()*80;
+    if(syl<0.25){ph+=(f0+15*Math.sin(2*Math.PI*3*t))/sr;ph%=1;vlp+=0.15*((ph*2-1)-vlp);s+=vlp*0.18*Math.sin(Math.PI*syl/0.25)}
+    if(t>1.5){const a=Math.min(0.32,0.02+0.15*(t-1.5));s+=a*Math.sin(2*Math.PI*2512*t)}
+    x[i]=s}
+  return x;
+}
+const DEMO_SR=44100,demo=makeDemo(DEMO_SR);
+function runDemo(){const r=analyzeSamples(demo,DEMO_SR);render(r.cands,"Exemplo simulado","voz + apito crescendo");drawSpec(r.spec,r.df,r.cands)}
+
+let demoCtx=null,demoSrc=null;
+$("demoBtn").addEventListener("click",()=>{
+  stopLive();
+  try{
+    if(demoSrc){demoSrc.stop();demoSrc=null;$("demoBtn").textContent="Ouvir o exemplo";return}
+    demoCtx=demoCtx||new (window.AudioContext||window.webkitAudioContext)();
+    const b=demoCtx.createBuffer(1,demo.length,DEMO_SR);b.copyToChannel(demo,0);
+    const g=demoCtx.createGain();g.gain.value=0.5;demoSrc=demoCtx.createBufferSource();demoSrc.buffer=b;demoSrc.connect(g).connect(demoCtx.destination);
+    demoSrc.onended=()=>{demoSrc=null;$("demoBtn").textContent="Ouvir o exemplo"};demoSrc.start();$("demoBtn").textContent="Parar exemplo";runDemo();
+  }catch(e){showErr("Não consegui tocar o exemplo neste navegador.")}
+});
+$("fileIn").addEventListener("change",async ev=>{
+  const f=ev.target.files[0];if(!f)return;stopLive();showErr("");
+  $("srcLbl").textContent="Analisando…";$("srcInfo").textContent=f.name;
+  try{
+    const ac=new (window.AudioContext||window.webkitAudioContext)();
+    const buf=await ac.decodeAudioData(await f.arrayBuffer());
+    const n=buf.length,x=new Float32Array(n);
+    for(let c=0;c<buf.numberOfChannels;c++){const d=buf.getChannelData(c);for(let i=0;i<n;i++)x[i]+=d[i]/buf.numberOfChannels}
+    const r=analyzeSamples(x,buf.sampleRate);
+    render(r.cands,"Sua gravação",f.name+" · "+nf(r.dur,1)+" s");drawSpec(r.spec,r.df,r.cands);
+    try{ac.close()}catch(e){}
+  }catch(e){showErr("Não consegui ler esse arquivo. Tente uma gravação em .m4a, .mp3 ou .wav.");runDemo()}
+  ev.target.value="";
+});
+let live=null;
+async function startLive(){
+  showErr("");
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false}});
+    const ac=new (window.AudioContext||window.webkitAudioContext)(),src=ac.createMediaStreamSource(stream),an=ac.createAnalyser();
+    an.fftSize=8192;an.smoothingTimeConstant=0;src.connect(an);
+    const buf=new Float32Array(an.frequencyBinCount),df=ac.sampleRate/an.fftSize,tracks=new Map();
+    let wake=null;try{wake=await navigator.wakeLock.request("screen")}catch(e){}
+    const timer=setInterval(()=>{
+      an.getFloatFrequencyData(buf);
+      tracks.forEach((t,k)=>{t.s*=0.85;if(t.s<20)tracks.delete(k)});
+      for(const pk of findPeaks(buf,df,15)){const b=bucket(pk.f);let t=tracks.get(b)||tracks.get(b-1)||tracks.get(b+1);if(!t){t={s:0,f:pk.f};tracks.set(b,t)}t.s+=pk.prom;t.f=t.f*0.7+pk.f*0.3}
+      const c=[...tracks.values()].filter(t=>t.s>100).sort((a,b)=>b.s-a.s).slice(0,3).map(t=>({f:t.f}));
+      render(c,"Ao vivo","escutando pelo microfone");drawSpec(Float32Array.from(buf),df,c);
+    },120);
+    live={stream,ac,timer,wake};$("liveBtn").classList.add("on");$("liveTxt").textContent="Parar de ouvir";
+  }catch(e){
+    showErr("O microfone não foi liberado aqui. Nesta visualização o acesso ao microfone fica bloqueado; use “Analisar gravação” com um áudio gravado no celular. Na versão instalada do app, o modo ao vivo funciona.");
+  }
+}
+function stopLive(){if(!live)return;clearInterval(live.timer);live.stream.getTracks().forEach(t=>t.stop());try{live.ac.close()}catch(e){}try{live.wake&&live.wake.release()}catch(e){}live=null;$("liveBtn").classList.remove("on");$("liveTxt").textContent="Ouvir ao vivo"}
+$("liveBtn").addEventListener("click",()=>live?stopLive():startLive());
+
+/* ---------- início ---------- */
+renderAlerts();renderCheck();renderLog();renderMesa();renderWho();renderReqs();renderPeople();renderAprender();runDemo();show();
+})();
+</script>
+
+</body>
+</html>
